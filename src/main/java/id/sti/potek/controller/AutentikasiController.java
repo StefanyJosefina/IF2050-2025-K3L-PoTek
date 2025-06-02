@@ -1,4 +1,4 @@
-package id.sti.potek.controller;
+package java.id.sti.potek.controller;
 
 public class AutentikasiController {
     

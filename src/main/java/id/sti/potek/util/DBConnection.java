@@ -1,4 +1,4 @@
-package id.sti.potek.util;
+package java.id.sti.potek.util;
 
 public class DBConnection {
     

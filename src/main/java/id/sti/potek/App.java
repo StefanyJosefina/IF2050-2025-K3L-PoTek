@@ -1,6 +1,6 @@
-package id.sti.potek;
+package java.id.sti.potek;
 
-// import id.sti.potek.ui.AutentikasiUI;
+// import java.id.sti.potek.ui.AutentikasiUI;
 
 public class App {
     public static void main(String[] args) {

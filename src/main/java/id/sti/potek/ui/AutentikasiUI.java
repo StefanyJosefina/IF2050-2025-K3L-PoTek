@@ -1,4 +1,4 @@
-package id.sti.potek.ui;
+package java.id.sti.potek.ui;
 
 public class AutentikasiUI {
     
