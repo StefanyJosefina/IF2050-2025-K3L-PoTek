@@ -20,8 +20,8 @@ public class TiketCariView {
     public void start(Stage stage) {
         // Banner Header
         ImageView bannerIcon = new ImageView(new Image("/icons/icon_transportasi.png"));
-        bannerIcon.setFitHeight(34);
-        bannerIcon.setFitWidth(50);
+        bannerIcon.setFitHeight(30);
+        bannerIcon.setFitWidth(40);
 
         Text bannerText = new Text("Transportasi");
         bannerText.getStyleClass().add("banner-text");
@@ -30,51 +30,65 @@ public class TiketCariView {
         banner.setAlignment(Pos.CENTER);
         banner.getStyleClass().add("banner-header");
 
-        // Field: Asal
+        // main yang pink hot
+        VBox formContainer = new VBox(20);
+        formContainer.getStyleClass().add("form-container");
+        formContainer.setAlignment(Pos.TOP_CENTER);
+        formContainer.setPadding(new Insets(20, 30, 20, 30));
+        
+        // asal
         ImageView asalIcon = new ImageView(new Image("/icons/icon_location_green.png"));
-        asalIcon.setFitWidth(24);
+        asalIcon.setFitWidth(18);
         asalIcon.setFitHeight(24);
         TextField asalField = new TextField();
         asalField.setPromptText("Masukkan Kota");
-        VBox asalBox = createLabeledField("Asal", asalIcon, asalField);
-
-        // Field: Tujuan
+        VBox asalBox = createFieldWithLabelAndIcon("Asal", asalIcon, asalField);
+        
+        // tujuan
         ImageView tujuanIcon = new ImageView(new Image("/icons/icon_location_pink.png"));
-        tujuanIcon.setFitWidth(24);
+        tujuanIcon.setFitWidth(18);
         tujuanIcon.setFitHeight(24);
         TextField tujuanField = new TextField();
         tujuanField.setPromptText("Masukkan Kota");
-        VBox tujuanBox = createLabeledField("Tujuan", tujuanIcon, tujuanField);
-
-        // Field: Tanggal
+        VBox tujuanBox = createFieldWithLabelAndIcon("Tujuan", tujuanIcon, tujuanField);
+        
+        // box for asal and tujuan
+        VBox originDestContainer = new VBox(12, asalBox, tujuanBox);
+        originDestContainer.getStyleClass().add("field-group");
+        formContainer.getChildren().add(originDestContainer);
+        
+        // tanggal
         ImageView tanggalIcon = new ImageView(new Image("/icons/icon_calendar.png"));
-        tanggalIcon.setFitWidth(24);
-        tanggalIcon.setFitHeight(24);
+        tanggalIcon.setFitWidth(20);
+        tanggalIcon.setFitHeight(20);
         TextField tanggalField = new TextField();
-        tanggalField.setPromptText("Masukkan Tanggal Berangkat : yyyy-mm-dd");
-        VBox tanggalBox = createLabeledField("Tanggal", tanggalIcon, tanggalField);
+        tanggalField.setPromptText("yyyy-mm-dd");
+        VBox tanggalBox = createFieldWithLabelAndIcon("Tanggal", tanggalIcon, tanggalField);
+        
+        VBox dateContainer = new VBox(tanggalBox);
+        dateContainer.getStyleClass().add("field-group");
+        formContainer.getChildren().add(dateContainer);
 
-        // Tombol Pesan
+        // Book button
         Button pesanBtn = new Button("Pesan");
         pesanBtn.getStyleClass().add("pesan-button");
+        formContainer.getChildren().add(pesanBtn);
 
-        VBox formContainer = new VBox(24, asalBox, tujuanBox, tanggalBox, pesanBtn);
-        formContainer.getStyleClass().add("form-container");
-        formContainer.setAlignment(Pos.TOP_CENTER);
-
-        VBox content = new VBox(banner, formContainer);
+        // Main layout
+        VBox content = new VBox(60, banner, formContainer);
         content.setAlignment(Pos.TOP_CENTER);
-        content.setSpacing(30);
-
+        
         StackPane root = new StackPane(content);
         root.getStyleClass().add("main-background");
-        StackPane.setAlignment(content, Pos.TOP_CENTER);
-        StackPane.setMargin(content, new Insets(20, 0, 20, 0));
-
-        Scene scene = new Scene(root, 900, 650);
+       
+        StackPane.setMargin(content,new Insets(30, 0, 20, 0));
+        
+        
+        // Scene setup
+        Scene scene = new Scene(root, 900, 645);
         scene.getStylesheets().add(getClass().getResource("/css/cari_tiket.css").toExternalForm());
-
-        // Tombol handler
+        
+        // Button handler
         pesanBtn.setOnAction(e -> {
             String asal = asalField.getText();
             String tujuan = tujuanField.getText();
@@ -91,12 +105,18 @@ public class TiketCariView {
         stage.show();
     }
 
-    private VBox createLabeledField(String label, ImageView icon, TextField field) {
-        Text labelText = new Text(label);
-        HBox fieldRow = new HBox(10, icon, field);
-        fieldRow.setAlignment(Pos.CENTER_LEFT);
-        VBox box = new VBox(8, labelText, fieldRow);
-        box.getStyleClass().add("field-group");
-        return box;
+    // field with label and icon 
+    private VBox createFieldWithLabelAndIcon(String labelText, ImageView icon, TextField field) {
+        Text label = new Text(labelText);
+        label.getStyleClass().add("field-label");
+        
+        HBox labelIconContainer = new HBox(10);
+        labelIconContainer.setAlignment(Pos.CENTER_LEFT);
+        labelIconContainer.getChildren().addAll(label, icon);
+        
+        VBox fieldContainer = new VBox(12);
+        fieldContainer.getChildren().addAll(labelIconContainer, field);
+        
+        return fieldContainer;
     }
 }

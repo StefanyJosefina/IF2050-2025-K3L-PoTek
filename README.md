@@ -34,7 +34,9 @@
 ---
 
 ## How To Run
-
+1. Clone repository ini menggunakan perintah `git clone'
+2. Pindah ke direktori repository menggunakan perintah `cd'
+3. Jalankan `.\gradlew clean run`
 
 ---
 
