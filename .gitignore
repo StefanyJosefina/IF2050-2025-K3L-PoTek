@@ -1,0 +1,36 @@
+# Build and IDE folders
+/build/
+/out/
+/bin/
+.gradle/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# VSCode
+.vscode/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+*.tmp
+
+# Env files
+.env
+
+# Java compiled class files
+*.class
+
+# JAR/WAR/EAR
+*.jar
+*.war
+*.ear

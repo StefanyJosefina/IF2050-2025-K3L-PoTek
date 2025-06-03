@@ -1,11 +1,32 @@
-package java.id.sti.potek;
+package id.sti.potek;
 
-// import java.id.sti.potek.ui.AutentikasiUI;
+import id.sti.potek.ui.TiketCariView;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class App {
+
+public class App extends Application {
+    @Override
+    public void start(Stage primaryStage) {
+        new TiketCariView().start(primaryStage);
+    }
+
     public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(() -> {
-            // new AutentikasiUI().setVisible(true);
-        });
+        launch();
     }
 }
+
+// import javafx.application.Application;
+// import javafx.stage.Stage;
+
+// public class App extends Application {
+//     @Override
+//     public void start(Stage primaryStage) {
+//         primaryStage.setTitle("Hello JavaFX!");
+//         primaryStage.show(); // <= WAJIB: Tanpa ini tidak muncul apa-apa
+//     }
+
+//     public static void main(String[] args) {
+//         launch(args); // <= WAJIB untuk memulai JavaFX
+//     }
+// }
