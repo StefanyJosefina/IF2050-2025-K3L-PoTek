@@ -42,4 +42,72 @@ public class TiketDAO {
 
         return daftar;
     }
+    public List<Tiket> getAllTiket() {
+        List<Tiket> daftar = new ArrayList<>();
+        String sql = "SELECT * FROM tiket";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Tiket t = new Tiket(
+                    rs.getString("idTiket"),
+                    rs.getString("keberangkatan"),
+                    rs.getString("tujuan"),
+                    rs.getString("tanggal"),
+                    rs.getString("jam"),
+                    rs.getInt("harga"),
+                    rs.getInt("tersedia_kursi")
+                );
+                daftar.add(t);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return daftar;
+    }
+    public boolean simpanPemesanan(String idTiket, String namaPemesan, String noHpPemesan, String emailPemesan,
+                                    String namaPenumpang, String noHpPenumpang, String emailPenumpang, int noKursi) {
+        String sql = "INSERT INTO pemesanan (idTiket, namaPemesan, noHpPemesan, emailPemesan, " +
+                     "namaPenumpang, noHpPenumpang, emailPenumpang, noKursi) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, idTiket);
+            stmt.setString(2, namaPemesan);
+            stmt.setString(3, noHpPemesan);
+            stmt.setString(4, emailPemesan);
+            stmt.setString(5, namaPenumpang);
+            stmt.setString(6, noHpPenumpang);
+            stmt.setString(7, emailPenumpang);
+            stmt.setInt(8, noKursi);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public List<Integer> getKursiTerbooking(String idTiket) {
+        List<Integer> kursiTerbooking = new ArrayList<>();
+        String sql = "SELECT noKursi FROM pemesanan WHERE idTiket=?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, idTiket);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                kursiTerbooking.add(rs.getInt("noKursi"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return kursiTerbooking;
+    }
+    
 }

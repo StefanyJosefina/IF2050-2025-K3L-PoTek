@@ -5,6 +5,9 @@ import id.sti.potek.util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PemesananDAO {
     public boolean simpanPemesanan(Pemesanan p) {
@@ -29,5 +32,21 @@ public class PemesananDAO {
             return false;
         }
     }
+    public static List<Integer> getKursiTerbooking(String idTiket) {
+        List<Integer> bookedSeats = new ArrayList<>();
+        String sql = "SELECT no_kursi FROM pemesanan WHERE id_tiket = ?";
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idTiket);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                bookedSeats.add(rs.getInt("no_kursi"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bookedSeats;
+    }
+
 }
 

@@ -1,0 +1,56 @@
+
+.root {
+    -fx-background-color: #F9C9D3;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.label {
+    -fx-font-size: 14px;
+}
+
+.list-cell {
+    -fx-padding: 8px;
+    -fx-font-size: 13px;
+}
+
+.list-cell:filled:selected, .list-cell:filled:selected:hover {
+    -fx-background-color: #C8E6C9;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.seat-button {
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+    -fx-border-color: black;
+    -fx-font-weight: bold;
+}
+
+.seat-empty {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.seat-booked {
+    -fx-background-color: #999999;
+    -fx-text-fill: white;
+}
+
+.supir-label {
+    -fx-background-color: #cccccc;
+    -fx-pref-width: 60px;
+    -fx-pref-height: 40px;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+}
+
+.pesan-button {
+    -fx-background-color: #7E9E8D;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 8px;
+}
+.seat-selected {
+    -fx-background-color: #ff98c6; /* warna kuning untuk kursi terpilih */
+}

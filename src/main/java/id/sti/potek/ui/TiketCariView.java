@@ -1,5 +1,7 @@
 package id.sti.potek.ui;
 
+import java.util.List;
+
 import id.sti.potek.controller.TiketController;
 import id.sti.potek.model.Tiket;
 import javafx.geometry.Insets;
@@ -9,11 +11,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class TiketCariView {
 
@@ -96,7 +98,7 @@ public class TiketCariView {
 
             TiketController controller = new TiketController();
             List<Tiket> hasil = controller.cariTiket(asal, tujuan, tanggal);
-            new TiketPilihView().start(stage, hasil);
+            new TiketPilihView().start(stage, hasil, asal, tujuan, tanggal);
         });
 
         stage.setScene(scene);
