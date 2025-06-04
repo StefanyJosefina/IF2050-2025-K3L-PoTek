@@ -18,14 +18,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Region;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class TiketPesanView {
 
     public void start(Stage stage, Tiket tiket, int noKursi) {
+        String asal = tiket.getKeberangkatan();
+        String tujuan = tiket.getTujuan();
         // Create header
         Label headerLabel = new Label("Pesan Transportasi");
         StackPane headerBar = new StackPane(headerLabel);
@@ -64,7 +67,7 @@ public class TiketPesanView {
         leftPanel.getStyleClass().add("left-panel");
 
         // Create ticket summary section
-        VBox ticketSummary = createTicketSummary(tiket, noKursi);
+        VBox ticketSummary = createTicketSummary(tiket, noKursi, asal, tujuan);
 
         // Create order button
         Button pesanBtn = new Button("Pesan");
@@ -74,12 +77,12 @@ public class TiketPesanView {
         Label paymentNote = new Label("*akan lanjut ke pembayaran");
         paymentNote.getStyleClass().add("payment-note");
 
-        VBox rightPanel = new VBox(20, ticketSummary, pesanBtn, paymentNote);
+        VBox rightPanel = new VBox(25, ticketSummary, pesanBtn, paymentNote);
         rightPanel.getStyleClass().add("right-panel");
         rightPanel.setAlignment(Pos.TOP_CENTER);
 
         // Main content layout
-        HBox mainContent = new HBox(30, leftPanel, rightPanel);
+        HBox mainContent = new HBox(40, leftPanel, rightPanel);
         mainContent.getStyleClass().add("content-container");
         mainContent.setPadding(new Insets(30));
         mainContent.setAlignment(Pos.CENTER);
@@ -114,6 +117,7 @@ public class TiketPesanView {
             }
         });
 
+        // scene size and CSS
         Scene scene = new Scene(root, 900, 645);
         URL css = getClass().getResource("/css/pesan_tiket.css");
         if (css != null) {
@@ -153,19 +157,20 @@ public class TiketPesanView {
         return section;
     }
 
-    private VBox createTicketSummary(Tiket tiket, int noKursi) {
-        // Destination header
-        Label destinationTitle = new Label("Asal → Tujuan");
+    private VBox createTicketSummary(Tiket tiket, int noKursi, String asal, String tujuan) {
+        // Destination header 
+        Label destinationTitle = new Label(asal + " → " + tujuan);
         destinationTitle.getStyleClass().add("tujuan-title");
 
-        // White container for ticket details
-        VBox ticketDetailsContainer = new VBox(15);
+        // bg ticket details
+        VBox ticketDetailsContainer = new VBox(20);
         ticketDetailsContainer.getStyleClass().add("ticket-details-container");
 
-        // Date and seat info on the same line
+        // Date and seat info layout
         HBox dateAndSeat = new HBox();
         dateAndSeat.setAlignment(Pos.CENTER);
         
+        // Use dynamic date from tiket.getTanggal()
         Label dateLabel = new Label("Rab, " + tiket.getTanggal());
         dateLabel.getStyleClass().add("trip-date");
         
@@ -173,28 +178,54 @@ public class TiketPesanView {
         seatLabel.getStyleClass().add("seat-info");
         
         dateAndSeat.getChildren().addAll(dateLabel, seatLabel);
+        dateAndSeat.setSpacing(60);
 
-        // Time and route info
-        HBox timeAndRoute = new HBox(10);
-        timeAndRoute.setAlignment(Pos.CENTER_LEFT);
+        // Journey details bg
+        HBox journeyContainer = new HBox(20);
+        journeyContainer.getStyleClass().add("journey-container");
+        journeyContainer.setAlignment(Pos.CENTER);
+
+        // icon
+        Circle circleIcon = new Circle(15);
+        circleIcon.getStyleClass().add("journey-icon");
+
+        // Departure info 
+        VBox departureInfo = new VBox(5);
+        departureInfo.setAlignment(Pos.CENTER);
         
-        Label departureTime = new Label(tiket.getJam());
-        departureTime.getStyleClass().add("departure-time");
+        String departureTime = formatTime(tiket.getJam());
+        Label departureTimeLabel = new Label(departureTime);
+        departureTimeLabel.getStyleClass().add("journey-time");
         
-        Label arrow = new Label("→");
-        arrow.getStyleClass().add("time-arrow");
+        // Convert asal to city code (e.g., Jakarta -> JKT)
+        String departureCode = getCityCode(asal);
+        Label departureCityLabel = new Label(departureCode);
+        departureCityLabel.getStyleClass().add("journey-code");
         
-        // Calculate arrival time (departure + 100 minutes)
-        String arrivalTime = calculateArrivalTime(tiket.getJam());
+        departureInfo.getChildren().addAll(departureTimeLabel, departureCityLabel);
+
+        // Dashed arrow
+        Label dashedArrow = new Label("- - ->");
+        dashedArrow.getStyleClass().add("dashed-arrow");
+
+        // jam kedatangan
+        VBox arrivalInfo = new VBox(5);
+        arrivalInfo.setAlignment(Pos.CENTER);
+        
+        String arrivalTime = formatTime(calculateArrivalTime(tiket.getJam(), tiket.getWaktuPerjalanan()));
         Label arrivalTimeLabel = new Label(arrivalTime);
-        arrivalTimeLabel.getStyleClass().add("arrival-time");
+        arrivalTimeLabel.getStyleClass().add("journey-time");
         
-        Label routeLabel = new Label("JKT → BDG");
-        routeLabel.getStyleClass().add("route-info");
+        // Convert tujuan to city code (e.g., Bandung -> BDG)
+        String arrivalCode = getCityCode(tujuan);
+        Label arrivalCityLabel = new Label(arrivalCode);
+        arrivalCityLabel.getStyleClass().add("journey-code");
         
-        timeAndRoute.getChildren().addAll(departureTime, arrow, arrivalTimeLabel, routeLabel);
+        arrivalInfo.getChildren().addAll(arrivalTimeLabel, arrivalCityLabel);
 
-        // Payment section
+        journeyContainer.getChildren().addAll(circleIcon, departureInfo, dashedArrow, arrivalInfo);
+
+        // Payment section 
         Label totalLabel = new Label("Total Pembayaran");
         totalLabel.getStyleClass().add("total-payment");
         
@@ -202,28 +233,98 @@ public class TiketPesanView {
         Label priceLabel = new Label("IDR " + formattedPrice + ",-");
         priceLabel.getStyleClass().add("price-amount");
 
-        ticketDetailsContainer.getChildren().addAll(dateAndSeat, timeAndRoute, totalLabel, priceLabel);
+        ticketDetailsContainer.getChildren().addAll(dateAndSeat, journeyContainer, totalLabel, priceLabel);
 
-        VBox summaryBox = new VBox(15, destinationTitle, ticketDetailsContainer);
+        VBox summaryBox = new VBox(20, destinationTitle, ticketDetailsContainer);
         summaryBox.getStyleClass().add("ringkasan-box");
         
         return summaryBox;
     }
 
-    // Calculate arrival time by adding 100 minutes to departure time
-    private String calculateArrivalTime(String departureTimeStr) {
+    // Convert city names to airport/city codes
+    private String getCityCode(String cityName) {
+        if (cityName == null) return "???";
+        
+        String city = cityName.toLowerCase().trim();
+        
+        // Map common Indonesian cities to their codes
+        switch (city) {
+            case "jakarta":
+                return "JKT";
+            case "bandung":
+                return "BDG";
+            case "surabaya":
+                return "SBY";
+            case "medan":
+                return "MDN";
+            case "yogyakarta":
+            case "jogja":
+                return "YGY";
+            case "semarang":
+                return "SMG";
+            case "malang":
+                return "MLG";
+            case "solo":
+            case "surakarta":
+                return "SLO";
+            case "denpasar":
+            case "bali":
+                return "DPS";
+            case "makassar":
+                return "MKS";
+            case "palembang":
+                return "PLB";
+            case "balikpapan":
+                return "BPN";
+            case "pontianak":
+                return "PNK";
+            case "manado":
+                return "MDO";
+            case "pekanbaru":
+                return "PKU";
+            case "padang":
+                return "PDG";
+            case "banjarmasin":
+                return "BJM";
+            case "samarinda":
+                return "SMD";
+            case "jambi":
+                return "JMB";
+            case "bengkulu":
+                return "BKL";
+            case "lampung":
+            case "bandar lampung":
+                return "LPG";
+            default:
+                // kalo ga ada, return first 3 characters in uppercase
+                return cityName.length() >= 3 ? 
+                       cityName.substring(0, 3).toUpperCase() : 
+                       cityName.toUpperCase();
+        }
+    }
+
+    // Format time to show HH.mm format
+    private String formatTime(String timeStr) {
         try {
-            // Parse the departure time (assuming format HH:mm:ss)
+            String[] parts = timeStr.split(":");
+            if (parts.length >= 2) {
+                return parts[0] + "." + parts[1];
+            }
+            return timeStr;
+        } catch (Exception e) {
+            return timeStr;
+        }
+    }
+
+    // Calculate arrival time by adding duration (in minutes) to departure time
+    private String calculateArrivalTime(String departureTimeStr, int waktuPerjalanan) {
+        try {
             LocalTime departureTime = LocalTime.parse(departureTimeStr, DateTimeFormatter.ofPattern("HH:mm:ss"));
-            
-            // Add 100 minutes
-            LocalTime arrivalTime = departureTime.plusMinutes(100);
-            
-            // Format back to HH:mm:ss
+            LocalTime arrivalTime = departureTime.plusHours(waktuPerjalanan);
             return arrivalTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         } catch (Exception e) {
             System.err.println("Error calculating arrival time: " + e.getMessage());
-            return "11:40:00"; // Fallback time
+            return "11:40:00";
         }
     }
 
