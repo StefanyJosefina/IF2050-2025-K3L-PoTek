@@ -1,5 +1,5 @@
 .root {
-  -fx-background-color: #ffd1d1; /* More accurate pink to match the image */
+  -fx-background-color: #ffd1d1; 
   -fx-font-family: "Segoe UI", sans-serif;
   -fx-padding: 0 0 20px 0; /* Add padding at the bottom */
 }
@@ -12,7 +12,7 @@
   -fx-font-weight: bold;
   -fx-padding: 12px;
   -fx-alignment: center;
-  -fx-margin: 20px 0 0 0; /* Add margin at the top */
+  -fx-margin: 20px 0 0 0; 
 }
 
 /* Route display styling */
@@ -26,6 +26,87 @@
 .label {
   -fx-font-size: 30px;
   -fx-text-fill: #333333;
+}
+
+/* Filter button styling */
+.filter-button {
+  -fx-background-color: white;
+  -fx-background-radius: 8px;
+  -fx-border-radius: 8px;
+  -fx-padding: 8px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 3, 0, 0, 1);
+  -fx-cursor: hand;
+  -fx-border-color: #e0e0e0;
+  -fx-border-width: 1px;
+}
+
+.filter-button:hover {
+  -fx-background-color: #f8f9fa;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+  -fx-scale-x: 1.05;
+  -fx-scale-y: 1.05;
+}
+
+/* Filter dropdown styling */
+.filter-dropdown {
+  -fx-background-color: white;
+  -fx-background-radius: 12px;
+  -fx-border-radius: 12px;
+  -fx-padding: 20px;
+  -fx-spacing: 12px;
+  -fx-border-color: #e0e0e0;
+  -fx-border-width: 1px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 8, 0, 0, 4);
+  -fx-max-width: 200px;
+  -fx-pref-width: 200px;
+}
+
+/* Filter dropdown title */
+.filter-title {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #333333;
+  -fx-padding: 0 0 8px 0;
+}
+
+/* Checkbox styling */
+.check-box {
+  -fx-font-size: 14px;
+  -fx-text-fill: #333333;
+  -fx-spacing: 8px;
+  -fx-padding: 4px 0;
+}
+
+.check-box .box {
+  -fx-background-color: white;
+  -fx-border-color: #cccccc;
+  -fx-border-width: 2px;
+  -fx-border-radius: 4px;
+  -fx-background-radius: 4px;
+  -fx-pref-width: 18px;
+  -fx-pref-height: 18px;
+}
+
+.check-box:selected .box {
+  -fx-background-color: #86a788;
+  -fx-border-color: #86a788;
+}
+
+.check-box:selected .mark {
+  -fx-background-color: white;
+  -fx-shape: "M2,6 L6,10 L10,2";
+  -fx-scale-shape: true;
+  -fx-effect: null;
+}
+
+.check-box:hover .box {
+  -fx-border-color: #86a788;
+  -fx-background-color: #f8f9fa;
+}
+
+.check-box:focused {
+  -fx-focus-color: transparent;
+  -fx-faint-focus-color: transparent;
 }
 
 /* ScrollPane styling to match background */
@@ -79,7 +160,7 @@
 
 /* Time styling in red */
 .time-label {
-  -fx-text-fill: #e74c3c; /* Red color for times like in the image */
+  -fx-text-fill: #e74c3c; 
   -fx-font-weight: bold;
   -fx-font-size: 16px;
 }
@@ -90,7 +171,7 @@
   -fx-font-size: 12px;
 }
 
-/* Schedule item styling with improved selection */
+/* Schedule item styling */
 .schedule-item {
   -fx-background-color: #e8f5e8; /* Light green background */
   -fx-background-radius: 8px;
@@ -101,7 +182,7 @@
   -fx-border-color: transparent;
   -fx-border-width: 2px;
   -fx-transition: all 0.2s ease;
-  -fx-min-height: 80px; /* Ensure enough height for icon positioning */
+  -fx-min-height: 80px; 
   -fx-pref-height: 80px;
 }
 
@@ -313,14 +394,16 @@
 /* Animation for smooth transitions */
 .schedule-item,
 .seat-button,
-.pesan-button {
+.pesan-button,
+.filter-button {
   -fx-transition: all 0.2s ease-in-out;
 }
 
 /* Focus styling */
 .schedule-item:focused,
 .seat-button:focused,
-.pesan-button:focused {
+.pesan-button:focused,
+.filter-button:focused {
   -fx-focus-color: transparent;
   -fx-faint-focus-color: transparent;
 }
@@ -328,4 +411,10 @@
 /* Custom scrollbar corner */
 .schedule-scroll .corner {
   -fx-background-color: transparent;
+}
+
+.filter-icon {
+  -fx-cursor: hand;
+  -fx-padding: 5px;
+  -fx-alignment: top-right;
 }
