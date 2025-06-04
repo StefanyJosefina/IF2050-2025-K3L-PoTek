@@ -17,6 +17,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -30,8 +32,23 @@ public class TiketPesanView {
         String asal = tiket.getKeberangkatan();
         String tujuan = tiket.getTujuan();
         // Create header
+        HBox headerContent = new HBox();
+        headerContent.setAlignment(Pos.CENTER_LEFT);
+        headerContent.setSpacing(10);
+        try {
+            Image busImage = new Image(getClass().getResourceAsStream("/icons/icon_transportasi.png"));
+            ImageView busIcon = new ImageView(busImage);
+            busIcon.setFitHeight(24);
+            busIcon.setFitWidth(24);
+            headerContent.getChildren().add(busIcon);
+        } catch (Exception e) {
+            Label fallback = new Label("🚌");
+            fallback.setStyle("-fx-font-size: 18px;");
+            headerContent.getChildren().add(fallback);
+        }
         Label headerLabel = new Label("Pesan Transportasi");
-        StackPane headerBar = new StackPane(headerLabel);
+        headerContent.getChildren().add(headerLabel);
+        StackPane headerBar = new StackPane(headerContent);
         headerBar.getStyleClass().add("header-bar");
         headerBar.setMaxWidth(Double.MAX_VALUE);
 

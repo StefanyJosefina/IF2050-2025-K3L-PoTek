@@ -59,8 +59,12 @@ public class TiketPilihView {
 
         VBox scheduleList = new VBox(15);
         for (Tiket tiket : res) {
-            VBox item = new VBox(5);
-            item.getStyleClass().add("schedule-item");
+            // Create the main schedule item container
+            StackPane itemContainer = new StackPane();
+            itemContainer.getStyleClass().add("schedule-item");
+            
+            // Create the content VBox (left side)
+            VBox contentBox = new VBox(5);
             Label time = new Label(tiket.getJam());
             time.getStyleClass().add("time-label");
             int waktu_perjalanan = tiket.getWaktuPerjalanan();
@@ -68,16 +72,28 @@ public class TiketPilihView {
             est.getStyleClass().add("availability-label");
             Label available = new Label("Tersedia " + tiket.getTersediaKursi() + " Kursi");
             available.getStyleClass().add("availability-label");
-            item.getChildren().addAll(time, est, available);
-            item.setOnMouseClicked(e -> {
+            contentBox.getChildren().addAll(time, est, available);
+            
+            // Create transportation icon (top right)
+            ImageView transportIcon = createTransportationIcon(tiket.getIdTiket());
+            
+            // Position the content and icon
+            StackPane.setAlignment(contentBox, Pos.CENTER_LEFT);
+            StackPane.setAlignment(transportIcon, Pos.TOP_RIGHT);
+            StackPane.setMargin(transportIcon, new Insets(10, 10, 0, 0));
+            
+            itemContainer.getChildren().addAll(contentBox, transportIcon);
+            
+            itemContainer.setOnMouseClicked(e -> {
                 for (var node : scheduleList.getChildren()) {
                     node.getStyleClass().remove("selected-schedule");
                 }
-                item.getStyleClass().add("selected-schedule");
+                itemContainer.getStyleClass().add("selected-schedule");
                 tiketTerpilih = tiket;
                 renderSeats(tiket.getIdTiket());
             });
-            scheduleList.getChildren().add(item);
+            
+            scheduleList.getChildren().add(itemContainer);
         }
 
         ScrollPane scheduleScroll = new ScrollPane(scheduleList);
@@ -157,8 +173,54 @@ public class TiketPilihView {
         stage.show();
     }
 
-
-
+    /**
+     * Creates transportation icon based on ticket ID prefix
+     * K = Kereta (Train), P = Pesawat (Plane), T = Bus
+     */
+    private ImageView createTransportationIcon(String tiketId) {
+        String prefix = tiketId.substring(0, 1).toUpperCase();
+        String iconPath;
+        String fallbackEmoji;
+        
+        switch (prefix) {
+            case "K": // Kereta (Train)
+                iconPath = "/icons/train-icon.png";
+                fallbackEmoji = "🚆";
+                break;
+            case "P": // Pesawat (Plane)
+                iconPath = "/icons/plane-icon.png";
+                fallbackEmoji = "✈️";
+                break;
+            case "T": // Bus
+            default:
+                iconPath = "/icons/bus-icon.png";
+                fallbackEmoji = "🚌";
+                break;
+        }
+        
+        ImageView iconView = new ImageView();
+        iconView.setFitHeight(24);
+        iconView.setFitWidth(24);
+        iconView.getStyleClass().add("transport-icon");
+        
+        try {
+            Image icon = new Image(getClass().getResourceAsStream(iconPath));
+            iconView.setImage(icon);
+        } catch (Exception e) {
+            // Fallback to emoji if icon file not found
+            System.err.println("⚠️ Icon not found: " + iconPath + ", using emoji fallback");
+            // Create a label with emoji as fallback
+            Label fallbackLabel = new Label(fallbackEmoji);
+            fallbackLabel.setStyle("-fx-font-size: 20px;");
+            fallbackLabel.getStyleClass().add("transport-icon-fallback");
+            
+            // Return the emoji label wrapped in an ImageView container
+            // Since we need to return ImageView, we'll create a simple icon
+            iconView.setImage(null);
+        }
+        
+        return iconView;
+    }
 
     private HBox createLegend(String styleClass, String labelText) {
         HBox box = new HBox(5);
@@ -242,18 +304,14 @@ public class TiketPilihView {
         Label supir = new Label("supir");
         supir.getStyleClass().add("supir-label");
         seatGrid.add(supir, 3, 0);
-    
-
 
         // supir
         if (totalKursi == 9) {
-            //Label supir = new Label("supir");
             supir.getStyleClass().add("supir-label");
             seatGrid.add(supir, 3, 0);
         }
         
         if (totalKursi == 12) {
-            //Label supir = new Label("supir");
             supir.getStyleClass().add("supir-label");
             seatGrid.add(supir, 3, 0);
         }
@@ -297,7 +355,4 @@ public class TiketPilihView {
             {9, 0, 2}, {10, 1, 2},         {11, 2, 2}, {12, 3, 2}
         };
     }
-
-
 }
-

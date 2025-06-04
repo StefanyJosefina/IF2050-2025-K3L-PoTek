@@ -6,7 +6,7 @@
 
 /* Header styling for the green transportation bar */
 .header-bar {
-  -fx-background-color: #7a9b7a; /* Green color matching the header */
+  -fx-background-color: #86a788; /* Green color matching the header */
   -fx-text-fill: white;
   -fx-font-size: 28px;
   -fx-font-weight: bold;
@@ -101,6 +101,8 @@
   -fx-border-color: transparent;
   -fx-border-width: 2px;
   -fx-transition: all 0.2s ease;
+  -fx-min-height: 80px; /* Ensure enough height for icon positioning */
+  -fx-pref-height: 80px;
 }
 
 .schedule-item:hover {
@@ -113,7 +115,7 @@
 /* Selected schedule item styling */
 .selected-schedule {
   -fx-background-color: #c3e6cb !important; /* Darker green for selected */
-  -fx-border-color: #7a9b7a !important; /* Green border */
+  -fx-border-color: #86a788 !important; /* Green border */
   -fx-border-width: 2px !important;
   -fx-effect: dropshadow(gaussian, rgba(122, 155, 122, 0.3), 6, 0, 0, 3) !important;
 }
@@ -126,6 +128,33 @@
 .selected-schedule .availability-label {
   -fx-text-fill: #495057; /* Darker gray for selected availability text */
   -fx-font-weight: bold;
+}
+
+/* Transportation icon styling */
+.transport-icon {
+  -fx-opacity: 0.7;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
+}
+
+.transport-icon:hover {
+  -fx-opacity: 1.0;
+}
+
+.selected-schedule .transport-icon {
+  -fx-opacity: 1.0;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, 2);
+}
+
+/* Fallback emoji icon styling */
+.transport-icon-fallback {
+  -fx-font-size: 20px;
+  -fx-opacity: 0.7;
+  -fx-text-fill: #666666;
+}
+
+.selected-schedule .transport-icon-fallback {
+  -fx-opacity: 1.0;
+  -fx-text-fill: #333333;
 }
 
 /* Seat button styling */
@@ -148,7 +177,7 @@
 
 .seat-empty:hover {
   -fx-background-color: #f8f9fa;
-  -fx-border-color: #7a9b7a;
+  -fx-border-color: #86a788;
 }
 
 .seat-booked {
@@ -158,7 +187,7 @@
 }
 
 .seat-selected {
-  -fx-background-color: #FF98C7; /* Pink highlight for selected seats */
+  -fx-background-color: #ff98c7; /* Pink highlight for selected seats */
   -fx-text-fill: white;
   -fx-border-color: #ff1493;
   -fx-border-width: 2px;
@@ -180,7 +209,7 @@
 
 /* Order button styling */
 .pesan-button {
-  -fx-background-color: #7a9b7a; /* Green matching the header */
+  -fx-background-color: #86a788; /* Green matching the header */
   -fx-text-fill: white;
   -fx-font-size: 14px;
   -fx-font-weight: bold;
@@ -227,7 +256,7 @@
   -fx-font-size: 14px;
 }
 .legend-box .label {
-  -fx-font-size: 14px; 
+  -fx-font-size: 14px;
 }
 
 .legend-item {
