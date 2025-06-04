@@ -1,11 +1,36 @@
-package java.id.sti.potek;
+package id.sti.potek;
 
-// import java.id.sti.potek.ui.AutentikasiUI;
 
-public class App {
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+
+public class App extends Application {
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Plain Stage");
+        javafx.scene.control.Label label = new javafx.scene.control.Label("Just words");
+        javafx.scene.Scene scene = new javafx.scene.Scene(new javafx.scene.layout.StackPane(label), 300, 200);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
     public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(() -> {
-            // new AutentikasiUI().setVisible(true);
-        });
+        launch();
     }
 }
+
+// import javafx.application.Application;
+// import javafx.stage.Stage;
+
+// public class App extends Application {
+//     @Override
+//     public void start(Stage primaryStage) {
+//         primaryStage.setTitle("Hello JavaFX!");
+//         primaryStage.show(); // <= WAJIB: Tanpa ini tidak muncul apa-apa
+//     }
+
+//     public static void main(String[] args) {
+//         launch(args); // <= WAJIB untuk memulai JavaFX
+//     }
+// }
