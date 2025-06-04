@@ -1,20 +1,26 @@
 package id.sti.potek.dao;
 
-import id.sti.potek.model.Pemesanan;
-import id.sti.potek.util.DBConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.sti.potek.model.Pemesanan;
+import id.sti.potek.util.DBConnection;
+
 public class PemesananDAO {
     public boolean simpanPemesanan(Pemesanan p) {
         String sql = "INSERT INTO pemesanan VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            if (p == null || p.getIdPesanan() == null || p.getIdTiket() == null ||
+                p.getNamaPemesan() == null || p.getNoHpPemesan() == null ||
+                p.getEmailPemesan() == null || p.getNamaPenumpang() == null ||
+                p.getNoHpPenumpang() == null || p.getEmailPenumpang() == null ||
+                p.getNoKursi() <= 0) {
+                throw new IllegalArgumentException("Semua field harus diisi.");
+            }
             stmt.setString(1, p.getIdPesanan());
             stmt.setString(2, p.getIdTiket());
             stmt.setString(3, p.getNamaPemesan());

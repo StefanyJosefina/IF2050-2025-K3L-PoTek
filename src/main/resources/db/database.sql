@@ -74,6 +74,8 @@ CREATE TABLE `tiket` (
 LOCK TABLES `tiket` WRITE;
 /*!40000 ALTER TABLE `tiket` DISABLE KEYS */;
 INSERT INTO `tiket` VALUES ('T001','Jakarta','Bandung','2025-06-10','08:00:00',75000,10,8),('T002','Jakarta','Surabaya','2025-06-11','14:30:00',90000,12,12),('T003','Bandung','Jakarta','2025-06-10','10:00:00',80000,10,5);
+INSERT INTO `tiket` VALUES ('T004','Jakarta','Bandung','2025-06-10','18:00:00',75000,10,8),('T005','Jakarta','Surabaya','2025-06-11','15:30:00',90000,12,12),('T006','Bandung','Jakarta','2025-06-10','11:00:00',80000,10,5);
+INSERT INTO `tiket` VALUES ('T007','Jakarta','Bandung','2025-06-10','09:00:00',70000,10,9),('T008','Jakarta','Surabaya','2025-06-11','19:30:00',80000,12,12));
 /*!40000 ALTER TABLE `tiket` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

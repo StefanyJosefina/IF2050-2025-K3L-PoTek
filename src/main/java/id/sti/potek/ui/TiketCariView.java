@@ -7,6 +7,7 @@ import id.sti.potek.model.Tiket;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -98,7 +99,13 @@ public class TiketCariView {
 
             TiketController controller = new TiketController();
             List<Tiket> hasil = controller.cariTiket(asal, tujuan, tanggal);
-            new TiketPilihView().start(stage, hasil, asal, tujuan, tanggal);
+            if (hasil.isEmpty()) {
+                // Show dialog if no tickets found
+                showDialog(" Tiket tidak ditemukan untuk rute tersebut.");
+                return;
+            }else {
+                new TiketPilihView().start(stage, hasil, asal, tujuan, tanggal);
+            }
         });
 
         stage.setScene(scene);
@@ -120,5 +127,11 @@ public class TiketCariView {
         fieldContainer.getChildren().addAll(labelIconContainer, field);
         
         return fieldContainer;
+    }
+    public void showDialog(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

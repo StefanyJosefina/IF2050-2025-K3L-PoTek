@@ -1,6 +1,10 @@
 package id.sti.potek.ui;
 
 import java.net.URL;
+import java.text.NumberFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Random;
 
 import id.sti.potek.dao.PemesananDAO;
@@ -14,94 +18,109 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class TiketPesanView {
 
-    public void start(Stage stage, Tiket tiket) {
-        TextField namaPemesan = new TextField();
-        namaPemesan.setPromptText("Masukkan Nama Lengkap");
+    public void start(Stage stage, Tiket tiket, int noKursi) {
+        // Create header
+        Label headerLabel = new Label("Pesan Transportasi");
+        StackPane headerBar = new StackPane(headerLabel);
+        headerBar.getStyleClass().add("header-bar");
+        headerBar.setMaxWidth(Double.MAX_VALUE);
 
-        TextField hpPemesan = new TextField();
-        hpPemesan.setPromptText("Masukkan Nomor HP");
+        // Add space above header
+        Region topSpace = new Region();
+        topSpace.setPrefHeight(20);
 
-        TextField emailPemesan = new TextField();
-        emailPemesan.setPromptText("Masukkan Email");
+        // Create form fields for booker details
+        TextField namaPemesan = createStyledTextField("Masukkan Nama Lengkap");
+        TextField hpPemesan = createStyledTextField("Masukkan Nomor HP");
+        TextField emailPemesan = createStyledTextField("Masukkan Email");
 
-        VBox pemesanBox = new VBox(8,
-            createLabeledField("Detail Pemesan", "Detail kontak ini akan digunakan untuk pengiriman e-tiket dan keperluan", namaPemesan, hpPemesan, emailPemesan)
+        VBox pemesanBox = createFormSection(
+            "Detail Pemesan", 
+            "Detail kontak ini akan digunakan untuk pengiriman e-tiket dan keperluan",
+            namaPemesan, hpPemesan, emailPemesan
         );
         pemesanBox.getStyleClass().add("pemesan-box");
 
-        TextField namaPenumpang = new TextField();
-        namaPenumpang.setPromptText("Masukkan Nama Lengkap");
+        // Create form fields for passenger details
+        TextField namaPenumpang = createStyledTextField("Masukkan Nama Lengkap");
+        TextField hpPenumpang = createStyledTextField("Masukkan Nomor HP");
+        TextField emailPenumpang = createStyledTextField("Masukkan Email");
 
-        TextField hpPenumpang = new TextField();
-        hpPenumpang.setPromptText("Masukkan Nomor HP");
-
-        TextField emailPenumpang = new TextField();
-        emailPenumpang.setPromptText("Masukkan Email");
-
-        VBox penumpangBox = new VBox(8,
-            createLabeledField("Detail Penumpang", "*Seperti di KTP/SIM/Paspor", namaPenumpang, hpPenumpang, emailPenumpang)
+        VBox penumpangBox = createFormSection(
+            "Detail Penumpang", 
+            "*Seperti di KTP/SIM/Paspor",
+            namaPenumpang, hpPenumpang, emailPenumpang
         );
         penumpangBox.getStyleClass().add("penumpang-box");
 
-        VBox kiri = new VBox(20, pemesanBox, penumpangBox);
+        VBox leftPanel = new VBox(20, pemesanBox, penumpangBox);
+        leftPanel.getStyleClass().add("left-panel");
 
-        // Kanan: Tiket Ringkasan
-        Label asalTujuan = new Label("Asal → Tujuan");
-        asalTujuan.getStyleClass().add("tujuan-title");
+        // Create ticket summary section
+        VBox ticketSummary = createTicketSummary(tiket, noKursi);
 
-        Label detailTiket = new Label(
-            "Rab, " + tiket.getTanggal() + "   No. Kursi -\n" +
-            tiket.getJam() + "   JKT → BDG\n\n" +
-            "Total Pembayaran\nIDR " + tiket.getHarga()
-        );
-        detailTiket.getStyleClass().add("tiket-detail");
-
-        VBox ringkasanBox = new VBox(10, asalTujuan, detailTiket);
-        ringkasanBox.getStyleClass().add("ringkasan-box");
-
-        // Tombol pesan
+        // Create order button
         Button pesanBtn = new Button("Pesan");
         pesanBtn.getStyleClass().add("pesan-button");
 
-        Label catatan = new Label("*akan lanjut ke pembayaran");
+        // Payment note
+        Label paymentNote = new Label("*akan lanjut ke pembayaran");
+        paymentNote.getStyleClass().add("payment-note");
 
-        VBox kanan = new VBox(20, ringkasanBox, pesanBtn, catatan);
-        kanan.setAlignment(Pos.TOP_CENTER);
+        VBox rightPanel = new VBox(20, ticketSummary, pesanBtn, paymentNote);
+        rightPanel.getStyleClass().add("right-panel");
+        rightPanel.setAlignment(Pos.TOP_CENTER);
 
-        HBox root = new HBox(30, kiri, kanan);
-        root.setPadding(new Insets(30));
+        // Main content layout
+        HBox mainContent = new HBox(30, leftPanel, rightPanel);
+        mainContent.getStyleClass().add("content-container");
+        mainContent.setPadding(new Insets(30));
+        mainContent.setAlignment(Pos.CENTER);
+
+        // Root layout
+        VBox root = new VBox();
+        root.getChildren().addAll(topSpace, headerBar, mainContent);
         root.getStyleClass().add("pesan-root");
 
-        Scene scene = new Scene(root, 900, 600);
+        // Set up button action
+        pesanBtn.setOnAction(e -> {
+            if (validateFields(namaPemesan, hpPemesan, emailPemesan, namaPenumpang, hpPenumpang, emailPenumpang)) {
+                Pemesanan p = new Pemesanan();
+                p.setIdPesanan("P" + new Random().nextInt(9999));
+                p.setIdTiket(tiket.getIdTiket());
+                p.setNamaPemesan(namaPemesan.getText());
+                p.setNoHpPemesan(hpPemesan.getText());
+                p.setEmailPemesan(emailPemesan.getText());
+                p.setNamaPenumpang(namaPenumpang.getText());
+                p.setNoHpPenumpang(hpPenumpang.getText());
+                p.setEmailPenumpang(emailPenumpang.getText());
+                p.setNoKursi(noKursi);
+
+                PemesananDAO dao = new PemesananDAO();
+                if (dao.simpanPemesanan(p)) {
+                    showAlert("Pemesanan berhasil!", Alert.AlertType.INFORMATION);
+                } else {
+                    showAlert("Gagal menyimpan pesanan.", Alert.AlertType.ERROR);
+                }
+            } else {
+                showAlert("Mohon lengkapi semua field yang diperlukan.", Alert.AlertType.WARNING);
+            }
+        });
+
+        Scene scene = new Scene(root, 900, 645);
         URL css = getClass().getResource("/css/pesan_tiket.css");
         if (css != null) {
             scene.getStylesheets().add(css.toExternalForm());
+        } else {
+            System.err.println("⚠️ Gagal menemukan CSS: /css/pesan_tiket.css");
         }
-
-        pesanBtn.setOnAction(e -> {
-            Pemesanan p = new Pemesanan();
-            p.setIdPesanan("P" + new Random().nextInt(9999));
-            p.setIdTiket(tiket.getIdTiket());
-            p.setNamaPemesan(namaPemesan.getText());
-            p.setNoHpPemesan(hpPemesan.getText());
-            p.setEmailPemesan(emailPemesan.getText());
-            p.setNamaPenumpang(namaPenumpang.getText());
-            p.setNoHpPenumpang(hpPenumpang.getText());
-            p.setEmailPenumpang(emailPenumpang.getText());
-            p.setNoKursi(0); // placeholder
-
-            PemesananDAO dao = new PemesananDAO();
-            if (dao.simpanPemesanan(p)) {
-                showAlert("Pemesanan berhasil!");
-            } else {
-                showAlert("Gagal menyimpan pesanan.");
-            }
-        });
 
         stage.setScene(scene);
         stage.setTitle("Pesan Transportasi");
@@ -109,22 +128,157 @@ public class TiketPesanView {
         stage.show();
     }
 
-    private VBox createLabeledField(String title, String subtitle, TextField... fields) {
+    private TextField createStyledTextField(String promptText) {
+        TextField textField = new TextField();
+        textField.setPromptText(promptText);
+        textField.getStyleClass().add("text-field");
+        return textField;
+    }
+
+    private VBox createFormSection(String title, String subtitle, TextField... fields) {
         Label labelTitle = new Label(title);
         labelTitle.getStyleClass().add("section-title");
 
         Label labelSub = new Label(subtitle);
         labelSub.getStyleClass().add("section-sub");
 
-        VBox vbox = new VBox(6);
-        vbox.getChildren().addAll(labelTitle, labelSub);
-        vbox.getChildren().addAll(fields);
-        return vbox;
+        VBox section = new VBox(8);
+        section.getChildren().addAll(labelTitle, labelSub);
+        
+        for (TextField field : fields) {
+            section.getChildren().add(field);
+        }
+        
+        section.getStyleClass().add("form-section");
+        return section;
     }
 
-    private void showAlert(String msg) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(msg);
-        alert.show();
+    private VBox createTicketSummary(Tiket tiket, int noKursi) {
+        // Destination header
+        Label destinationTitle = new Label("Asal → Tujuan");
+        destinationTitle.getStyleClass().add("tujuan-title");
+
+        // White container for ticket details
+        VBox ticketDetailsContainer = new VBox(15);
+        ticketDetailsContainer.getStyleClass().add("ticket-details-container");
+
+        // Date and seat info on the same line
+        HBox dateAndSeat = new HBox();
+        dateAndSeat.setAlignment(Pos.CENTER);
+        
+        Label dateLabel = new Label("Rab, " + tiket.getTanggal());
+        dateLabel.getStyleClass().add("trip-date");
+        
+        Label seatLabel = new Label("No. Kursi " + noKursi);
+        seatLabel.getStyleClass().add("seat-info");
+        
+        dateAndSeat.getChildren().addAll(dateLabel, seatLabel);
+
+        // Time and route info
+        HBox timeAndRoute = new HBox(10);
+        timeAndRoute.setAlignment(Pos.CENTER_LEFT);
+        
+        Label departureTime = new Label(tiket.getJam());
+        departureTime.getStyleClass().add("departure-time");
+        
+        Label arrow = new Label("→");
+        arrow.getStyleClass().add("time-arrow");
+        
+        // Calculate arrival time (departure + 100 minutes)
+        String arrivalTime = calculateArrivalTime(tiket.getJam());
+        Label arrivalTimeLabel = new Label(arrivalTime);
+        arrivalTimeLabel.getStyleClass().add("arrival-time");
+        
+        Label routeLabel = new Label("JKT → BDG");
+        routeLabel.getStyleClass().add("route-info");
+        
+        timeAndRoute.getChildren().addAll(departureTime, arrow, arrivalTimeLabel, routeLabel);
+
+        // Payment section
+        Label totalLabel = new Label("Total Pembayaran");
+        totalLabel.getStyleClass().add("total-payment");
+        
+        String formattedPrice = formatPrice(tiket.getHarga());
+        Label priceLabel = new Label("IDR " + formattedPrice + ",-");
+        priceLabel.getStyleClass().add("price-amount");
+
+        ticketDetailsContainer.getChildren().addAll(dateAndSeat, timeAndRoute, totalLabel, priceLabel);
+
+        VBox summaryBox = new VBox(15, destinationTitle, ticketDetailsContainer);
+        summaryBox.getStyleClass().add("ringkasan-box");
+        
+        return summaryBox;
+    }
+
+    // Calculate arrival time by adding 100 minutes to departure time
+    private String calculateArrivalTime(String departureTimeStr) {
+        try {
+            // Parse the departure time (assuming format HH:mm:ss)
+            LocalTime departureTime = LocalTime.parse(departureTimeStr, DateTimeFormatter.ofPattern("HH:mm:ss"));
+            
+            // Add 100 minutes
+            LocalTime arrivalTime = departureTime.plusMinutes(100);
+            
+            // Format back to HH:mm:ss
+            return arrivalTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        } catch (Exception e) {
+            System.err.println("Error calculating arrival time: " + e.getMessage());
+            return "11:40:00"; // Fallback time
+        }
+    }
+
+    // Helper method to format price properly
+    private String formatPrice(Object price) {
+        try {
+            if (price instanceof Integer) {
+                NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("id", "ID"));
+                return formatter.format((Integer) price);
+            } else if (price instanceof Double) {
+                NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("id", "ID"));
+                return formatter.format((Double) price);
+            } else if (price instanceof Float) {
+                NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("id", "ID"));
+                return formatter.format((Float) price);
+            } else if (price instanceof Long) {
+                NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("id", "ID"));
+                return formatter.format((Long) price);
+            } else {
+                String priceStr = price.toString();
+                try {
+                    double priceValue = Double.parseDouble(priceStr);
+                    NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("id", "ID"));
+                    return formatter.format(priceValue);
+                } catch (NumberFormatException e) {
+                    return priceStr;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error formatting price: " + e.getMessage());
+            return price.toString();
+        }
+    }
+
+    private boolean validateFields(TextField... fields) {
+        boolean isValid = true;
+        
+        for (TextField field : fields) {
+            if (field.getText() == null || field.getText().trim().isEmpty()) {
+                field.getStyleClass().removeAll("success", "error");
+                field.getStyleClass().add("error");
+                isValid = false;
+            } else {
+                field.getStyleClass().removeAll("success", "error");
+                field.getStyleClass().add("success");
+            }
+        }
+        
+        return isValid;
+    }
+
+    private void showAlert(String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
