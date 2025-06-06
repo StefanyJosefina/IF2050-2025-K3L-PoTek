@@ -32,7 +32,7 @@ public class RegisterView {
         pass.setPromptText("Kata Sandi");
         pass.getStyleClass().add("auth-field");
 
-        Button btnRegister = new Button("Daftar");
+        Button btnRegister = new Button("Register");
         btnRegister.getStyleClass().add("auth-button");
 
         Label linkToLogin = new Label("Sudah punya akun? Login di sini");
