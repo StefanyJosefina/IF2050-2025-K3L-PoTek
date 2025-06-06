@@ -1,0 +1,21 @@
+.pesan-root {
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4);
+    -fx-pref-width: 400px;
+}
+
+.pesan-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+.pesan-button {
+    -fx-background-color: #86A788;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 20px;
+    -fx-cursor: hand;
+}

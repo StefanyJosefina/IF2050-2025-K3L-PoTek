@@ -38,6 +38,50 @@ public class RegisterView {
         Label linkToLogin = new Label("Sudah punya akun? Login di sini");
         linkToLogin.getStyleClass().add("auth-link");
 
+        btnRegister.setOnAction(e -> {
+            String namaText = nama.getText();
+            String tglText = tgl.getText();
+            String emailText = email.getText();
+            String passText = pass.getText();
+
+            if (namaText == null || namaText.trim().isEmpty()) {
+                new LoginPesanView("Required field missing: Nama Lengkap").show();
+                return;
+            }
+            if (tglText == null || tglText.trim().isEmpty()) {
+                new LoginPesanView("Required field missing: Tanggal Lahir").show();
+                return;
+            }
+            if (emailText == null || emailText.trim().isEmpty()) {
+                new LoginPesanView("Required field missing: Email atau No HP").show();
+                return;
+            }
+            if (passText == null || passText.trim().isEmpty()) {
+                new LoginPesanView("Required field missing: Kata Sandi").show();
+                return;
+            }
+            // Validate email or phone format
+            if (!emailText.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,}$") && !emailText.matches("^\\+?\\d{10,15}$")) {
+                new LoginPesanView("Invalid input: Email atau No HP format is incorrect").show();
+                return;
+            }
+            // Validate date format (simple check for YYYY-MM-DD)
+            if (!tglText.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+                new LoginPesanView("Invalid input: Tanggal Lahir format harus YYYY-MM-DD").show();
+                return;
+            }
+            // Validate password length
+            if (passText.length() < 6) {
+                new LoginPesanView("Validation error: Kata Sandi harus minimal 6 karakter").show();
+                return;
+            }
+            // Additional validation can be added here
+
+            // Proceed with registration logic here (placeholder)
+            System.out.println("Registration successful for: " + namaText);
+            new LoginPesanView("Registration successful!").show();
+        });
+
         VBox root = new VBox(15, title, nama, tgl, email, pass, btnRegister, linkToLogin);
         root.getStyleClass().add("auth-root");
         root.setAlignment(Pos.CENTER);

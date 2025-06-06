@@ -1,0 +1,78 @@
+/* Latar belakang pink muda */
+.root {
+    -fx-background-color: #F8C8DC;
+}
+
+/* Kontainer hijau bundar */
+.auth-root {
+    -fx-background-color: #86A788;
+    -fx-background-radius: 30px;
+    -fx-padding: 50px;
+    -fx-spacing: 15px;
+    -fx-alignment: center;
+}
+
+/* Judul login */
+.auth-header {
+    -fx-text-fill: #FFFDEC;
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+/* Field input */
+.auth-field {
+    -fx-background-color: #EFEFEF;
+    -fx-text-fill: #797979;
+    -fx-font-size: 20px;
+    -fx-font-family: "Jost";
+    -fx-font-weight: 400;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-border-color: #AAA;
+    -fx-border-width: 2px;
+    -fx-pref-height: 50px;
+    -fx-max-width: 600px;
+    -fx-padding: 10px;
+}
+
+/* Tombol login */
+.auth-button {
+    -fx-background-color: #FFFDEC;
+    -fx-text-fill: #000000;
+    -fx-font-size: 24px;
+    -fx-font-family: "Jost";
+    -fx-font-weight: 400;
+    -fx-background-radius: 15px;
+    -fx-pref-height: 50px;
+    -fx-max-width: 300px;
+    -fx-alignment: center;
+}
+
+/* Separator "Or" */
+.auth-or {
+    -fx-text-fill: #EEE;
+    -fx-font-size: 16px;
+}
+
+/* Tombol Google login */
+.auth-google {
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-pref-width: 300px;
+    -fx-padding: 10px;
+    -fx-alignment: center; /* posisi icon + teks */
+}
+
+/* Link daftar */
+.auth-link {
+    -fx-text-fill: #E0FFE0;
+    -fx-font-family: "Nunito";
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-underline: true;
+}

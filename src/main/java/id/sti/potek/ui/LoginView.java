@@ -28,6 +28,34 @@ public class LoginView {
         Button btnLogin = new Button("Login");
         btnLogin.getStyleClass().add("auth-button");
 
+        btnLogin.setOnAction(e -> {
+            String emailText = email.getText();
+            String passText = pass.getText();
+
+            if (emailText == null || emailText.trim().isEmpty()) {
+                new LoginPesanView("Required field missing: Email or Phone").show();
+                return;
+            }
+            if (passText == null || passText.trim().isEmpty()) {
+                new LoginPesanView("Required field missing: Password").show();
+                return;
+            }
+            // Add more validation rules as needed
+            if (!emailText.matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,}$") && !emailText.matches("^\\+?\\d{10,15}$")) {
+                new LoginPesanView("Invalid input: Email or Phone format is incorrect").show();
+                return;
+            }
+            if (passText.length() < 6) {
+                new LoginPesanView("Validation error: Password must be at least 6 characters").show();
+                return;
+            }
+
+            // Proceed with login logic here
+            System.out.println("Login successful with email/phone: " + emailText);
+            stage.close();
+            new MainView().start(stage);
+        });
+
         Label orSeparator = new Label("Or");
         orSeparator.getStyleClass().add("auth-or");
 
