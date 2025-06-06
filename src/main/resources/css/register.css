@@ -1,0 +1,60 @@
+.auth-root {
+    -fx-background-color: #FFFDEC;
+    -fx-font-family: "Jost";
+    -fx-padding: 40px;
+    -fx-alignment: center;
+}
+.auth-header {
+    -fx-background-color: #86A788;
+    -fx-text-fill: #FFFDEC;
+    -fx-font-size: 60px;
+    -fx-font-weight: 700;
+    -fx-alignment: center;
+    -fx-background-radius: 40px;
+    -fx-min-height: 90px;
+    -fx-max-width: 865px;
+    -fx-padding: 20px;
+    -fx-border-color: transparent;
+}
+
+.auth-label {
+    -fx-font-size: 40px;
+    -fx-text-fill: #000;
+    -fx-font-weight: 400;
+    -fx-padding: 10px 0 5px 0;
+}
+
+.auth-field {
+    -fx-background-color: #EFEFEF;
+    -fx-text-fill: #797979;
+    -fx-font-size: 30px;
+    -fx-font-family: "Jost";
+    -fx-font-weight: 400;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #AAA;
+    -fx-border-width: 4px;
+    -fx-pref-height: 50px;
+    -fx-max-width: 891px;
+    -fx-padding: 10px;
+}
+
+.auth-button {
+    -fx-background-color: #86A788;
+    -fx-text-fill: #FFFDEC;
+    -fx-font-size: 40px;
+    -fx-font-family: "Jost";
+    -fx-font-weight: 400;
+    -fx-background-radius: 20px;
+    -fx-min-height: 71px;
+    -fx-max-width: 684px;
+    -fx-alignment: center;
+}
+
+.auth-link {
+    -fx-text-fill: #FFFDEC;
+    -fx-font-family: "Nunito";
+    -fx-font-size: 24px;
+    -fx-font-weight: 600;
+    -fx-underline: true;
+}
