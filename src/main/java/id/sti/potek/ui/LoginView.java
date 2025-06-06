@@ -54,7 +54,7 @@ public class LoginView {
         StackPane container = new StackPane(root);
         container.getStyleClass().add("root");
 
-        Scene scene = new Scene(container, 768, 1080);
+        Scene scene = new Scene(container, 900, 645);
         scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
 
         stage.setScene(scene);
