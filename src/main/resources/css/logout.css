@@ -1,0 +1,36 @@
+.logout-root {
+    -fx-background-color: rgba(248, 200, 220, 0.498); /* full pink, no transparency */
+    -fx-alignment: center;
+    -fx-padding: 20px;
+    
+}
+
+.logout-modal {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-padding: 40px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+    -fx-min-width: 350px;
+    -fx-min-height: 150px;
+    -fx-position: relative;
+}
+
+.logout-message {
+    -fx-text-fill: #E94F6F; /* pink */
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.close-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-alignment: top-right;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-padding: 0 0 10 10;
+}
