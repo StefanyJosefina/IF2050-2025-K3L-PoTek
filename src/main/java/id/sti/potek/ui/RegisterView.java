@@ -91,7 +91,7 @@ public class RegisterView {
         root.setMaxHeight(200);
 
         StackPane container = new StackPane(root);
-        container.getStyleClass().add("root");;
+        container.getStyleClass().add("root");
 
         Scene scene = new Scene(container, 900, 645);
         scene.getStylesheets().add(getClass().getResource("/css/register.css").toExternalForm());
