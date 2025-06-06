@@ -48,8 +48,8 @@ public class LoginView {
         root.setAlignment(Pos.CENTER);
 
         /*Label Hijau */
-        root.setMaxWidth(900);
-        root.setMaxHeight(645);
+        root.setMaxWidth(700);
+        root.setMaxHeight(200);
 
         StackPane container = new StackPane(root);
         container.getStyleClass().add("root");
