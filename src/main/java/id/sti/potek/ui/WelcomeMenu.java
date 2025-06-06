@@ -10,36 +10,26 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class MainView {
+public class WelcomeMenu {
 
     public void start(Stage stage) {
-        // Top Bar: Username and Buttons
-        Label usernameLabel = new Label("Name");
-        usernameLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: black;");
+        // Top Bar: Login and Register Buttons
+        Button btnLogin = new Button("Log In");
+        btnLogin.setStyle("-fx-background-color: #86A788; -fx-text-fill: white; -fx-padding: 8 16;");
 
-        Button btnReport = new Button("Report");
-        btnReport.setStyle("-fx-background-color: #fff8f0; -fx-text-fill: black; -fx-padding: 8 16;");
+        Button btnRegister = new Button("Register");
+        btnRegister.setStyle("-fx-background-color: #86A788; -fx-text-fill: white; -fx-padding: 8 16;");
 
-        Button btnLogout = new Button("Logout");
-        btnLogout.setStyle("-fx-background-color: #86A788; -fx-text-fill: white; -fx-padding: 8 16;");
-
-        btnLogout.setOnAction(e -> {
-            new LogoutView(() -> {
-                new WelcomeMenu().start(stage);
-            }).start(stage);
+        btnLogin.setOnAction(e -> {
+            new LoginView().start(stage);
         });
 
-        HBox leftRightTop = new HBox(10, usernameLabel);
-        leftRightTop.setAlignment(Pos.CENTER_LEFT);
+        btnRegister.setOnAction(e -> {
+            // Implement register view navigation if needed
+        });
 
-        HBox rightButtons = new HBox(10, btnReport, btnLogout);
+        HBox rightButtons = new HBox(10, btnLogin, btnRegister);
         rightButtons.setAlignment(Pos.CENTER_RIGHT);
-
-        HBox topBar = new HBox(20, leftRightTop, rightButtons);
-        topBar.setPadding(new Insets(10, 20, 10, 20));
-        topBar.setSpacing(20);
-        topBar.setAlignment(Pos.CENTER);
-        HBox.setHgrow(leftRightTop, javafx.scene.layout.Priority.ALWAYS);
 
         // Center: Heart Icon and Welcome Message
         ImageView heartIcon = new ImageView(getClass().getResource("/icons/heart.png").toExternalForm());
@@ -67,15 +57,14 @@ public class MainView {
         bottomButtons.setAlignment(Pos.CENTER);
         bottomButtons.setPadding(new Insets(20));
 
-        // Final Layout
-        VBox root = new VBox(30, topBar, centerContent, bottomButtons);
+        VBox root = new VBox(30, rightButtons, centerContent, bottomButtons);
         root.setAlignment(Pos.TOP_CENTER);
         root.setPadding(new Insets(30));
         root.setStyle("-fx-background-color: #ffe2e2;");
 
         Scene scene = new Scene(root, 900, 645);
         stage.setScene(scene);
-        stage.setTitle("Main View");
+        stage.setTitle("Welcome Menu");
         stage.show();
     }
 }
