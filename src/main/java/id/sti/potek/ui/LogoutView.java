@@ -13,6 +13,16 @@ import javafx.stage.StageStyle;
 
 public class LogoutView {
 
+    private Runnable onCloseCallback;
+
+    public LogoutView() {
+        this(null);
+    }
+
+    public LogoutView(Runnable onCloseCallback) {
+        this.onCloseCallback = onCloseCallback;
+    }
+
     public void start(Stage ownerStage) {
         // Create the modal stage
         Stage stage = new Stage(StageStyle.TRANSPARENT);
@@ -22,7 +32,12 @@ public class LogoutView {
         // Close button
         Button closeButton = new Button("✕");
         closeButton.getStyleClass().add("close-button");
-        closeButton.setOnAction(e -> stage.close());
+        closeButton.setOnAction(e -> {
+            stage.close();
+            if (this.onCloseCallback != null) {
+                this.onCloseCallback.run();
+            }
+        });
 
         // Logout success message
         Label message = new Label("Berhasil logout!");
