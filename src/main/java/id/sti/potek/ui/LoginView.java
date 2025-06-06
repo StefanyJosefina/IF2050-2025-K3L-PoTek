@@ -49,7 +49,7 @@ public class LoginView {
 
         /*Label Hijau */
         root.setMaxWidth(900);
-        root.setMaxHeight(500);
+        root.setMaxHeight(645);
 
         StackPane container = new StackPane(root);
         container.getStyleClass().add("root");

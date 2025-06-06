@@ -2,9 +2,14 @@ package id.sti.potek.ui;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 
 public class RegisterView {
     public void start(Stage stage) {
@@ -37,10 +42,18 @@ public class RegisterView {
         root.getStyleClass().add("auth-root");
         root.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(root, 1000, 700);
-        scene.getStylesheets().add(getClass().getResource("/css/auth.css").toExternalForm());
+        /*Label Hijau */
+        root.setMaxWidth(900);
+        root.setMaxHeight(645);
+
+        StackPane container = new StackPane(root);
+        container.getStyleClass().add("root");;
+
+        Scene scene = new Scene(container, 900, 645);
+        scene.getStylesheets().add(getClass().getResource("/css/register.css").toExternalForm());
+
         stage.setScene(scene);
-        stage.setTitle("Register");
+        stage.setTitle("register");
         stage.show();
     }
 }
