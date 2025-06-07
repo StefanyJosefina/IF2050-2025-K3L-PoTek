@@ -25,7 +25,7 @@ public class WelcomeMenu {
         });
 
         btnRegister.setOnAction(e -> {
-            // Implement register view navigation if needed
+            new RegisterView().start(stage);
         });
 
         HBox rightButtons = new HBox(10, btnLogin, btnRegister);
