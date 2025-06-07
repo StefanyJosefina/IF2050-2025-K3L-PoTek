@@ -75,11 +75,12 @@ public class RegisterView {
                 new LoginPesanView("Validation error: Kata Sandi harus minimal 6 karakter").show();
                 return;
             }
-            // Additional validation can be added here
 
-            // Proceed with registration logic here (placeholder)
+            // Proceed with registration logic here
             System.out.println("Registration successful for: " + namaText);
             new LoginPesanView("Registration successful!").show();
+            stage.close();
+            new WelcomeMenu().start(stage);
         });
 
         VBox root = new VBox(15, title, nama, tgl, email, pass, btnRegister, linkToLogin);
