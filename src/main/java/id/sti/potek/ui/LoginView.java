@@ -13,6 +13,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class LoginView {
+    private String preFillEmail;
+
+    public LoginView() {
+        this.preFillEmail = null;
+    }
+
+    public LoginView(String preFillEmail) {
+        this.preFillEmail = preFillEmail;
+    }
+
     public void start(Stage stage) {
         Label title = new Label("Log In");
         title.getStyleClass().add("auth-header");
@@ -20,6 +30,10 @@ public class LoginView {
         TextField email = new TextField();
         email.setPromptText("Masukkan Nomor HP atau Email");
         email.getStyleClass().add("auth-field");
+
+        if (preFillEmail != null) {
+            email.setText(preFillEmail);
+        }
 
         PasswordField pass = new PasswordField();
         pass.setPromptText("Password");
@@ -56,7 +70,7 @@ public class LoginView {
             new MainView().start(stage);
         });
 
-        Label orSeparator = new Label("Or");
+        Label orSeparator = new Label("___________________ Or ___________________");
         orSeparator.getStyleClass().add("auth-or");
 
         Image googleIcon = new Image(getClass().getResourceAsStream("/icons/google.png"));
@@ -68,8 +82,20 @@ public class LoginView {
         googleLogin.getStyleClass().add("auth-google");
         googleLogin.setGraphicTextGap(10); // jarak antara icon dan teks
 
+        // Add mouse click event to navigate to GoogleView
+        googleLogin.setOnAction(e -> {
+            GoogleView googleView = new GoogleView();
+            googleView.start(stage);
+        });
+        
         Label linkToRegister = new Label("Belum punya akun?");
         linkToRegister.getStyleClass().add("auth-link");
+
+        // Add mouse click event to navigate to RegisterView
+        linkToRegister.setOnMouseClicked(e -> {
+            RegisterView registerView = new RegisterView();
+            registerView.start(stage);
+        });
 
         VBox root = new VBox(15, title, email, pass, btnLogin, orSeparator, googleLogin, linkToRegister);
         root.getStyleClass().add("auth-root");

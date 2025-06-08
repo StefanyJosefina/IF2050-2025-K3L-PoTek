@@ -11,10 +11,19 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainView {
+    private String userName;
+
+    public MainView() {
+        this.userName = "Name";
+    }
+
+    public MainView(String userName) {
+        this.userName = userName;
+    }
 
     public void start(Stage stage) {
         // Top Bar: Username and Buttons
-        Label usernameLabel = new Label("Name");
+        Label usernameLabel = new Label(userName);
         usernameLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: black;");
 
         Button btnReport = new Button("Report");

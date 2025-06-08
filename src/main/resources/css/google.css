@@ -1,0 +1,44 @@
+.google-root {
+    -fx-background-color: #FCDADA;
+}
+
+.google-card {
+    -fx-background-color: #89A68A;
+    -fx-background-radius: 20;
+    -fx-padding: 30;
+    -fx-pref-width: 400;
+    -fx-max-width: 600;
+    -fx-pref-height: 600;
+    -fx-max-height: 400;
+    -fx-margin-top: 50;
+    -fx-margin-bottom: 50;
+}
+
+.google-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fffce0;
+}
+
+.google-subtitle {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fffce0;
+}
+
+.google-akun {
+    -fx-border-color: #ffffff66;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 10 0 10 0;
+}
+
+.google-nama {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.google-email {
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}

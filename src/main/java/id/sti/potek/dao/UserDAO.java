@@ -50,4 +50,28 @@ public class UserDAO {
 
         return null;
     }
+
+    public static java.util.List<User> getAllUsers() {
+        java.util.List<User> users = new java.util.ArrayList<>();
+        String sql = "SELECT * FROM users";
+
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                User user = new User(
+                        rs.getString("name"),
+                        rs.getDate("birth_date").toString(),
+                        rs.getString("contact"),
+                        rs.getString("password")
+                );
+                users.add(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
 }
