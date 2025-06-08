@@ -1,29 +1,63 @@
 .main-background {
-  -fx-background-color: #ffd1d1;
+  -fx-background-color: #FFD1D1;
 }
 
 .banner-header {
-  -fx-background-color: #86a788;
-  -fx-padding: 16px;
+  -fx-background-color: #86A788;
+  -fx-padding: 20px;
   -fx-alignment: center;
 }
 
 .banner-text {
-  -fx-fill: #fffdec;
-  -fx-font-size: 28px;
+  -fx-fill: #FFFDEC;
+  -fx-font-size: 32px;
   -fx-font-weight: bold;
+  -fx-font-family: "Jost";
 }
 
 .hotel-card {
-  -fx-background-color: #fffdec;
-  -fx-padding: 10px;
-  -fx-border-radius: 10px;
-  -fx-background-radius: 10px;
-  -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);
+  -fx-background-color: #FFFDEC;
+  -fx-padding: 20px;
+  -fx-border-radius: 16px;
+  -fx-background-radius: 16px;
+  -fx-spacing: 10px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 8, 0.2, 0, 2);
+  -fx-pref-width: 780px;
+  -fx-min-height: 140px;
 }
 
 .hotel-card Button {
-  -fx-background-color: #86a788;
-  -fx-text-fill: #fffdec;
-  -fx-background-radius: 8px;
+  -fx-background-color: #86A788;
+  -fx-text-fill: #FFFDEC;
+  -fx-font-size: 16px;
+  -fx-font-family: "Jost";
+  -fx-font-weight: 500;
+  -fx-background-radius: 10px;
+  -fx-padding: 8px 18px;
+  -fx-cursor: hand;
+}
+
+.hotel-card Button:hover {
+  -fx-background-color: #E0FFE0;
+  -fx-text-fill: #2a2a2a;
+}
+
+.hotel-name {
+  -fx-font-size: 20px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #333333;
+  -fx-font-family: "Jost";
+}
+
+.harga-text {
+  -fx-font-size: 18px;
+  -fx-font-weight: 600;
+  -fx-text-fill: #555555;
+  -fx-font-family: "Jost";
+}
+
+.harga-note {
+  -fx-font-size: 13px;
+  -fx-text-fill: #888888;
+  -fx-font-family: "Jost";
 }

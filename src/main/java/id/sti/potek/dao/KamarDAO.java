@@ -1,31 +1,34 @@
 package id.sti.potek.dao;
 
-import id.sti.potek.model.Kamar;
-import id.sti.potek.util.DBConnection;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.sti.potek.model.Kamar;
+import id.sti.potek.util.DBConnection;
+
 public class KamarDAO {
 
-    public List<Kamar> filterKamar(String lokasi, String tanggal) {
+    public List<Kamar> filterKamar(String lokasi) {
         List<Kamar> daftar = new ArrayList<>();
-        String sql = "SELECT * FROM kamar WHERE lokasi = ? AND tanggal = ? AND ketersediaan = true";
+        String sql = "SELECT * FROM kamar WHERE lokasi = ? AND ketersediaan = true";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, lokasi);
-            stmt.setString(2, tanggal);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Kamar k = new Kamar(
                         rs.getString("idKamar"),
+                        rs.getString("namaHotel"),
                         rs.getString("lokasi"),
                         rs.getInt("harga"),
                         rs.getBoolean("ketersediaan"),
-                        rs.getString("tanggal")
+                        rs.getString("tipeKamar")
                 );
                 daftar.add(k);
             }

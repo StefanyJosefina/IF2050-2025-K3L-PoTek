@@ -3,7 +3,6 @@ package id.sti.potek.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,40 +13,43 @@ public class PemesananDAO {
 
     public boolean simpanPemesanan(Pemesanan p) {
         String sql = "INSERT INTO pemesanan (" +
-                "id_pesanan, id_tiket, no_kursi, " +
+                "id_tiket, no_kursi, " +
                 "id_kamar, tgl_checkin, tgl_checkout, jumlah_kamar, jumlah_tamu, total_harga, " +
                 "nama_pemesan, no_hp_pemesan, email_pemesan) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, p.getIdPesanan());
-            stmt.setString(2, p.getIdTiket()); // null jika bukan transportasi
-            if (p.getNoKursi() > 0) {
-                stmt.setInt(3, p.getNoKursi());
+            stmt.setString(1, p.getIdTiket()); // null jika bukan transportasi
+
+            if (p.getNoKursi() >= 0) {
+                stmt.setInt(2, p.getNoKursi());
             } else {
-                stmt.setNull(3, java.sql.Types.INTEGER);
+                stmt.setNull(2, java.sql.Types.INTEGER);
             }
 
-            stmt.setString(4, p.getIdKamar()); // null jika bukan penginapan
+            stmt.setString(3, p.getIdKamar()); // null jika bukan penginapan
+
             if (p.getTanggalCheckIn() != null) {
-                stmt.setDate(5, java.sql.Date.valueOf(p.getTanggalCheckIn()));
+                stmt.setDate(4, java.sql.Date.valueOf(p.getTanggalCheckIn()));
+            } else {
+                stmt.setNull(4, java.sql.Types.DATE);
+            }
+
+            if (p.getTanggalCheckOut() != null) {
+                stmt.setDate(5, java.sql.Date.valueOf(p.getTanggalCheckOut()));
             } else {
                 stmt.setNull(5, java.sql.Types.DATE);
             }
-            if (p.getTanggalCheckOut() != null) {
-                stmt.setDate(6, java.sql.Date.valueOf(p.getTanggalCheckOut()));
-            } else {
-                stmt.setNull(6, java.sql.Types.DATE);
-            }
 
-            stmt.setInt(7, p.getJumlahKamar());
-            stmt.setInt(8, p.getJumlahTamu());
-            stmt.setInt(9, p.getTotalHarga());
+            stmt.setInt(6, p.getJumlahKamar());
+            stmt.setInt(7, p.getJumlahTamu());
+            stmt.setInt(8, p.getTotalHarga());
 
-            stmt.setString(10, p.getNamaPemesan());
-            stmt.setString(11, p.getNoHpPemesan());
-            stmt.setString(12, p.getEmailPemesan());
+            stmt.setString(9, p.getNamaPemesan());
+            stmt.setString(10, p.getNoHpPemesan());
+            stmt.setString(11, p.getEmailPemesan());
 
             return stmt.executeUpdate() > 0;
         } catch (Exception e) {

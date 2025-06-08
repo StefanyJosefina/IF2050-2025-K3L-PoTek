@@ -6,7 +6,7 @@ public class Kamar {
     private String lokasi;
     private int harga;
     private boolean tersedia;
-    private String tipe;
+    private String tipeKamar;
 
     public Kamar(String id, String namaHotel, String lokasi, int harga, boolean tersedia, String tipe) {
         this.id = id;
@@ -14,7 +14,7 @@ public class Kamar {
         this.lokasi = lokasi;
         this.harga = harga;
         this.tersedia = tersedia;
-        this.tipe = tipe;
+        this.tipeKamar = tipeKamar;
     }
 
     public String getId() { return id; }
@@ -22,12 +22,12 @@ public class Kamar {
     public String getLokasi() { return lokasi; }
     public int getHarga() { return harga; }
     public boolean isTersedia() { return tersedia; }
-    public String getTipe() { return tipe; }
+    public String getTipeKamar() { return tipeKamar; }
 
     public void setId(String id) { this.id = id; }
     public void setNamaHotel(String namaHotel) { this.namaHotel = namaHotel; }
     public void setLokasi(String lokasi) { this.lokasi = lokasi; }
     public void setHarga(int harga) { this.harga = harga; }
     public void setTersedia(boolean tersedia) { this.tersedia = tersedia; }
-    public void setTipe(String tipe) { this.tipe = tipe; }
+    public void setTipe(String tipeKamar) { this.tipeKamar = tipeKamar; }
 }

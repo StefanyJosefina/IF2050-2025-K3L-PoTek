@@ -1,15 +1,15 @@
 package id.sti.potek.controller;
 
+import java.util.List;
+
 import id.sti.potek.model.Kamar;
 import id.sti.potek.service.KamarService;
-
-import java.util.List;
 
 public class KamarController {
     private final KamarService service = new KamarService();
 
     public List<Kamar> cariKamar(String lokasi, String tanggal) {
-        return service.cariKamar(lokasi, tanggal);
+        return service.cariKamar(lokasi);
     }
 
     public boolean setKetersediaan(String idKamar, boolean tersedia) {

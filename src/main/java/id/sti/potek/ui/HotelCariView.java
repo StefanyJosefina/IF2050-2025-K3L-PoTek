@@ -1,21 +1,26 @@
 package id.sti.potek.ui;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import id.sti.potek.controller.KamarController;
 import id.sti.potek.model.Kamar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class HotelCariView {
     private final KamarController kamarController = new KamarController();
@@ -37,13 +42,35 @@ public class HotelCariView {
         formContainer.setAlignment(Pos.TOP_CENTER);
         formContainer.setPadding(new Insets(25, 40, 25, 40));
 
-        VBox kotaGroup = createLabeledField("Cari", "/icons/icon_location_green.png", "Masukkan Kota");
-        VBox tanggalGroup = createLabeledField("Tanggal", "/icons/icon_calender.png", "Masukkan Tanggal Check In");
+        VBox kotaGroup = createDropdownField("Cari", "/icons/icon_location_green.png", "Masukkan Kota");
+        VBox tanggalLabelBox = createLabeledOnly("Tanggal", "/icons/icon_calender.png");
 
-        Button pesanBtn = new Button("Cari Hotel");
+        DatePicker checkInPicker = new DatePicker();
+        checkInPicker.setPromptText("Masukkan Tanggal Check In");
+        checkInPicker.setPrefWidth(170);
+
+        TextField hariField = new TextField();
+        hariField.setPromptText("Masukkan Jumlah Hari Menginap");
+        hariField.setPrefWidth(170);
+
+        HBox tanggalInputRow = new HBox(12, checkInPicker, hariField);
+        tanggalInputRow.setAlignment(Pos.CENTER_LEFT);
+
+        VBox tanggalGroup = new VBox(8, tanggalLabelBox, tanggalInputRow);
+        tanggalGroup.getStyleClass().add("field-group");
+
+        VBox tipeKamarGroup = createDropdownField("Tipe Kamar", "/icons/person_icon.png", "Masukkan Tipe Kamar");
+        ((ComboBox<String>) tipeKamarGroup.getChildren().get(1)).getItems().addAll("Single", "Double", "Family");
+
+        VBox jumlahKamarGroup = createLabeledField("Jumlah", "/icons/person_icon.png", "Masukkan Jumlah Kamar");
+
+        HBox kamarRow = new HBox(12, tipeKamarGroup, jumlahKamarGroup);
+        kamarRow.setAlignment(Pos.CENTER);
+
+        Button pesanBtn = new Button("Pesan");
         pesanBtn.getStyleClass().add("pesan-button");
 
-        formContainer.getChildren().addAll(kotaGroup, tanggalGroup);
+        formContainer.getChildren().addAll(kotaGroup, tanggalGroup, kamarRow);
 
         VBox content = new VBox(30, banner, formContainer, pesanBtn);
         content.setAlignment(Pos.TOP_CENTER);
@@ -56,22 +83,37 @@ public class HotelCariView {
         scene.getStylesheets().add(getClass().getResource("/css/hotel_cari.css").toExternalForm());
 
         pesanBtn.setOnAction(e -> {
-            TextField kotaField = (TextField) kotaGroup.getChildren().get(1);
-            TextField tanggalField = (TextField) tanggalGroup.getChildren().get(1);
+            ComboBox<String> kotaDropdown = (ComboBox<String>) kotaGroup.getChildren().get(1);
+            LocalDate tanggal = checkInPicker.getValue();
+            String hariStr = hariField.getText();
+            ComboBox<String> tipeDropdown = (ComboBox<String>) tipeKamarGroup.getChildren().get(1);
+            TextField jumlahField = (TextField) jumlahKamarGroup.getChildren().get(1);
 
-            String kota = kotaField.getText().trim();
-            String tanggal = tanggalField.getText().trim();
+            String kota = kotaDropdown.getValue();
+            String tipe = tipeDropdown.getValue();
+            String jumlahStr = jumlahField.getText();
 
-            if (kota.isEmpty() || tanggal.isEmpty()) {
+            if (kota == null || tanggal == null || hariStr.isEmpty() || tipe == null || jumlahStr.isEmpty()) {
                 showPopup("Data Tidak Lengkap", "Isi semua kolom terlebih dahulu.");
                 return;
             }
 
-            List<Kamar> hasil = kamarController.cariKamar(kota, tanggal);
+            int malam;
+            try {
+                malam = Integer.parseInt(hariStr);
+                if (malam <= 0) throw new NumberFormatException();
+            } catch (NumberFormatException ex) {
+                showPopup("Input Tidak Valid", "Jumlah hari menginap harus berupa angka positif.");
+                return;
+            }
+
+            LocalDate checkout = tanggal.plusDays(malam);
+
+            List<Kamar> hasil = kamarController.cariKamar(kota, tanggal.toString());
             if (hasil.isEmpty()) {
                 showPopup("Tidak Tersedia", "Hotel tidak ditemukan pada tanggal tersebut.");
             } else {
-                new HotelPilihView(hasil, List.of()).start(stage);
+                new HotelPilihView(hasil, List.of(), tanggal.toString(), checkout.toString(), malam).start(stage);
             }
         });
 
@@ -79,6 +121,31 @@ public class HotelCariView {
         stage.setTitle("Cari Hotel");
         stage.centerOnScreen();
         stage.show();
+    }
+
+    private VBox createDropdownField(String labelText, String iconPath, String prompt) {
+        VBox container = new VBox(8);
+        container.getStyleClass().add("field-group");
+
+        if (labelText != null && iconPath != null) {
+            ImageView icon = new ImageView(new Image(iconPath));
+            icon.setFitHeight(20);
+            icon.setFitWidth(20);
+
+            Text label = new Text(labelText);
+            label.getStyleClass().add("field-label");
+
+            HBox labelRow = new HBox(10, icon, label);
+            labelRow.setAlignment(Pos.CENTER_LEFT);
+            container.getChildren().add(labelRow);
+        }
+
+        ComboBox<String> dropdown = new ComboBox<>();
+        dropdown.setPromptText(prompt);
+        dropdown.setPrefWidth(350);
+        container.getChildren().add(dropdown);
+
+        return container;
     }
 
     private VBox createLabeledField(String labelText, String iconPath, String prompt) {
@@ -106,6 +173,23 @@ public class HotelCariView {
         return container;
     }
 
+    private VBox createLabeledOnly(String labelText, String iconPath) {
+        VBox container = new VBox(8);
+        if (labelText != null && iconPath != null) {
+            ImageView icon = new ImageView(new Image(iconPath));
+            icon.setFitHeight(20);
+            icon.setFitWidth(20);
+
+            Text label = new Text(labelText);
+            label.getStyleClass().add("field-label");
+
+            HBox labelRow = new HBox(10, icon, label);
+            labelRow.setAlignment(Pos.CENTER_LEFT);
+            container.getChildren().add(labelRow);
+        }
+        return container;
+    }
+
     private void showPopup(String titleText, String subtitleText) {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -123,7 +207,7 @@ public class HotelCariView {
         Label subtitle = new Label(subtitleText);
         subtitle.setStyle("-fx-text-fill: #ea4c5d; -fx-font-size: 14px;");
 
-        Button closeBtn = new Button("✕");
+        Button closeBtn = new Button("\u2715");
         closeBtn.setStyle("-fx-background-color: transparent; -fx-font-size: 16px; -fx-text-fill: #333;");
         closeBtn.setOnAction(e -> popupStage.close());
 

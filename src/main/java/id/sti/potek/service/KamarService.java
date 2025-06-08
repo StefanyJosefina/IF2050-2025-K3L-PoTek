@@ -8,8 +8,8 @@ import java.util.List;
 public class KamarService {
     private final KamarDAO dao = new KamarDAO();
 
-    public List<Kamar> cariKamar(String lokasi, String tanggal) {
-        return dao.filterKamar(lokasi, tanggal);
+    public List<Kamar> cariKamar(String lokasi) {
+        return dao.filterKamar(lokasi);
     }
 
     public boolean updateKetersediaan(String idKamar, boolean tersedia) {
