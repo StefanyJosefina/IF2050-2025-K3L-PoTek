@@ -38,6 +38,12 @@ public class RegisterView {
         Label linkToLogin = new Label("Sudah punya akun? Login di sini");
         linkToLogin.getStyleClass().add("auth-link");
 
+        // Add mouse click event to navigate to LoginView
+        linkToLogin.setOnMouseClicked(e -> {
+            LoginView loginView = new LoginView();
+            loginView.start(stage);
+        });
+        
         btnRegister.setOnAction(e -> {
             String namaText = nama.getText();
             String tglText = tgl.getText();
