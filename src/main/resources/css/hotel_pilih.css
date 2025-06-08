@@ -1,0 +1,29 @@
+.main-background {
+  -fx-background-color: #ffd1d1;
+}
+
+.banner-header {
+  -fx-background-color: #86a788;
+  -fx-padding: 16px;
+  -fx-alignment: center;
+}
+
+.banner-text {
+  -fx-fill: #fffdec;
+  -fx-font-size: 28px;
+  -fx-font-weight: bold;
+}
+
+.hotel-card {
+  -fx-background-color: #fffdec;
+  -fx-padding: 10px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+  -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);
+}
+
+.hotel-card Button {
+  -fx-background-color: #86a788;
+  -fx-text-fill: #fffdec;
+  -fx-background-radius: 8px;
+}
