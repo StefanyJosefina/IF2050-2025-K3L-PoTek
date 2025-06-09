@@ -3,20 +3,18 @@ package id.sti.potek;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import id.sti.potek.ui.PoTekLandingView;
 
 
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Plain Stage");
-        javafx.scene.control.Label label = new javafx.scene.control.Label("Just words");
-        javafx.scene.Scene scene = new javafx.scene.Scene(new javafx.scene.layout.StackPane(label), 300, 200);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        PoTekLandingView view = new PoTekLandingView();
+        view.start(primaryStage);
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }
 

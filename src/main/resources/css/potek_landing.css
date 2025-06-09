@@ -1,0 +1,80 @@
+.root {
+    -fx-background-color: #FFD1D1;
+    -fx-font-family: 'Jost';
+    -fx-pref-width: 1440px;
+    -fx-pref-height: 1024px;
+}
+
+/* ===================== TEKS ===================== */
+
+.welcome-title {
+    -fx-font-size: 64px; /* disesuaikan dengan proporsi 96px figma ke skala JavaFX */
+    -fx-font-weight: bold;
+    -fx-text-fill: #EC4C69;
+    -fx-alignment: center;
+    -fx-padding: 20 0 0 0;
+}
+
+.welcome-subtitle {
+    -fx-font-size: 24px; /* disesuaikan dari 48px */
+    -fx-font-weight: 300;
+    -fx-text-fill: #EC4C69;
+    -fx-alignment: center;
+    -fx-padding: 10 0 0 0;
+}
+
+/* ===================== TOMBOL LOGIN ===================== */
+
+.login-button {
+    -fx-background-color: #86A788;
+    -fx-text-fill: #FFFDEC;
+    -fx-font-size: 18px;
+    -fx-font-weight: 400;
+    -fx-background-radius: 13;
+    -fx-pref-width: 120px;
+    -fx-pref-height: 48px;
+    -fx-cursor: hand;
+    -fx-border: none;
+}
+.login-button:hover {
+    -fx-background-color: #FFFDEC;
+    -fx-text-fill: #000;
+}
+
+/* ===================== TOMBOL REGISTER ===================== */
+
+.register-button {
+    -fx-background-color: #86A788;
+    -fx-text-fill: #FFFDEC;
+    -fx-font-size: 18px;
+    -fx-font-weight: 400;
+    -fx-background-radius: 13;
+    -fx-pref-width: 120px;
+    -fx-pref-height: 48px;
+    -fx-cursor: hand;
+    -fx-border: none;
+}
+.register-button:hover {
+    -fx-background-color: #FFFDEC;
+    -fx-text-fill: #000;
+}
+
+/* ===================== TOMBOL AKSI HOTEL/TRANSPORTASI ===================== */
+
+.action-button {
+    -fx-background-color: #86A788;
+    -fx-text-fill: #FFFDEC;
+    -fx-font-size: 24px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 16px;
+    -fx-padding: 12 24 12 24;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-spacing: 10px;
+}
+
+.action-button:hover {
+    -fx-background-color: #EC4C69;
+    -fx-text-fill: #FFFDEC;
+}
+
