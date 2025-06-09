@@ -4,9 +4,9 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.Locale;
 
-import id.sti.potek.dao.PemesananDAO;
+import id.sti.potek.dao.PemesananHotelDAO;
 import id.sti.potek.model.Kamar;
-import id.sti.potek.model.Pemesanan;
+import id.sti.potek.model.PemesananHotel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -93,7 +93,7 @@ public class HotelPesanView {
         Label note = new Label("*akan lanjut ke pembayaran");
 
         pesanBtn.setOnAction(e -> {
-            Pemesanan pemesanan = new Pemesanan();
+            PemesananHotel pemesanan = new PemesananHotel();
             pemesanan.setIdKamar(kamar.getId());
             pemesanan.setTanggalCheckIn(LocalDate.parse(checkin));
             pemesanan.setTanggalCheckOut(LocalDate.parse(checkout));
@@ -104,7 +104,7 @@ public class HotelPesanView {
             pemesanan.setNoHpPemesan(hpField.getText());
             pemesanan.setEmailPemesan(emailField.getText());
 
-            boolean success = new PemesananDAO().simpanPemesanan(pemesanan);
+            boolean success = new PemesananHotelDAO().simpanPemesanan(pemesanan);
             System.out.println("Pemesanan berhasil disimpan.");
             // TODO: setelah ini lanjut ke home
         });
