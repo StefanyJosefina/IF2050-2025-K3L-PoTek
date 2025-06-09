@@ -1,8 +1,8 @@
 package id.sti.potek;
 
+import id.sti.potek.ui.HotelCariView;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import id.sti.potek.ui.HotelCariView;
 
 public class App extends Application {
 
