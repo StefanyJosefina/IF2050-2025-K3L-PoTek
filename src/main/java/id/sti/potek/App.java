@@ -1,4 +1,4 @@
-package java.id.sti.potek;
+package id.sti.potek;
 
 // import java.id.sti.potek.ui.AutentikasiUI;
 
