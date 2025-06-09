@@ -86,7 +86,7 @@ public class RegisterView {
             System.out.println("Registration successful for: " + namaText);
             new LoginPesanView("Registration successful!").show();
             stage.close();
-            new WelcomeMenu().start(stage);
+            new PoTekLandingView().start(stage);
         });
 
         VBox root = new VBox(15, title, nama, tgl, email, pass, btnRegister, linkToLogin);

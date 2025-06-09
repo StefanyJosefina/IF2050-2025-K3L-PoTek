@@ -38,7 +38,7 @@ public class GoogleView {
         );
 
         for (User user : UserDAO.getAllUsers()) {
-            akunList.getChildren().add(buatAkun(user.getName(), user.getContact()));
+            akunList.getChildren().add(buatAkun(user.getNama(), user.getNoHp()));
         }
         // Tambahkan daftar akun
         VBox content = new VBox(20, title, pilihAkun, akunList);

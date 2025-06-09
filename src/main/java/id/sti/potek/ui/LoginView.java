@@ -1,5 +1,8 @@
 package id.sti.potek.ui;
 
+import id.sti.potek.controller.AuthController;
+import id.sti.potek.model.User;
+// import id.sti.potek.ui.PoTekLandingView;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,7 +17,11 @@ import javafx.stage.Stage;
 
 public class LoginView {
     private String preFillEmail;
+    private Runnable onLoginClicked;
 
+    public void setOnLoginClicked(Runnable onLoginClicked) {
+        this.onLoginClicked = onLoginClicked;
+    }
     public LoginView() {
         this.preFillEmail = null;
     }
@@ -43,6 +50,9 @@ public class LoginView {
         btnLogin.getStyleClass().add("auth-button");
 
         btnLogin.setOnAction(e -> {
+            if (onLoginClicked != null) {
+                onLoginClicked.run();
+            }
             String emailText = email.getText();
             String passText = pass.getText();
 
@@ -64,11 +74,28 @@ public class LoginView {
                 return;
             }
 
+            String contact = emailText;
+            String password = passText;
+
+            AuthController authController = new AuthController();
+            User user = authController.login(contact, password);
+
+            if (user != null) {
+                // Login berhasil
+                new PoTekLandingView().start(new Stage());
+                ((Stage) btnLogin.getScene().getWindow()).close();
+            } else {
+                // Login gagal
+                new LoginPesanView("Login gagal: Email/No HP atau password salah").show();
+                return;
+            }
+
             // Proceed with login logic here
             System.out.println("Login successful with email/phone: " + emailText);
             stage.close();
             new MainView().start(stage);
         });
+
 
         Label orSeparator = new Label("___________________ Or ___________________");
         orSeparator.getStyleClass().add("auth-or");
@@ -114,5 +141,8 @@ public class LoginView {
         stage.setScene(scene);
         stage.setTitle("Login");
         stage.show();
+    }
+    public Scene getScene() {
+        return new Scene(new StackPane(), 900, 645); // Placeholder, actual scene is set in start method
     }
 }

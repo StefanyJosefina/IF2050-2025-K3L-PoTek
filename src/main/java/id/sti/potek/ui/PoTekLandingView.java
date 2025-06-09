@@ -1,5 +1,7 @@
 package id.sti.potek.ui;
 
+import id.sti.potek.App;
+import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,6 +15,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class PoTekLandingView {
+    private Scene scene;
+
+    private Runnable onLoginClicked;
+    public void setOnLoginClicked(Runnable onLoginClicked) {
+        this.onLoginClicked = onLoginClicked;
+    }
 
     public void start(Stage stage) {
         // Header dengan tombol Login dan Register
@@ -118,13 +126,13 @@ public class PoTekLandingView {
         loginBtn.setOnAction(e -> {
             // Navigasi ke halaman login
             System.out.println("Login button clicked");
-            // new LoginView().start(stage);
+            new LoginView().start(stage);
         });
         
         registerBtn.setOnAction(e -> {
             // Navigasi ke halaman register
             System.out.println("Register button clicked");
-            // new RegisterView().start(stage);
+            new RegisterView().start(stage);
         });
         
         hotelBtn.setOnAction(e -> {
@@ -143,5 +151,8 @@ public class PoTekLandingView {
         stage.setTitle("PoTek - Teman Setia Perjalananmu");
         stage.centerOnScreen();
         stage.show();
+    }
+    public Scene getScene() {
+        return scene;
     }
 }

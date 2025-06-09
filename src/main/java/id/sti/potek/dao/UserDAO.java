@@ -7,68 +7,89 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 import id.sti.potek.model.User;
 import id.sti.potek.util.DBConnection;
 
 public class UserDAO {
 
-    public void registerUser(User user) throws SQLException {
-        String sql = "INSERT INTO users (name, birth_date, contact, password) VALUES (?, ?, ?, ?)";
-
+    // LOGIN - berdasarkan email dan password
+    public static User login(String email, String password) {
+        String query = "SELECT * FROM user WHERE email = ? AND password = ?";
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, user.getName());
-            stmt.setDate(2, Date.valueOf(user.getBirthDate())); // format yyyy-MM-dd
-            stmt.setString(3, user.getContact());
-            stmt.setString(4, user.getPassword());
-
-            stmt.executeUpdate();
-        }
-    }
-
-    public User login(String contact, String password) throws SQLException {
-        String sql = "SELECT * FROM users WHERE contact = ? AND password = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, contact);
+            stmt.setString(1, email);
             stmt.setString(2, password);
 
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new User(
-                        rs.getString("name"),
-                        rs.getDate("birth_date").toString(),
-                        rs.getString("contact"),
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new User(
+                        rs.getString("idUser"),
+                        rs.getString("nama"),
+                        rs.getString("tgl_lahir"),
+                        rs.getString("noHp"),
+                        rs.getString("email"),
                         rs.getString("password")
-                );
+                    );
+                }
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return null;
     }
 
-    public static java.util.List<User> getAllUsers() {
-        java.util.List<User> users = new java.util.ArrayList<>();
-        String sql = "SELECT * FROM users";
+    // REGISTER - simpan user baru
+    public static boolean register(User user) {
+        String query = "INSERT INTO user (idUser, nama, email, password, noHp, tgl_lahir) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, user.getIdUser());
+            stmt.setString(2, user.getNama());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getPassword());
+            stmt.setString(5, user.getNoHp());
+            stmt.setDate(6, Date.valueOf(user.getTanggalLahir())); // pastikan tgl_lahir format: yyyy-MM-dd
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Email sudah terdaftar!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+        String query = "SELECT * FROM user";
 
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 User user = new User(
-                        rs.getString("name"),
-                        rs.getDate("birth_date").toString(),
-                        rs.getString("contact"),
-                        rs.getString("password")
+                    rs.getString("idUser"),
+                    rs.getString("nama"),
+                    rs.getString("tgl_lahir"),
+                    rs.getString("noHp"),
+                    rs.getString("email"),
+                    rs.getString("password")
                 );
                 users.add(user);
             }
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

@@ -1,11 +1,29 @@
-package java.id.sti.potek;
+package id.sti.potek;
 
-// import java.id.sti.potek.ui.AutentikasiUI;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import id.sti.potek.ui.PoTekLandingView;
 
-public class App {
-    public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(() -> {
-            // new AutentikasiUI().setVisible(true);
+import id.sti.potek.ui.LoginView;
+import id.sti.potek.ui.RegisterView;
+
+
+public class App extends Application {
+    @Override
+    public void start(Stage primaryStage) {
+        PoTekLandingView view = new PoTekLandingView();
+        view.setOnLoginClicked(() -> {
+            LoginView loginView = new LoginView();
+            loginView.start(primaryStage);
+            RegisterView registerView = new RegisterView();
+            registerView.start(primaryStage);
         });
+        view.start(primaryStage);
+}
+
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

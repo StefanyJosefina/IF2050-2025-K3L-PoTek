@@ -7,12 +7,12 @@ import id.sti.potek.service.AuthService;
 public class AuthController {
     private final AuthService authService = new AuthService();
 
-    public boolean register(String name, String birthDate, String contact, String password) {
-        User user = new User(name, birthDate, contact, password);
-        return authService.register(user);
+    public boolean register(String idUser, String nama, String tgl_lahir, String noHp, String email, String password) {
+        User user = new User(idUser, nama, tgl_lahir, noHp, email, password);
+        return authService.registerUser(user);
     }
 
-    public User login(String contact, String password) {
-        return authService.login(contact, password);
+    public User login(String email, String password) {
+        return authService.loginUser(email, password);
     }
 }
