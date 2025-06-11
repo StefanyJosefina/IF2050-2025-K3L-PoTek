@@ -3,7 +3,7 @@
 package id.sti.potek.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
+// import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,8 +55,7 @@ public class UserDAO {
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPassword());
             // stmt.setString(5, user.getNoHp());
-            stmt.setDate(5, Date.valueOf(user.getTanggalLahir())); // pastikan tgl_lahir format: yyyy-MM-dd
-
+            stmt.setString(5, user.getTanggalLahir());
             int rows = stmt.executeUpdate();
             if (rows > 0) {
                 System.out.println("✅ Registrasi user berhasil: " + user.getEmail());

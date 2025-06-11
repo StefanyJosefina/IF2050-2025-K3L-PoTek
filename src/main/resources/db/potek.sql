@@ -1,1 +1,1 @@
-PRAGMA table_info(user);
+select * from user;

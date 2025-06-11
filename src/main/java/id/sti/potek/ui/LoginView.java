@@ -93,7 +93,7 @@ public class LoginView {
             // Proceed with login logic here
             System.out.println("Login successful with email/phone: " + emailText);
             stage.close();
-            new MainView().start(stage);
+            new MainView(user).start(stage);
         });
 
 

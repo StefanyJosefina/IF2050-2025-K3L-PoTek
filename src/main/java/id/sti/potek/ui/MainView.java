@@ -9,24 +9,28 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import id.sti.potek.model.User;
 
 public class MainView {
     private String userName;
+    private User loggedInUser;
 
-    public MainView() {
-        this.userName = "Name";
+    public MainView(User user) {
+        this.loggedInUser = user;
+        this.userName = user != null ? user.getNama() : "Guest";
     }
 
-    public MainView(String userName) {
-        this.userName = userName;
-    }
+    // public MainView(String userName) {
+    //     this.userName = userName != null ? userName : "Guest";
+    //     this.loggedInUser = null;    
+    // }
 
     public void start(Stage stage) {
         // Top Bar: Username and Buttons
         Label usernameLabel = new Label(userName);
         usernameLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: black;");
 
-        Button btnReport = new Button("Report");
+        Button btnReport = new Button("Review");
         btnReport.setStyle("-fx-background-color: #fff8f0; -fx-text-fill: black; -fx-padding: 8 16;");
 
         Button btnLogout = new Button("Logout");
