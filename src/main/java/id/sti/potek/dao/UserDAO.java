@@ -31,7 +31,6 @@ public class UserDAO {
                         rs.getString("idUser"),
                         rs.getString("nama"),
                         rs.getString("tgl_lahir"),
-                        rs.getString("noHp"),
                         rs.getString("email"),
                         rs.getString("password")
                     );
@@ -47,7 +46,7 @@ public class UserDAO {
 
     // REGISTER - simpan user baru
     public static boolean register(User user) {
-        String query = "INSERT INTO user (idUser, nama, email, password, noHp, tgl_lahir) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user (idUser, nama, email, password, tgl_lahir) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
@@ -55,11 +54,17 @@ public class UserDAO {
             stmt.setString(2, user.getNama());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPassword());
-            stmt.setString(5, user.getNoHp());
-            stmt.setDate(6, Date.valueOf(user.getTanggalLahir())); // pastikan tgl_lahir format: yyyy-MM-dd
+            // stmt.setString(5, user.getNoHp());
+            stmt.setDate(5, Date.valueOf(user.getTanggalLahir())); // pastikan tgl_lahir format: yyyy-MM-dd
 
-            return stmt.executeUpdate() > 0;
-
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
+                System.out.println("✅ Registrasi user berhasil: " + user.getEmail());
+                return true;
+            } else {
+                System.out.println("⚠️ Registrasi gagal, tidak ada baris yang dimasukkan.");
+                return false;
+            }
         } catch (SQLIntegrityConstraintViolationException e) {
             System.out.println("Email sudah terdaftar!");
         } catch (SQLException e) {
@@ -82,7 +87,6 @@ public class UserDAO {
                     rs.getString("idUser"),
                     rs.getString("nama"),
                     rs.getString("tgl_lahir"),
-                    rs.getString("noHp"),
                     rs.getString("email"),
                     rs.getString("password")
                 );

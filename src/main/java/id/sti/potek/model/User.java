@@ -9,11 +9,10 @@ public class User {
     private String noHp;
     private String password;
 
-    public User(String idUser, String nama, String tgl_lahir, String noHp, String email, String password) {
+    public User(String idUser, String nama, String tgl_lahir, String email, String password) {
         this.idUser = idUser;
         this.nama = nama;
         this.tgl_lahir = tgl_lahir;
-        this.noHp = noHp;
         this.email = email;
         this.password = password;
 }
@@ -30,12 +29,12 @@ public class User {
     public void setTanggalLahir(String tgl_lahir) {
         this.tgl_lahir = tgl_lahir;
     }
-    public String getNoHp() {
-        return noHp;
-    }
-    public void setNoHp(String noHp) {
-        this.noHp = noHp;
-    }
+    // public String getNoHp() {
+    //     return noHp;
+    // }
+    // public void setNoHp(String noHp) {
+    //     this.noHp = noHp;
+    // }
     public String getPassword() {
         return password;
     }

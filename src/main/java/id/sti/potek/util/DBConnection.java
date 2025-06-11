@@ -6,11 +6,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/potek";
-    private static final String DB_USER = "root"; // ganti jika perlu
-    private static final String DB_PASS = "katharina.ms29";     // ganti jika ada password
+    private static final String DB_URL = "jdbc:sqlite:C:\\Users\\brams\\OneDrive\\Dokumen\\Nonik\\DRPL\\Tubes\\IF2050-2025-K3L-PoTek\\src\\main\\resources\\db\\potek_database.db";
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        return DriverManager.getConnection(DB_URL);
     }
 }
