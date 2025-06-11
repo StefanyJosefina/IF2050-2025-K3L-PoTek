@@ -43,6 +43,11 @@ public class HotelCariView {
         formContainer.setPadding(new Insets(25, 40, 25, 40));
 
         VBox kotaGroup = createDropdownField("Cari", "/icons/icon_location_green.png", "Masukkan Kota");
+        ComboBox<String> kotaDropdown = (ComboBox<String>) kotaGroup.getChildren().get(1);
+        List<String> kotaDariDB = kamarController.getAllLokasi();
+        kotaDropdown.getItems().addAll(kotaDariDB);
+
+
         VBox tanggalLabelBox = createLabeledOnly("Tanggal", "/icons/icon_calender.png");
 
         DatePicker checkInPicker = new DatePicker();
@@ -82,42 +87,60 @@ public class HotelCariView {
         Scene scene = new Scene(root, 900, 645);
         scene.getStylesheets().add(getClass().getResource("/css/hotel_cari.css").toExternalForm());
 
+        // Ganti bagian pesanBtn.setOnAction dengan kode ini:
+
         pesanBtn.setOnAction(e -> {
-            ComboBox<String> kotaDropdown = (ComboBox<String>) kotaGroup.getChildren().get(1);
-            LocalDate tanggal = checkInPicker.getValue();
-            String hariStr = hariField.getText();
-            ComboBox<String> tipeDropdown = (ComboBox<String>) tipeKamarGroup.getChildren().get(1);
-            TextField jumlahField = (TextField) jumlahKamarGroup.getChildren().get(1);
-
-            String kota = kotaDropdown.getValue();
-            String tipe = tipeDropdown.getValue();
-            String jumlahStr = jumlahField.getText();
-
-            if (kota == null || tanggal == null || hariStr.isEmpty() || tipe == null || jumlahStr.isEmpty()) {
-                showPopup("Data Tidak Lengkap", "Isi semua kolom terlebih dahulu.");
-                return;
-            }
-
-            int malam;
             try {
-                malam = Integer.parseInt(hariStr);
-                if (malam <= 0) throw new NumberFormatException();
-            } catch (NumberFormatException ex) {
-                showPopup("Input Tidak Valid", "Jumlah hari menginap harus berupa angka positif.");
-                return;
-            }
+                LocalDate tanggal = checkInPicker.getValue();
+                String hariStr = hariField.getText();
+                ComboBox<String> tipeDropdown = (ComboBox<String>) tipeKamarGroup.getChildren().get(1);
+                TextField jumlahField = (TextField) jumlahKamarGroup.getChildren().get(1);
 
-            LocalDate checkout = tanggal.plusDays(malam);
+                String kota = kotaDropdown.getValue();
+                String tipe = tipeDropdown.getValue();
+                String jumlahStr = jumlahField.getText();
 
-            List<Kamar> hasil = kamarController.cariKamar(kota, tanggal.toString());
-            if (hasil.isEmpty()) {
-                showPopup("Tidak Tersedia", "Hotel tidak ditemukan pada tanggal tersebut.");
-            } else {
-                new HotelPilihView(hasil, List.of(), tanggal.toString(), checkout.toString(), malam).start(stage);
+                if (kota == null || tanggal == null || hariStr.isEmpty() || tipe == null || jumlahStr.isEmpty()) {
+                    showPopup("Data Tidak Lengkap", "Isi semua kolom terlebih dahulu.");
+                    return;
+                }
+
+                int malam;
+                int jumlahKamar;
+                try {
+                    malam = Integer.parseInt(hariStr);
+                    jumlahKamar = Integer.parseInt(jumlahStr);
+                    if (malam <= 0 || jumlahKamar <= 0) throw new NumberFormatException();
+                } catch (NumberFormatException ex) {
+                    showPopup("Input Tidak Valid", "Jumlah hari dan kamar harus berupa angka positif.");
+                    return;
+                }
+
+                LocalDate checkout = tanggal.plusDays(malam);
+                List<Kamar> hasil = kamarController.cariKamar(kota, tipe, jumlahKamar);
+
+                if (hasil.isEmpty()) {
+                    showPopup("Tidak Tersedia", "Hotel tidak tersedia pada kriteria tersebut.");
+                } else {
+                    try {
+                        Stage newStage = new Stage();
+
+                    } catch (Exception ex) {
+                        String errorMsg = ex.getMessage();
+                        if (errorMsg == null) errorMsg = ex.getClass().getSimpleName();
+
+                        showPopup("Error View", "Detail error: " + errorMsg);
+
+                        ex.printStackTrace();
+                    }
+                }
+            } catch (Exception globalEx) {
+                showPopup("Error Global", "Error: " + globalEx.getClass().getSimpleName() +
+                        " - " + (globalEx.getMessage() != null ? globalEx.getMessage() : "Unknown"));
+                globalEx.printStackTrace();
             }
         });
-
-        stage.setScene(scene);
+            stage.setScene(scene);
         stage.setTitle("Cari Hotel");
         stage.centerOnScreen();
         stage.show();
