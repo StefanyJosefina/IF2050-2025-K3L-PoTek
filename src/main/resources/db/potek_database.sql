@@ -326,6 +326,7 @@ CREATE TABLE `user` (
   `email` varchar(100) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
   `noHp` varchar(20) DEFAULT NULL,
+  `tgl_lahir` date DEFAULT NULL,
   PRIMARY KEY (`idUser`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -338,16 +339,16 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES
-('U001','Alya Pratama','alya@gmail.com','passalya123','081234567890'),
-('U002','Budi Santoso','budi@yahoo.com','budis123','082345678901'),
-('U003','Citra Maharani','citra@gmail.com','citra2025','083456789012'),
-('U004','Dimas Saputra','dimas@outlook.com','dimasSecure!','084567890123'),
-('U005','Eka Wijaya','eka@gmail.com','ekaPass123','085678901234'),
-('U006','Fajar Ramadhan','fajar@ymail.com','fajar321','086789012345'),
-('U007','Gita Sari','gita@gmail.com','gita2024','087890123456'),
-('U008','Hendra Gunawan','hendra@live.com','hendra!pw','088901234567'),
-('U009','Indah Kusuma','indah@gmail.com','indahxx','089012345678'),
-('U010','Joko Widodo','jokowi@presiden.id','ri1indonesia','081098765432');
+('U001','Alya Pratama','alya@gmail.com','passalya123','081234567890','2002-01-15'),
+('U002','Budi Santoso','budi@yahoo.com','budis123','082345678901','1999-06-20'),
+('U003','Citra Maharani','citra@gmail.com','citra2025','083456789012','2001-09-05'),
+('U004','Dimas Saputra','dimas@outlook.com','dimasSecure!','084567890123','1998-12-12'),
+('U005','Eka Wijaya','eka@gmail.com','ekaPass123','085678901234','2000-03-22'),
+('U006','Fajar Ramadhan','fajar@ymail.com','fajar321','086789012345','2003-07-30'),
+('U007','Gita Sari','gita@gmail.com','gita2024','087890123456','2001-11-18'),
+('U008','Hendra Gunawan','hendra@live.com','hendra!pw','088901234567','1997-04-09'),
+('U009','Indah Kusuma','indah@gmail.com','indahxx','089012345678','2002-08-25'),
+('U010','Joko Widodo','jokowi@presiden.id','ri1indonesia','081098765432','1961-06-21');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -360,4 +361,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-06-09 10:32:53
+-- Dump completed on 2025-06-09 15:09:49

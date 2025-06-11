@@ -1,7 +1,9 @@
+/* === LATAR UTAMA === */
 .main-background {
   -fx-background-color: #F8C8DC;
 }
 
+/* === BANNER HEADER === */
 .banner-header {
   -fx-background-color: #86A788;
   -fx-padding: 20px;
@@ -10,78 +12,93 @@
 
 .banner-text {
   -fx-fill: #FFFDEC;
-  -fx-font-size: 36px;
+  -fx-font-size: 32px;
   -fx-font-weight: bold;
 }
 
+/* === KONTAINER FORM (tengah) === */
 .form-container {
   -fx-background-color: #FF98C6;
-  -fx-padding: 40px;
+  -fx-padding: 30px;
   -fx-background-radius: 30px;
   -fx-spacing: 20px;
   -fx-alignment: top-center;
-  -fx-pref-width: 650px;
+  -fx-pref-width: 860px;
+  -fx-pref-height: 540px;
   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 2);
 }
 
+/* === KOLOM KIRI / KANAN (info pemesan & info hotel) === */
 .field-group {
   -fx-background-color: #FFFDEC;
   -fx-padding: 20px;
   -fx-background-radius: 20px;
   -fx-spacing: 14px;
-  -fx-pref-width: 570px;
+  -fx-pref-width: 400px;
+  -fx-pref-height: 220px;
   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0.1, 0, 2);
 }
 
+/* === BAGIAN BAWAH: DETAIL PENGINAPAN === */
+.detail-penginapan {
+  -fx-background-color: #FFFDEC;
+  -fx-padding: 16px;
+  -fx-background-radius: 20px;
+  -fx-spacing: 10px;
+  -fx-pref-width: 860px;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0.1, 0, 2);
+}
+
+/* === JUDUL BAGIAN === */
 .section-title {
   -fx-text-fill: #EA4C5D;
-  -fx-font-size: 24px;
+  -fx-font-size: 22px;
   -fx-font-weight: bold;
 }
 
 .section-subtitle {
   -fx-text-fill: #EA4C5D;
-  -fx-font-size: 14px;
+  -fx-font-size: 13px;
 }
 
-
+/* === LABEL FIELD === */
 .field-label {
   -fx-text-fill: #444444;
-  -fx-font-size: 18px;
+  -fx-font-size: 16px;
   -fx-font-weight: bold;
 }
 
-
+/* === INPUT FIELD === */
 TextField, ComboBox, DatePicker {
   -fx-background-color: #EFEFEF;
   -fx-border-color: transparent;
   -fx-border-radius: 15px;
   -fx-background-radius: 15px;
   -fx-padding: 10px;
-  -fx-font-size: 18px;
+  -fx-font-size: 16px;
   -fx-font-family: "Jost";
   -fx-font-weight: 400;
   -fx-text-fill: #555555;
-  -fx-pref-width: 500px;
-  -fx-pref-height: 50px;
+  -fx-pref-width: 360px;
+  -fx-pref-height: 42px;
 }
 
-
+/* === HARGA MERAH TOTAL === */
 .total-harga {
   -fx-text-fill: #EA4C5D;
-  -fx-font-size: 22px;
+  -fx-font-size: 20px;
   -fx-font-weight: bold;
 }
 
-
+/* === TOMBOL PESAN === */
 .pesan-button {
   -fx-background-color: #FF98C6;
   -fx-text-fill: white;
-  -fx-font-size: 22px;
+  -fx-font-size: 20px;
   -fx-font-family: "Jost";
   -fx-font-weight: bold;
   -fx-background-radius: 20px;
-  -fx-pref-height: 50px;
+  -fx-pref-height: 44px;
   -fx-pref-width: 300px;
   -fx-alignment: center;
   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0.2, 0, 2);
