@@ -353,16 +353,20 @@ public class HotelPilihView {
                 try {
                     Stage newStage = new Stage();
                     newStage.initModality(Modality.APPLICATION_MODAL);
-                    
+
                     HotelPesanView pesanView = new HotelPesanView();
                     pesanView.start(newStage, kamar, checkin, checkout, malam);
                     
+                    Stage currentStage = (Stage) card.getScene().getWindow();
+                    currentStage.close();
+
                 } catch (Exception ex) {
                     System.out.println("Error opening booking view: " + ex.getMessage());
                     ex.printStackTrace();
                     showError(null, "Gagal membuka halaman pemesanan");
                 }
             });
+
 
             card.setOnMouseEntered(e -> {
                 card.setStyle("-fx-background-color: #f8f9fa; -fx-border-radius: 8px; -fx-background-radius: 8px; " +
