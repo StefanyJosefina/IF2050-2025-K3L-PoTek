@@ -11,7 +11,7 @@
 ---
 
 ## Description
-
+PoTek (Pemesanan Online Tiket & Kamar) adalah aplikasi yang memudahkan pelanggan dalam memesan tiket transportasi dan kamar hotel secara online. Aplikasi ini dilengkapi empat fitur utama: autentikasi, pemesanan tiket, pemesanan kamar, dan ulasan kamar. Dengan layanan pelanggan yang responsif dan keamanan data yang terjamin, PoTek meningkatkan efisiensi dan kepuasan pelanggan di sektor perjalanan dan perhotelan
 
 ---
 
@@ -19,8 +19,8 @@
 | **No** | **Nama** | **NIM**  | **GitHub** |
 | ------ | ------------------------- | ------------- | ----------- |
 | 1      | Stefany Josefina Santono  | 18223116      | [@StefanyJosefina](https://github.com/StefanyJosefina) |
-| 2      | Matilda Angelina Sumaryo  | 18222125      | [@millicecup](https://github.com/millicecup) |
-| 3      | Theresia Ivana M S        | 18222126      | [@meerancor33](https://github.com/meerancor33) |
+| 2      | Matilda Angelina Sumaryo  | 18223125      | [@millicecup](https://github.com/millicecup) |
+| 3      | Theresia Ivana M S        | 18223126      | [@meerancor33](https://github.com/meerancor33) |
 | 4      | Aulia Azka Azzahra        | 18223131      | [@auliaazkaazzahra](https://github.com/auliaazkaazzahra) |
 | 5      | Sonya Putri Fadilah       | 18222138      | [@sonyaaputri](https://github.com/sonyaaputri) |
 
@@ -28,23 +28,45 @@
 
 ---
 
+## Pembagian Tugas
+| **Nama**                    | **Tugas**          |                  
+|-----------------------------|--------------------|
+| Stefany Josefina Santono    | Kamar              |
+| Matilda Angelina Sumaryo    | Tiket              |
+| Theresia Ivana M S          | Main dan Database  |
+| Aulia Azka Azzahra          | User / Autentikasi |
+| Sonya Putri Fadilah         | Ulasan             |
+
+---
+
 ## Features
+- Autentikasi
+- Pemesanan Tiket
+- Pemesanan Hotel
+- Ulasan Hotel
 
 
 ---
 
 ## How To Run
-1. Clone repository ini menggunakan perintah `git clone'
-2. Pindah ke direktori repository menggunakan perintah `cd'
-3. Jalankan `.\gradlew clean run`
-
+1. Clone repository ini : ```git clone <URL_REPOSITORY>```
+2. Pastikan file database potek_database.db berada di path yang sesuai agar aplikasi dapat menemukan file database. Pindah ke direktori repository menggunakan perintah : ```cd <NAMA_FOLDER_REPOSITORY>```   
+3. Jalankan aplikasi : ``` .\gradlew clean run ```
+   
 ---
 
 ## Implemented Modules
 
-| **Modul** | **Deskripsi** |
-|----------|----------------|
-|          |                |
+| **Modul**     | **Deskripsi**                      | **Capture Screen**|
+|---------------|------------------------------------|-------------------
+|User           | Menyimpan data pengguna            |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/HomeUI.jpeg)
+|Kamar          | Menyimpan detail kamar hotel       |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/HotelUI.jpeg)
+|Ulasan         | Review pengguna untuk kamar hotel  |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/UlasanUI.jpeg)
+|Tiket          | Informasi tiket transportasi       |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/TiketUI.jpeg)
+|PemesananHotel | Pesanan kamar hotel                |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/PemesananUI_Penginapan.png)
+|PemesananTiket | Pemesanan tiket transportasi       |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/PemesananUI_Transport.png)
+
+
 
 ---
 
@@ -52,4 +74,11 @@
 
 | **Nama Tabel** | **Atribut** |
 |----------------|-------------|
-|                |             |
+|User           | idUser, nama, email, password, tgl_lahir           |
+|Kamar          | idKamar, namaHotel, tipeKamar, lokasi, harga, tersedia, jumlahKamar,    |
+|Ulasan         | idUlasan, idUser, idKamar, rating, komentar |
+|Tiket          | idTiket, keberangkatan, tujuan, tanggal, jam, harga, totalKursi, tersediaKursi    |
+|PemesananHotel | idPesananKamar, idKamar, idUser, tanggalCheckIn, tanggalCheckOut, namaPemesan, noHPPemesan, emailPemesan, jumlahKamar, jumlahTamu, totalHarga                |
+|PemesananTiket | idPesanTiket, idTiket, idUser, namaPemesan, noHpPemesan, emailPemesan, namaPenumpang, noHpPenumpang, emailPenumpang, noKursi    |
+
+
