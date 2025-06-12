@@ -1,15 +1,16 @@
 package id.sti.potek.ui;
 
+import id.sti.potek.model.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import id.sti.potek.model.User;
 
 public class MainView {
     private String userName;
@@ -31,10 +32,10 @@ public class MainView {
         usernameLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: black;");
 
         Button btnReport = new Button("Review");
-        btnReport.setStyle("-fx-background-color: #fff8f0; -fx-text-fill: black; -fx-padding: 8 16;");
+        btnReport.getStyleClass().add("review-button");
 
         Button btnLogout = new Button("Logout");
-        btnLogout.setStyle("-fx-background-color: #86A788; -fx-text-fill: white; -fx-padding: 8 16;");
+        btnLogout.getStyleClass().add("login-button");
 
         btnLogout.setOnAction(e -> {
             new LogoutView(() -> {
@@ -60,35 +61,51 @@ public class MainView {
         heartIcon.setPreserveRatio(true);
 
         Label welcomeTitle = new Label("Welcome to PoTek !");
-        welcomeTitle.setStyle("-fx-font-size: 50px; -fx-font-weight: bold; -fx-text-fill: #d94a64;");
+        welcomeTitle.setStyle("-fx-font-size: 50px; -fx-font-weight: bold; -fx-text-fill: #EC4C69;");
 
         Label tagline = new Label("PoTek — Teman setia untuk setiap langkah perjalananmu.");
-        tagline.setStyle("-fx-font-size: 30px; -fx-text-fill: #e58d8d;");
+        tagline.setStyle("-fx-font-size: 30px; -fx-text-fill: #EC4C69;");
 
-        VBox centerContent = new VBox(10, heartIcon, welcomeTitle, tagline);
+        VBox centerContent = new VBox(15, heartIcon, welcomeTitle, tagline);
         centerContent.setAlignment(Pos.CENTER);
+        centerContent.setPadding(new Insets(30, 0, 30, 0));
 
-        // Bottom: Menu Buttons
-        Button btnHotel = new Button("🏨 Hotel");
-        Button btnTransportasi = new Button("🚆 Transportasi");
+        // ==== Bottom Buttons (Hotel, Transportasi) ====
+        ImageView hotelIcon = new ImageView(new Image("/icons/kasur-icon.png"));
+        hotelIcon.setFitWidth(24);
+        hotelIcon.setFitHeight(24);
 
-        for (Button btn : new Button[]{btnHotel, btnTransportasi}) {
-            btn.setStyle("-fx-background-color: #86A788; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 12 24; -fx-background-radius: 12;");
-        }
+        Button btnHotel = new Button("Hotel");
+        btnHotel.setGraphic(hotelIcon);
+        btnHotel.getStyleClass().add("action-button");
+
+        ImageView transportIcon = new ImageView(new Image("/icons/icon_transportasi.png"));
+        transportIcon.setFitWidth(24);
+        transportIcon.setFitHeight(24);
+
+        Button btnTransportasi = new Button("Transportasi");
+        btnTransportasi.setGraphic(transportIcon);
+        btnTransportasi.getStyleClass().add("action-button");
+
+        btnTransportasi.setOnAction(e -> {
+            new TiketCariView(loggedInUser).start(stage);
+        });
 
         HBox bottomButtons = new HBox(30, btnHotel, btnTransportasi);
         bottomButtons.setAlignment(Pos.CENTER);
-        bottomButtons.setPadding(new Insets(20));
+        bottomButtons.setPadding(new Insets(0, 50, 40, 50));
 
-        // Final Layout
+        // ==== Final Layout ====
         VBox root = new VBox(30, topBar, centerContent, bottomButtons);
         root.setAlignment(Pos.TOP_CENTER);
-        root.setPadding(new Insets(30));
-        root.setStyle("-fx-background-color: #ffe2e2;");
+        root.getStyleClass().add("main-background");
 
         Scene scene = new Scene(root, 900, 645);
+        scene.getStylesheets().add(getClass().getResource("/css/mainview.css").toExternalForm());
+
         stage.setScene(scene);
         stage.setTitle("Main View");
+        stage.centerOnScreen();
         stage.show();
     }
 }

@@ -42,7 +42,7 @@ public class PoTekLandingView {
         // Logo - ganti dengan logo Anda sendiri
         ImageView logo = new ImageView();
         try {
-            logo.setImage(new Image("/icons/logo.png"));
+            logo.setImage(new Image("/icons/heart.png"));
         } catch (Exception e) {
             // Jika gambar tidak ditemukan, buat placeholder text
             System.out.println("Logo tidak ditemukan, menggunakan placeholder");
@@ -144,7 +144,7 @@ public class PoTekLandingView {
         transportBtn.setOnAction(e -> {
             // Navigasi ke halaman transportasi
             System.out.println("Transportasi button clicked");
-            // new TiketCariView().start(stage);
+            new TiketCariView().start(stage);
         });
 
         stage.setScene(scene);

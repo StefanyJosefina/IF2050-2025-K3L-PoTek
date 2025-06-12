@@ -39,16 +39,22 @@
 /* Tombol login */
 .auth-button {
     -fx-background-color: #FFFDEC;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #000;
     -fx-font-size: 24px;
+    -fx-font-weight: 400;
     -fx-font-family: "Jost";
     -fx-font-weight: 400;
     -fx-background-radius: 15px;
     -fx-pref-height: 50px;
     -fx-max-width: 300px;
     -fx-alignment: center;
+    -fx-cursor: hand;
+    -fx-border: none;
 }
-
+.auth-button:hover {
+    -fx-background-color: #EC4C69;
+    -fx-text-fill: #FFFDEC;
+}
 /* Separator "Or" */
 .auth-or {
     -fx-text-fill: #EEE;
