@@ -29,13 +29,13 @@ PoTek (Pemesanan Online Tiket & Kamar) adalah aplikasi yang memudahkan pelanggan
 ---
 
 ## Pembagian Tugas
-| **Nama**     | **Tugas**    |                    |
-|---------------  ------------|--------------------|
+| **Nama**                    | **Tugas**          |                  
+|-----------------------------|--------------------|
 | Stefany Josefina Santono    | Kamar              |
 | Matilda Angelina Sumaryo    | Tiket              |
 | Theresia Ivana M S          | Main dan Database  |
 | Aulia Azka Azzahra          | User / Autentikasi |
-| Sonya Putri Fadilah         |Ulasan | Ulasan     |
+| Sonya Putri Fadilah         | Ulasan             |
 
 ---
 
