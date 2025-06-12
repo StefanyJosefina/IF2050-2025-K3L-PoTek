@@ -4,7 +4,10 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 import id.sti.potek.controller.TiketController;
@@ -17,10 +20,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -31,6 +37,8 @@ import javafx.stage.Stage;
 
 public class TiketPesanView {
     private User loggedInUser;
+
+    private List<Tiket> allTiketList;
 
     // Konstruktor default
     public TiketPesanView() {
@@ -65,6 +73,25 @@ public class TiketPesanView {
         StackPane headerBar = new StackPane(headerContent);
         headerBar.getStyleClass().add("header-bar");
         headerBar.setMaxWidth(Double.MAX_VALUE);
+
+        ImageView arrowIcon = new ImageView(new Image("/icons/Vector.png"));
+        arrowIcon.setFitWidth(20);
+        arrowIcon.setFitHeight(20);
+
+        Button backBtn = new Button("Kembali");
+        backBtn.setGraphic(arrowIcon);
+        backBtn.getStyleClass().add("back-button");
+        backBtn.setOnAction(e -> {
+            try {
+                Stage newStage = new Stage();
+                TiketPilihView pilihView = new TiketPilihView(loggedInUser);
+                pilihView.start(newStage, allTiketList, asal, tujuan);
+                stage.close();
+            } catch (Exception ex) {
+                System.out.println("Error opening search view: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
 
         // Add space above header
         Region topSpace = new Region();
@@ -120,7 +147,7 @@ public class TiketPesanView {
 
         // Root layout
         VBox root = new VBox();
-        root.getChildren().addAll(topSpace, headerBar, mainContent);
+        root.getChildren().addAll(topSpace, headerBar, mainContent, backBtn);
         root.getStyleClass().add("pesan-root");
 
         // Set up button action

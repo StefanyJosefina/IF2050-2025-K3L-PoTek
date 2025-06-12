@@ -105,6 +105,5 @@ TextField, ComboBox, DatePicker {
   -fx-pref-width: 39px;
   -fx-pref-height: 41px;
   -fx-translate-x: 52px;
-  -fx-translate-y: 27px;
-  -fx-background-color: #FFFDEC;
+  -fx-translate-y: 10px;
 }

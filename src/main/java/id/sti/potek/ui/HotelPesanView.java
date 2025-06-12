@@ -276,12 +276,12 @@ public class HotelPesanView {
             Scene scene = new Scene(root, 900, 645);
             
             try {
-                String cssPath = getClass().getResource("/css/hotel_pesan.css").toExternalForm();
+                String cssPath = getClass().getResource("resources/css/hotel_pesan.css").toExternalForm();
                 scene.getStylesheets().add(cssPath);
-                scene.getStylesheets().add(getClass().getResource("/css/back_button.css").toExternalForm());
+                // scene.getStylesheets().add(getClass().getResource("/css/back_button.css").toExternalForm());
             } catch (Exception e) {
                 System.out.println("CSS file tidak ditemukan: " + e.getMessage());
-                root.setStyle("-fx-background-color: #f5f5f5;");
+                root.setStyle("-fx-background-color: #F8C8DC;");
             }
 
             stage.setTitle("Pesan Hotel");

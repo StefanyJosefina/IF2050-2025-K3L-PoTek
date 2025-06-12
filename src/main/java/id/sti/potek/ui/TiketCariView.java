@@ -44,6 +44,25 @@ public class TiketCariView {
         banner.setAlignment(Pos.CENTER);
         banner.getStyleClass().add("banner-header");
 
+        ImageView arrowIcon = new ImageView(new Image("/icons/Vector.png"));
+        arrowIcon.setFitWidth(20);
+        arrowIcon.setFitHeight(20);
+
+        Button backBtn = new Button("Kembali");
+        backBtn.setGraphic(arrowIcon);
+        backBtn.getStyleClass().add("back-button");
+        backBtn.setOnAction(e -> {
+            try {
+                Stage newStage = new Stage();
+                MainView mainView = new MainView(loggedInUser);
+                mainView.start(newStage);
+                stage.close();
+            } catch (Exception ex) {
+                System.out.println("Error opening search view: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+
         // main yang pink hot
         VBox formContainer = new VBox(20);
         formContainer.getStyleClass().add("form-container");
@@ -117,7 +136,7 @@ public class TiketCariView {
             }else {
                 // PERBAIKAN: Pass loggedInUser ke TiketPilihView
                 TiketPilihView tiketPilihView = new TiketPilihView(loggedInUser);
-                tiketPilihView.start(stage, hasil, asal, tujuan, tanggal);
+                tiketPilihView.start(stage, hasil, asal, tujuan);
             }
         });
 

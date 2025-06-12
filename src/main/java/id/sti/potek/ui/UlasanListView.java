@@ -1,10 +1,12 @@
 package id.sti.potek.ui;
 
 import id.sti.potek.model.Ulasan; // Import model Ulasan yang sudah ada
+import id.sti.potek.model.User;
 import id.sti.potek.util.DBConnection;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UlasanListView {
+    private User loggedInUser; // Ambil user yang sedang login
 
     private final String idKamar;
 
@@ -81,6 +84,25 @@ public class UlasanListView {
         headerBar.getStyleClass().add("header-bar");
         headerBar.setAlignment(Pos.CENTER);
 
+        ImageView arrowIcon = new ImageView(new Image("/icons/Vector.png"));
+        arrowIcon.setFitWidth(20);
+        arrowIcon.setFitHeight(20);
+
+        Button backBtn = new Button("Kembali");
+        backBtn.setGraphic(arrowIcon);
+        backBtn.getStyleClass().add("back-button");
+        backBtn.setOnAction(e -> {
+            try {
+                Stage newStage = new Stage();
+                PoTekLandingView mainView = new PoTekLandingView();
+                mainView.start(newStage);
+                stage.close();
+            } catch (Exception ex) {
+                System.out.println("Error opening search view: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+
         VBox infoPanel = new VBox(10);
         infoPanel.getStyleClass().add("info-panel");
 
@@ -112,7 +134,7 @@ public class UlasanListView {
                 makeFasilitas("Bebas Asap Rokok", "smoke-free.png")
         );
 
-        infoPanel.getChildren().addAll(image, namaHotelLabel, lokasi, ratingBox, fasilitas);
+        infoPanel.getChildren().addAll(image, namaHotelLabel, lokasi, ratingBox, fasilitas, backBtn); //////
         infoPanel.setPrefWidth(300);
 
         VBox reviewList = new VBox(15);

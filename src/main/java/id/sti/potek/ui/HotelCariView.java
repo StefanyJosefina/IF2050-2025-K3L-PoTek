@@ -356,7 +356,7 @@ public class HotelCariView {
         VBox box = new VBox(15);
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(25));
-        box.setStyle("-fx-background-color: white; -fx-border-radius: 12px; -fx-background-radius: 12px; " +
+        box.setStyle("-fx-background-color:#ffd1d1; -fx-border-radius: 12px; -fx-background-radius: 12px; " +
                 "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 2);");
 
         Label title = new Label(titleText);

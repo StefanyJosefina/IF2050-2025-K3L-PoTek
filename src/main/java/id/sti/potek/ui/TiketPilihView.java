@@ -53,7 +53,7 @@ public class TiketPilihView {
         this.loggedInUser = user;
     }
 
-    public void start(Stage stage, List<Tiket> res, String asal, String tujuan, String tanggal) {
+    public void start(Stage stage, List<Tiket> res, String asal, String tujuan) {
         this.allTiketList = res;
 
         HBox headerContent = new HBox(10);
@@ -75,6 +75,25 @@ public class TiketPilihView {
         headerContent.getChildren().add(headerLabel);
         StackPane headerBar = new StackPane(headerContent);
         headerBar.getStyleClass().add("header-bar");
+
+        ImageView arrowIcon = new ImageView(new Image("/icons/Vector.png"));
+        arrowIcon.setFitWidth(20);
+        arrowIcon.setFitHeight(20);
+
+        Button backBtn = new Button("Kembali");
+        backBtn.setGraphic(arrowIcon);
+        backBtn.getStyleClass().add("back-button");
+        backBtn.setOnAction(e -> {
+            try {
+                Stage newStage = new Stage();
+                TiketCariView cariView = new TiketCariView(loggedInUser);
+                cariView.start(newStage);
+                stage.close();
+            } catch (Exception ex) {
+                System.out.println("Error opening search view: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
 
         Region topSpace = new Region();
         topSpace.setPrefHeight(20);
@@ -243,7 +262,7 @@ public class TiketPilihView {
         mainContent.getStyleClass().add("content-container");
 
         VBox root = new VBox(40);
-        root.getChildren().addAll(topSpace, headerBar, mainContent);
+        root.getChildren().addAll(topSpace, headerBar, mainContent, backBtn);
         root.getStyleClass().add("root");
         StackPane.setMargin(mainContent, new Insets(30, 0, 20, 0));
 

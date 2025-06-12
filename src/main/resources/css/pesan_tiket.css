@@ -234,3 +234,11 @@
 .text-field {
   -fx-transition: all 0.2s ease-in-out;
 }
+
+.back-button {
+  -fx-position: absolute;
+  -fx-pref-width: 39px;
+  -fx-pref-height: 41px;
+  -fx-translate-x: 52px;
+  -fx-translate-y: 10px;
+}

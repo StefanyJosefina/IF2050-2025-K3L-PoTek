@@ -418,3 +418,11 @@
   -fx-padding: 5px;
   -fx-alignment: top-right;
 }
+
+.back-button {
+  -fx-position: absolute;
+  -fx-pref-width: 39px;
+  -fx-pref-height: 41px;
+  -fx-translate-x: 52px;
+  -fx-translate-y: 10px;
+}

@@ -76,3 +76,11 @@ TextField {
     -fx-text-fill: #0f0f0e;
     -fx-cursor: hand;
 }
+
+.back-button {
+  -fx-position: absolute;
+  -fx-pref-width: 39px;
+  -fx-pref-height: 41px;
+  -fx-translate-x: 52px;
+  -fx-translate-y: 10px;
+}
