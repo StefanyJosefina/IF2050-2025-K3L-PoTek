@@ -28,6 +28,17 @@ PoTek (Pemesanan Online Tiket & Kamar) adalah aplikasi yang memudahkan pelanggan
 
 ---
 
+## Pembagian Tugas
+| **Nama**     | **Tugas**    |                    |
+|---------------  ------------|--------------------|
+| Stefany Josefina Santono    | Kamar              |
+| Matilda Angelina Sumaryo    | Tiket              |
+| Theresia Ivana M S          | Main dan Database  |
+| Aulia Azka Azzahra          | User / Autentikasi |
+| Sonya Putri Fadilah |Ulasan | Ulasan             |
+
+---
+
 ## Features
 - Autentikasi
 - Pemesanan Tiket
@@ -39,21 +50,22 @@ PoTek (Pemesanan Online Tiket & Kamar) adalah aplikasi yang memudahkan pelanggan
 
 ## How To Run
 1. Clone repository ini : ```git clone <URL_REPOSITORY>```
-2. Pastikan file database potek_database.db berada di path yang sesuai agar aplikasi dapat menemukan file `potek_database.db`. Pindah ke direktori repository menggunakan perintah : ```cd <NAMA_FOLDER_REPOSITORY>```   
+2. Pastikan file database potek_database.db berada di path yang sesuai agar aplikasi dapat menemukan file database. Pindah ke direktori repository menggunakan perintah : ```cd <NAMA_FOLDER_REPOSITORY>```   
 3. Jalankan aplikasi : ``` .\gradlew clean run ```
    
 ---
 
 ## Implemented Modules
 
-| **Modul**     | **Deskripsi**                      |
-|---------------|------------------------------------|
+| **Modul**     | **Deskripsi**                      | **Capture Screen**|
+|---------------|------------------------------------|-------------------
 |User           | Menyimpan data pengguna            |
 |Kamar          | Menyimpan detail kamar hotel       |
 |Ulasan         | Review pengguna untuk kamar hotel  |
 |Tiket          | Informasi tiket transportasi       |
 |PemesananHotel | Pesanan kamar hotel                |
 |PemesananTiket | Pemesanan tiket transportasi       |
+
 
 
 ---
