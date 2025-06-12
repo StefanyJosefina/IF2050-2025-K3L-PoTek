@@ -2,6 +2,7 @@ package id.sti.potek.ui;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 
 import id.sti.potek.dao.PemesananHotelDAO;
@@ -31,9 +32,13 @@ public class HotelPesanView {
     private PemesananHotelDAO pemesananDAO;
     private Stage parentStage;
     private User loggedInUser;
+    private List<Kamar> hasil;
+    private List<String> unlocked;
 
-    public HotelPesanView(User user) {
+    public HotelPesanView(User user, List<Kamar> hasil, List<String> unlocked) {
         this.loggedInUser = user;
+        this.hasil = hasil;
+        this.unlocked = unlocked;
         try {
             this.pemesananDAO = new PemesananHotelDAO();
         } catch (Exception e) {
@@ -77,10 +82,18 @@ public class HotelPesanView {
             header.setAlignment(Pos.CENTER);
             header.getStyleClass().add("banner-header");
 
-            Button backBtn = new Button("← Kembali");
+            ImageView arrowIcon = new ImageView(new Image("/icons/Vector.png"));
+            arrowIcon.setFitWidth(20);
+            arrowIcon.setFitHeight(20);
+
+            Button backBtn = new Button("Kembali");
+            backBtn.setGraphic(arrowIcon);
             backBtn.getStyleClass().add("back-button");
             backBtn.setOnAction(e -> {
                 try {
+                    Stage newStage = new Stage();
+                    HotelPilihView pilihView = new HotelPilihView(this.hasil, this.unlocked, checkin, checkout, malam, loggedInUser);
+                    pilihView.start(newStage);
                     stage.close();
                 } catch (Exception ex) {
                     System.out.println("Error closing stage: " + ex.getMessage());
@@ -226,7 +239,6 @@ public class HotelPesanView {
                         if (success) {
                             System.out.println("Pemesanan berhasil disimpan.");
                             showSuccess(stage, "Pemesanan berhasil disimpan!");
-                            // TODO: Navigate to home 
                             Stage newStage = new Stage();
                             MainView mainView = new MainView(loggedInUser);
                             mainView.start(newStage);
@@ -266,6 +278,7 @@ public class HotelPesanView {
             try {
                 String cssPath = getClass().getResource("/css/hotel_pesan.css").toExternalForm();
                 scene.getStylesheets().add(cssPath);
+                scene.getStylesheets().add(getClass().getResource("/css/back_button.css").toExternalForm());
             } catch (Exception e) {
                 System.out.println("CSS file tidak ditemukan: " + e.getMessage());
                 root.setStyle("-fx-background-color: #f5f5f5;");

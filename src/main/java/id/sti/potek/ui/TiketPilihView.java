@@ -188,7 +188,7 @@ public class TiketPilihView {
                 return;
             }
 
-            new TiketPesanView().start(stage, tiketTerpilih, kursiTerpilih);
+            new TiketPesanView(loggedInUser).start(stage, tiketTerpilih, kursiTerpilih);
         });
 
         HBox legendBox = new HBox(20);

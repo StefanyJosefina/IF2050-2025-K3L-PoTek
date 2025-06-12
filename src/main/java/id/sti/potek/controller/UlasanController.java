@@ -8,7 +8,7 @@ import java.util.List;
 public class UlasanController {
     private final UlasanService service = new UlasanService();
 
-    public void kirimUlasan(int idUser, String idKamar, double rating, String komentar) {
+    public void kirimUlasan(int idUser, String idKamar, int rating, String komentar) { // Ubah double ke int
         service.kirimUlasan(idUser, idKamar, rating, komentar);
     }
 

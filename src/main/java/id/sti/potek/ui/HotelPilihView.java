@@ -83,12 +83,17 @@ public class HotelPilihView {
             header.setAlignment(Pos.CENTER);
             header.getStyleClass().add("banner-header");
 
-            Button backBtn = new Button("← Kembali");
+            ImageView arrowIcon = new ImageView(new Image("/icons/Vector.png"));
+            arrowIcon.setFitWidth(20);
+            arrowIcon.setFitHeight(20);
+
+            Button backBtn = new Button("Kembali");
+            backBtn.setGraphic(arrowIcon);
             backBtn.getStyleClass().add("back-button");
             backBtn.setOnAction(e -> {
                 try {
                     Stage newStage = new Stage();
-                    HotelCariView cariView = new HotelCariView();
+                    HotelCariView cariView = new HotelCariView(loggedInUser);
                     cariView.start(newStage);
                     stage.close();
                 } catch (Exception ex) {
@@ -253,6 +258,7 @@ public class HotelPilihView {
             try {
                 String cssPath = getClass().getResource("/css/hotel_pilih.css").toExternalForm();
                 scene.getStylesheets().add(cssPath);
+                scene.getStylesheets().add(getClass().getResource("/css/back_button.css").toExternalForm());
             } catch (Exception e) {
                 System.out.println("CSS file tidak ditemukan: " + e.getMessage());
                 root.setStyle("-fx-background-color: #f5f5f5;");
@@ -354,7 +360,6 @@ public class HotelPilihView {
 
             card.setOnMouseClicked(e -> {
                 try {
-                    // Validasi login sebelum membuka halaman pemesanan
                     if (loggedInUser == null) {
                         Stage loginStage = new Stage();
                         loginStage.initModality(Modality.APPLICATION_MODAL);
@@ -365,7 +370,7 @@ public class HotelPilihView {
                     Stage newStage = new Stage();
                     newStage.initModality(Modality.APPLICATION_MODAL);
 
-                    HotelPesanView pesanView = new HotelPesanView(loggedInUser);
+                    HotelPesanView pesanView = new HotelPesanView(loggedInUser, hasil, unlocked);
                     pesanView.start(newStage, kamar, checkin, checkout, malam);
                     
                     Stage currentStage = (Stage) card.getScene().getWindow();
@@ -377,7 +382,6 @@ public class HotelPilihView {
                     showError(null, "Gagal membuka halaman pemesanan");
                 }
             });
-
 
             card.setOnMouseEntered(e -> {
                 card.setStyle("-fx-background-color: #f8f9fa; -fx-border-radius: 8px; -fx-background-radius: 8px; " +

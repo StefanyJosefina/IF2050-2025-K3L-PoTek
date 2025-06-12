@@ -24,11 +24,11 @@ public class TiketController {
     public List<Tiket> getAllTiket() {
         return tiketService.getAllTiket();
     }
-    public boolean simpanPemesanan(String idTiket, String namaPemesan, String noHpPemesan, String emailPemesan,
-                                   String namaPenumpang, String noHpPenumpang, String emailPenumpang, int noKursi) {
-        return simpanPemesanan(null, idTiket, namaPemesan, noHpPemesan, emailPemesan, 
-                              namaPenumpang, noHpPenumpang, emailPenumpang, noKursi);
-    }
+    // public boolean simpanPemesanan(String idTiket, String namaPemesan, String noHpPemesan, String emailPemesan,
+    //                                String namaPenumpang, String noHpPenumpang, String emailPenumpang, int noKursi) {
+    //     return simpanPemesanan(null, idTiket, namaPemesan, noHpPemesan, emailPemesan, 
+    //                           namaPenumpang, noHpPenumpang, emailPenumpang, noKursi);
+    // }
 
     // Method utama dengan idUser dan transaksi database
     public boolean simpanPemesanan(String idUser, String idTiket, String namaPemesan, String noHpPemesan, String emailPemesan,

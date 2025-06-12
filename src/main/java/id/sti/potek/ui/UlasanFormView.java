@@ -1,28 +1,24 @@
 package id.sti.potek.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import id.sti.potek.controller.UlasanController;
+import id.sti.potek.util.DBConnection;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
+import java.sql.*;
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class UlasanFormView {
 
@@ -30,7 +26,72 @@ public class UlasanFormView {
     private int selectedRating = 0;
     private final UlasanController ulasanController = new UlasanController();
 
+    private final String idPesananKamar;
+    private String idUser;
+    private String idKamar;
+
+    public UlasanFormView(String idPesananKamar) {
+        this.idPesananKamar = idPesananKamar;
+    }
+
     public void start(Stage stage) {
+        String namaPemesan = "";
+        String checkIn = "";
+        String checkOut = "";
+        int totalHarga = 0;
+        String namaHotel = "";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("""
+                 SELECT pk.idUser, pk.idKamar, pk.namaPemesan, pk.tanggalCheckIn, pk.tanggalCheckOut, pk.totalHarga, k.namaHotel
+                 FROM pesanankamar pk
+                 JOIN kamar k ON pk.idKamar = k.idKamar
+                 WHERE pk.idPesananKamar = ?
+             """)) {
+
+            stmt.setString(1, idPesananKamar);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                idUser = rs.getString("idUser");
+                idKamar = rs.getString("idKamar");
+                namaPemesan = rs.getString("namaPemesan");
+                
+                // Get dates as strings and parse them manually
+                String checkInStr = rs.getString("tanggalCheckIn");
+                String checkOutStr = rs.getString("tanggalCheckOut");
+                
+                if (checkInStr != null && checkOutStr != null) {
+                    try {
+                        // Parse the date strings and format them
+                        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy", Locale.ENGLISH);
+                        
+                        checkIn = LocalDate.parse(checkInStr, inputFormatter).format(outputFormatter);
+                        checkOut = LocalDate.parse(checkOutStr, inputFormatter).format(outputFormatter);
+                    } catch (Exception dateEx) {
+                        System.out.println("Date parsing error: " + dateEx.getMessage());
+                        checkIn = checkInStr;  // Fallback to original string
+                        checkOut = checkOutStr;
+                    }
+                }
+                
+                totalHarga = rs.getInt("totalHarga");
+                namaHotel = rs.getString("namaHotel");
+                
+                System.out.println("Debug - Data retrieved:");
+                System.out.println("Hotel: " + namaHotel);
+                System.out.println("Check-in: " + checkIn);
+                System.out.println("Check-out: " + checkOut);
+                System.out.println("Total: " + totalHarga);
+            } else {
+                System.out.println("No data found for idPesananKamar: " + idPesananKamar);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error retrieving data: " + e.getMessage());
+        }
+
         Label title = new Label("Riwayat Pemesanan Hotel");
         title.getStyleClass().add("title-header");
 
@@ -38,7 +99,7 @@ public class UlasanFormView {
         titleBar.setAlignment(Pos.CENTER);
         titleBar.getStyleClass().add("title-bar");
 
-        Label hotelLabel = new Label("DParagon Matraman");
+        Label hotelLabel = new Label(namaHotel.isEmpty() ? "Hotel Name Not Found" : namaHotel);
         hotelLabel.getStyleClass().add("hotel-name");
 
         Label statusLabel = new Label("Sudah Membayar");
@@ -54,11 +115,21 @@ public class UlasanFormView {
         detailGrid.setVgap(10);
         detailGrid.setPadding(new Insets(10, 20, 10, 20));
 
-        addDetailRow(detailGrid, 0, "Tanggal Penginapan", "Rab, 17 Aug 1945 - Rab, 18 Aug 1945");
-        addDetailRow(detailGrid, 1, "Tanggal Pesan", "Senin, 15 April 2025 10:08:28");
-        addDetailRow(detailGrid, 2, "Nama Pemesan", "Aulia Azka Azzahra");
-        addDetailRow(detailGrid, 3, "No Kamar", "C05");
-        addDetailRow(detailGrid, 4, "Harga Total", "Rp 333.000", "#FF0000");
+        addDetailRow(detailGrid, 0, "ID Pemesanan", idPesananKamar);
+        addDetailRow(detailGrid, 1, "ID Kamar", idKamar);
+        
+        String tanggalPenginapan = "";
+        if (!checkIn.isEmpty() && !checkOut.isEmpty()) {
+            tanggalPenginapan = checkIn + " - " + checkOut;
+        } else {
+            tanggalPenginapan = "Date not available";
+        }
+        addDetailRow(detailGrid, 2, "Tanggal Penginapan", tanggalPenginapan);
+        
+        addDetailRow(detailGrid, 3, "Nama Pemesan", namaPemesan.isEmpty() ? "Name not found" : namaPemesan);
+        
+        String formattedPrice = "Rp " + NumberFormat.getNumberInstance(Locale.GERMANY).format(totalHarga);
+        addDetailRow(detailGrid, 4, "Harga Total", formattedPrice, "#FF0000");
 
         VBox detailBox = new VBox(10, headerBar, new Separator(), detailGrid, new Separator());
 
@@ -79,9 +150,6 @@ public class UlasanFormView {
             starBox.getChildren().add(star);
         }
 
-        HBox ratingSection = new HBox(10, ratingLabel, starBox);
-        ratingSection.setAlignment(Pos.CENTER_LEFT);
-
         TextArea commentField = new TextArea();
         commentField.setPromptText("Tulis Ulasan ....");
         commentField.setWrapText(true);
@@ -94,15 +162,22 @@ public class UlasanFormView {
         submit.setOnAction(e -> {
             String komentar = commentField.getText().trim();
             if (selectedRating == 0 || komentar.isEmpty()) {
-                showCustomPopup("Harap isi semua data ulasan!", false);  // ⛔ jika gagal
+                showCustomPopup("Harap isi semua data ulasan!", false);
             } else {
-                ulasanController.kirimUlasan(1, "KMR001", selectedRating, komentar);
-                showCustomPopup("Ulasan berhasil dikirim!", true);       // ✅ jika berhasil
-                new UlasanListView().start(stage);
+                try {
+                    int userIdInt = Integer.parseInt(idUser.replaceAll("[^\\d]", ""));
+                    ulasanController.kirimUlasan(userIdInt, idKamar, selectedRating, komentar);
+                    showCustomPopup("Ulasan berhasil dikirim!", true);
+                    new UlasanListView(idKamar).start(stage);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    showCustomPopup("Gagal mengirim ulasan!", false);
+                }
             }
         });
-        
 
+        HBox ratingSection = new HBox(10, ratingLabel, starBox);
+        ratingSection.setAlignment(Pos.CENTER_LEFT);
         HBox inputBox = new HBox(commentField, submit);
         inputBox.setAlignment(Pos.CENTER_LEFT);
         inputBox.setSpacing(10);
@@ -112,6 +187,7 @@ public class UlasanFormView {
 
         VBox root = new VBox(10, titleBar, detailBox, ulasanBox);
         root.getStyleClass().add("root");
+
         Scene scene = new Scene(root, 900, 645);
         scene.getStylesheets().add(getClass().getResource("/css/ulasanform.css").toExternalForm());
         stage.setScene(scene);
@@ -141,78 +217,55 @@ public class UlasanFormView {
     }
 
     private void showCustomPopup(String message, boolean success) {
+        Stage popupStage = new Stage();
+        popupStage.setAlwaysOnTop(true);
+
         if (success) {
-            Stage popupStage = new Stage();
             popupStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
-            popupStage.setAlwaysOnTop(true);
-    
-            // Background pink transparan
-            Rectangle overlay = new Rectangle(900, 645); // atau bind jika mau fleksibel
+            Rectangle overlay = new Rectangle(900, 645);
             overlay.setFill(javafx.scene.paint.Color.web("#F8C8DC", 0.6));
-    
-            // Pesan
+
             Label msg = new Label(message);
             msg.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #d94a64;");
-    
-            // Box putih bundar
+
             VBox popupBox = new VBox(msg);
             popupBox.setAlignment(Pos.CENTER);
             popupBox.setPadding(new Insets(30));
-            popupBox.setStyle(
-                "-fx-background-color: white;" +
-                "-fx-background-radius: 20px;" +
-                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 4);"
-            );
-    
-            // StackPane = overlay + popup box
+            popupBox.setStyle("-fx-background-color: white; -fx-background-radius: 20px;" +
+                    "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 4);");
+
             StackPane root = new StackPane(overlay, popupBox);
             root.setAlignment(Pos.CENTER);
-    
+
             Scene scene = new Scene(root, 380, 130);
             scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
             popupStage.setScene(scene);
             popupStage.show();
-    
-            // Auto-close setelah 2 detik
+
             new Thread(() -> {
-                try { Thread.sleep(2000); } catch (InterruptedException ignored) {}
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ignored) {}
                 javafx.application.Platform.runLater(popupStage::close);
             }).start();
         } else {
-            Stage popupStage = new Stage();
-            popupStage.setTitle("Message");
-            popupStage.setAlwaysOnTop(true);
-    
             Label msg = new Label(message);
             msg.setStyle("-fx-font-size: 14px; -fx-text-fill: #222;");
-    
             Button okBtn = new Button("OK");
-            okBtn.setStyle(
-                "-fx-background-color: #86A788;" +
-                "-fx-text-fill: white;" +
-                "-fx-font-size: 14px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-padding: 8 20 8 20;" +
-                "-fx-background-radius: 8px;"
-            );
+            okBtn.setStyle("-fx-background-color: #86A788; -fx-text-fill: white; -fx-font-size: 14px;" +
+                    "-fx-font-weight: bold; -fx-padding: 8 20 8 20; -fx-background-radius: 8px;");
             okBtn.setOnAction(e -> popupStage.close());
-    
+
             VBox layout = new VBox(20, msg, okBtn);
             layout.setAlignment(Pos.CENTER);
             layout.setPadding(new Insets(30));
-            layout.setStyle(
-                "-fx-background-color: white;" +
-                "-fx-border-color: lightgray;" +
-                "-fx-border-width: 1;" +
-                "-fx-border-radius: 10px;" +
-                "-fx-background-radius: 10px;"
-            );
-    
+            layout.setStyle("-fx-background-color: white;" +
+                    "-fx-border-color: lightgray; -fx-border-width: 1;" +
+                    "-fx-border-radius: 10px; -fx-background-radius: 10px;");
+
             Scene scene = new Scene(layout, 350, 150);
             popupStage.setScene(scene);
-            popupStage.showAndWait(); // Wajib tekan OK
+            popupStage.showAndWait();
         }
     }
-    
-    
 }

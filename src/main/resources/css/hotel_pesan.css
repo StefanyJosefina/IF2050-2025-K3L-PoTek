@@ -99,3 +99,12 @@ TextField, ComboBox, DatePicker {
   -fx-background-color: #FFFDEC;
   -fx-text-fill: #2A2A2A;
 }
+
+.back-button {
+  -fx-position: absolute;
+  -fx-pref-width: 39px;
+  -fx-pref-height: 41px;
+  -fx-translate-x: 52px;
+  -fx-translate-y: 27px;
+  -fx-background-color: #FFFDEC;
+}

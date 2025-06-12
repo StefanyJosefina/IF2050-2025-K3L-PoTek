@@ -1,24 +1,31 @@
 package id.sti.potek.model;
 
 public class Ulasan {
-    private int id;
     private int idUser;
+    private String namaUser;
     private String idKamar;
-    private double rating;
+    private int rating; // Ubah dari double ke int sesuai database
     private String komentar;
-    private String tanggal;
 
-    public Ulasan(int idUser, String idKamar, double rating, String komentar, String tanggal) {
+    // Constructor untuk insert
+    public Ulasan(int idUser, String idKamar, int rating, String komentar) {
         this.idUser = idUser;
         this.idKamar = idKamar;
         this.rating = rating;
         this.komentar = komentar;
-        this.tanggal = tanggal;
+    }
+
+    // Constructor untuk tampilkan ulasan
+    public Ulasan(String namaUser, String idKamar, int rating, String komentar) {
+        this.namaUser = namaUser;
+        this.idKamar = idKamar;
+        this.rating = rating;
+        this.komentar = komentar;
     }
 
     public int getIdUser() { return idUser; }
     public String getIdKamar() { return idKamar; }
-    public double getRating() { return rating; }
+    public int getRating() { return rating; } // Return int
     public String getKomentar() { return komentar; }
-    public String getTanggal() { return tanggal; }
+    public String getNamaUser() { return namaUser; }
 }

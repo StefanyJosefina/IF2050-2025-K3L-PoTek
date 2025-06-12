@@ -1,6 +1,11 @@
 package id.sti.potek.ui;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import id.sti.potek.model.User;
+import id.sti.potek.util.DBConnection;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,7 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class MainView {
@@ -31,8 +39,8 @@ public class MainView {
         Label usernameLabel = new Label(userName);
         usernameLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: black;");
 
-        Button btnReport = new Button("Review");
-        btnReport.getStyleClass().add("review-button");
+        Button btnReview = new Button("Review");
+        btnReview.getStyleClass().add("review-button");
 
         Button btnLogout = new Button("Logout");
         btnLogout.getStyleClass().add("login-button");
@@ -43,10 +51,20 @@ public class MainView {
             }).start(stage);
         });
 
+        btnReview.setOnAction(e -> {
+            // Retrieve idPesananKamar for the logged-in user
+            String idPesananKamar = getIdPesananKamar();
+            if (idPesananKamar != null) {
+                new UlasanFormView(idPesananKamar).start(stage);
+            } else {
+                showNoBookingPopup(stage);
+            }
+        });
+
         HBox leftRightTop = new HBox(10, usernameLabel);
         leftRightTop.setAlignment(Pos.CENTER_LEFT);
 
-        HBox rightButtons = new HBox(10, btnReport, btnLogout);
+        HBox rightButtons = new HBox(10, btnReview, btnLogout);
         rightButtons.setAlignment(Pos.CENTER_RIGHT);
 
         HBox topBar = new HBox(20, leftRightTop, rightButtons);
@@ -111,5 +129,54 @@ public class MainView {
         stage.setTitle("Main View");
         stage.centerOnScreen();
         stage.show();
+    }
+
+    private String getIdPesananKamar() {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                 "SELECT idPesananKamar FROM pesanankamar WHERE idUser = ? LIMIT 1")) {
+            stmt.setString(1, loggedInUser.getIdUser());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("idPesananKamar");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error retrieving idPesananKamar: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private void showNoBookingPopup(Stage ownerStage) {
+        Stage popupStage = new Stage();
+        popupStage.initOwner(ownerStage);
+        popupStage.setAlwaysOnTop(true);
+
+        Rectangle overlay = new Rectangle(900, 645);
+        overlay.setFill(Color.web("#F8C8DC", 0.6));
+
+        Label msg = new Label("No booking found for this user!");
+        msg.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #d94a64;");
+
+        VBox popupBox = new VBox(msg);
+        popupBox.setAlignment(Pos.CENTER);
+        popupBox.setPadding(new Insets(30));
+        popupBox.setStyle("-fx-background-color: white; -fx-background-radius: 20px;" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 4);");
+
+        StackPane root = new StackPane(overlay, popupBox);
+        root.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(root, 380, 130);
+        scene.setFill(Color.TRANSPARENT);
+        popupStage.setScene(scene);
+        popupStage.show();
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ignored) {}
+            javafx.application.Platform.runLater(popupStage::close);
+        }).start();
     }
 }

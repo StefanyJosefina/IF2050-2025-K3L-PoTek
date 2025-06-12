@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*M!999999\- enable the sandbox mode */ 
 -- MariaDB dump 10.19-11.4.7-MariaDB, for Win64 (AMD64)
 --
@@ -362,3 +363,23 @@ UNLOCK TABLES;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
 -- Dump completed on 2025-06-09 15:09:49
+=======
+package id.sti.potek.controller;
+
+import id.sti.potek.model.Ulasan;
+import id.sti.potek.service.UlasanService;
+
+import java.util.List;
+
+public class UlasanController {
+    private final UlasanService service = new UlasanService();
+
+    public void kirimUlasan(int idUser, String idKamar, int rating, String komentar) { // Ubah double ke int
+        service.kirimUlasan(idUser, idKamar, rating, komentar);
+    }
+
+    public List<Ulasan> getUlasanKamar(String idKamar) {
+        return service.getUlasanKamar(idKamar);
+    }
+}
+>>>>>>> origin/ulasan-kamar

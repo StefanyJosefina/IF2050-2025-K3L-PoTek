@@ -37,6 +37,42 @@ public class HotelCariView {
     }
 
     public void start(Stage stage) {
+
+        // Back Button
+        ImageView backArrow = new ImageView();
+        try {
+            backArrow.setImage(new Image("/icons/Vektor.png")); 
+            backArrow.setFitHeight(20);
+            backArrow.setFitWidth(20);
+        } catch (Exception e) {
+            System.out.println("Back arrow icon tidak ditemukan: " + e.getMessage());
+            // Fallback ke unicode arrow jika image tidak ada
+            backArrow = null;
+        }
+
+        Button backBtn = new Button("← Kembali");
+        if (backArrow != null) {
+            backBtn.setGraphic(backArrow);
+            backBtn.setText("Kembali");
+        }
+        backBtn.getStyleClass().add("back-button");
+        
+        backBtn.setOnAction(e -> {
+            try {
+                // Kembali ke MainView
+                Stage newStage = new Stage();
+                MainView mainView = new MainView(loggedInUser);
+                if (loggedInUser != null) {
+                    mainView = new MainView(loggedInUser); // Jika ada konstruktor dengan user
+                }
+                mainView.start(newStage);
+                stage.close();
+            } catch (Exception ex) {
+                System.out.println("Error kembali ke main view: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+
         ImageView logo = new ImageView();
         try {
             logo.setImage(new Image("/icons/kasur-icon.png"));

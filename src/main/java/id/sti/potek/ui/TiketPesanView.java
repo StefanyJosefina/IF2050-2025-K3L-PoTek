@@ -26,6 +26,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class TiketPesanView {
@@ -125,6 +126,13 @@ public class TiketPesanView {
         // Set up button action
         pesanBtn.setOnAction(e -> {
             if (validateFields(namaPemesan, hpPemesan, emailPemesan, namaPenumpang, hpPenumpang, emailPenumpang)) {
+                if (loggedInUser == null) {
+                    showAlert("Anda harus login terlebih dahulu untuk memesan tiket.", Alert.AlertType.WARNING);
+                    Stage loginStage = new Stage();
+                    loginStage.initModality(Modality.APPLICATION_MODAL);
+                    new LoginView().start(loginStage);
+                    return;
+                }
                 Pemesanan p = new Pemesanan();
                 p.setIdPesanan("P" + new Random().nextInt(9999));
                 p.setIdUser(loggedInUser != null ? loggedInUser.getIdUser() : null);

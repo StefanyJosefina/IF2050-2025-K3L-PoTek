@@ -1,1 +1,1 @@
-select * FROM pesanantiket;
+delete from pesanantiket where idPesananTiket = 'PT1749707930609';
