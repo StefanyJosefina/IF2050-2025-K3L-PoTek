@@ -16,13 +16,35 @@ PoTek (Pemesanan Online Tiket & Kamar) adalah aplikasi yang memudahkan pelanggan
 ---
 
 ## Contributors
-| **No** | **Nama** | **NIM**  | **GitHub** |
-| ------ | ------------------------- | ------------- | ----------- |
-| 1      | Stefany Josefina Santono  | 18223116      | [@StefanyJosefina](https://github.com/StefanyJosefina) |
-| 2      | Matilda Angelina Sumaryo  | 18223125      | [@millicecup](https://github.com/millicecup) |
-| 3      | Theresia Ivana M S        | 18223126      | [@meerancor33](https://github.com/meerancor33) |
-| 4      | Aulia Azka Azzahra        | 18223131      | [@auliaazkaazzahra](https://github.com/auliaazkaazzahra) |
-| 5      | Sonya Putri Fadilah       | 18222138      | [@sonyaaputri](https://github.com/sonyaaputri) |
+<table>
+  <tr align="center">
+    <td>
+      <a href="https://github.com/StefanyJosefina"><strong>Stefany J. Santono</strong></a><br>
+      <img src="https://github.com/StefanyJosefina.png" width="80" height="80"><br>
+      18223116
+    </td>
+    <td>
+      <a href="https://github.com/millicecup"><strong>Matilda A. Sumaryo</strong></a><br>
+      <img src="https://github.com/millicecup.png" width="80" height="80"><br>
+      18223125
+    </td>
+    <td>
+      <a href="https://github.com/meerancor33"><strong>Theresia I. M. S.</strong></a><br>
+      <img src="https://github.com/meerancor33.png" width="80" height="80"><br>
+      18223126
+    </td>
+    <td>
+      <a href="https://github.com/auliaazkaazzahra"><strong>Aulia A. Azzahra</strong></a><br>
+      <img src="https://github.com/auliaazkaazzahra.png" width="80" height="80"><br>
+      18223131
+    </td>
+    <td>
+      <a href="https://github.com/sonyaaputri"><strong>Sonya P. Fadilah</strong></a><br>
+      <img src="https://github.com/sonyaaputri.png" width="80" height="80"><br>
+      18222138
+    </td>
+  </tr>
+</table>
 
 **Asisten:** Angelica Kierra Ninta Gurning
 
@@ -72,13 +94,11 @@ PoTek (Pemesanan Online Tiket & Kamar) adalah aplikasi yang memudahkan pelanggan
 
 ## Database Tables
 
-| **Nama Tabel** | **Atribut** |
-|----------------|-------------|
-|User           | idUser, nama, email, password, tgl_lahir           |
-|Kamar          | idKamar, namaHotel, tipeKamar, lokasi, harga, tersedia, jumlahKamar,    |
-|Ulasan         | idUlasan, idUser, idKamar, rating, komentar |
-|Tiket          | idTiket, keberangkatan, tujuan, tanggal, jam, harga, totalKursi, tersediaKursi    |
-|PemesananHotel | idPesananKamar, idKamar, idUser, tanggalCheckIn, tanggalCheckOut, namaPemesan, noHPPemesan, emailPemesan, jumlahKamar, jumlahTamu, totalHarga                |
-|PemesananTiket | idPesanTiket, idTiket, idUser, namaPemesan, noHpPemesan, emailPemesan, namaPenumpang, noHpPenumpang, emailPenumpang, noKursi    |
-
-
+| 📦 Nama Tabel        | 🧬 Atribut                                                                 |
+|----------------------|---------------------------------------------------------------------------|
+| `User`               | `idUser`, `nama`, `email`, `password`, `tgl_lahir`                        |
+| `Kamar`              | `idKamar`, `namaHotel`, `tipeKamar`, `lokasi`, `harga`, `tersedia`, `jumlahKamar` |
+| `Ulasan`             | `idUlasan`, `idUser`, `idKamar`, `rating`, `komentar`                     |
+| `Tiket`              | `idTiket`, `keberangkatan`, `tujuan`, `tanggal`, `jam`, `harga`, `totalKursi`, `tersediaKursi` |
+| `PemesananHotel`     | `idPesananKamar`, `idKamar`, `idUser`, `tanggalCheckIn`, `tanggalCheckOut`, `namaPemesan`, `noHPPemesan`, `emailPemesan`, `jumlahKamar`, `jumlahTamu`, `totalHarga` |
+| `PemesananTiket`     | `idPesanTiket`, `idTiket`, `idUser`, `namaPemesan`, `noHpPemesan`, `emailPemesan`, `namaPenumpang`, `noHpPenumpang`, `emailPenumpang`, `noKursi` |
