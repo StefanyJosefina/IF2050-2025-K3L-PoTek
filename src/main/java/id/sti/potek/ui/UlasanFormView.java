@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.sql.*;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class UlasanFormView {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement("""
-                 SELECT pk.*, k.namaHotel
+                 SELECT pk.idUser, pk.idKamar, pk.namaPemesan, pk.tanggalCheckIn, pk.tanggalCheckOut, pk.totalHarga, k.namaHotel
                  FROM pesanankamar pk
                  JOIN kamar k ON pk.idKamar = k.idKamar
                  WHERE pk.idPesananKamar = ?
@@ -55,13 +56,40 @@ public class UlasanFormView {
                 idUser = rs.getString("idUser");
                 idKamar = rs.getString("idKamar");
                 namaPemesan = rs.getString("namaPemesan");
-                checkIn = rs.getDate("tanggalCheckIn").toLocalDate().format(DateTimeFormatter.ofPattern("EEE, dd MM yyyy", Locale.ENGLISH));
-                checkOut = rs.getDate("tanggalCheckOut").toLocalDate().format(DateTimeFormatter.ofPattern("EEE, dd MM yyyy", Locale.ENGLISH));
+                
+                // Get dates as strings and parse them manually
+                String checkInStr = rs.getString("tanggalCheckIn");
+                String checkOutStr = rs.getString("tanggalCheckOut");
+                
+                if (checkInStr != null && checkOutStr != null) {
+                    try {
+                        // Parse the date strings and format them
+                        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy", Locale.ENGLISH);
+                        
+                        checkIn = LocalDate.parse(checkInStr, inputFormatter).format(outputFormatter);
+                        checkOut = LocalDate.parse(checkOutStr, inputFormatter).format(outputFormatter);
+                    } catch (Exception dateEx) {
+                        System.out.println("Date parsing error: " + dateEx.getMessage());
+                        checkIn = checkInStr;  // Fallback to original string
+                        checkOut = checkOutStr;
+                    }
+                }
+                
                 totalHarga = rs.getInt("totalHarga");
                 namaHotel = rs.getString("namaHotel");
+                
+                System.out.println("Debug - Data retrieved:");
+                System.out.println("Hotel: " + namaHotel);
+                System.out.println("Check-in: " + checkIn);
+                System.out.println("Check-out: " + checkOut);
+                System.out.println("Total: " + totalHarga);
+            } else {
+                System.out.println("No data found for idPesananKamar: " + idPesananKamar);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Error retrieving data: " + e.getMessage());
         }
 
         Label title = new Label("Riwayat Pemesanan Hotel");
@@ -71,7 +99,7 @@ public class UlasanFormView {
         titleBar.setAlignment(Pos.CENTER);
         titleBar.getStyleClass().add("title-bar");
 
-        Label hotelLabel = new Label(namaHotel);
+        Label hotelLabel = new Label(namaHotel.isEmpty() ? "Hotel Name Not Found" : namaHotel);
         hotelLabel.getStyleClass().add("hotel-name");
 
         Label statusLabel = new Label("Sudah Membayar");
@@ -89,9 +117,19 @@ public class UlasanFormView {
 
         addDetailRow(detailGrid, 0, "ID Pemesanan", idPesananKamar);
         addDetailRow(detailGrid, 1, "ID Kamar", idKamar);
-        addDetailRow(detailGrid, 2, "Tanggal Penginapan", checkIn + " - " + checkOut);
-        addDetailRow(detailGrid, 3, "Nama Pemesan", namaPemesan);
-        addDetailRow(detailGrid, 4, "Harga Total", "Rp " + NumberFormat.getInstance().format(totalHarga), "#FF0000");
+        
+        String tanggalPenginapan = "";
+        if (!checkIn.isEmpty() && !checkOut.isEmpty()) {
+            tanggalPenginapan = checkIn + " - " + checkOut;
+        } else {
+            tanggalPenginapan = "Date not available";
+        }
+        addDetailRow(detailGrid, 2, "Tanggal Penginapan", tanggalPenginapan);
+        
+        addDetailRow(detailGrid, 3, "Nama Pemesan", namaPemesan.isEmpty() ? "Name not found" : namaPemesan);
+        
+        String formattedPrice = "Rp " + NumberFormat.getNumberInstance(Locale.GERMANY).format(totalHarga);
+        addDetailRow(detailGrid, 4, "Harga Total", formattedPrice, "#FF0000");
 
         VBox detailBox = new VBox(10, headerBar, new Separator(), detailGrid, new Separator());
 
