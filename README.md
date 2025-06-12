@@ -11,7 +11,7 @@
 ---
 
 ## Description
-
+PoTek (Pemesanan Online Tiket & Kamar) adalah aplikasi yang memudahkan pelanggan dalam memesan tiket transportasi dan kamar hotel secara online. Aplikasi ini dilengkapi empat fitur utama: autentikasi, pemesanan tiket, pemesanan kamar, dan ulasan kamar. Dengan layanan pelanggan yang responsif dan keamanan data yang terjamin, PoTek meningkatkan efisiensi dan kepuasan pelanggan di sektor perjalanan dan perhotelan
 
 ---
 
@@ -29,6 +29,10 @@
 ---
 
 ## Features
+- Autentikasi
+- Pemesanan Tiket
+- Pemesanan Hotel
+- Ulasan Hotel
 
 
 ---
@@ -42,9 +46,15 @@
 
 ## Implemented Modules
 
-| **Modul** | **Deskripsi** |
-|----------|----------------|
-|          |                |
+| **Modul**     | **Deskripsi**                      |
+|---------------|------------------------------------|
+|User           | Menyimpan data pengguna            |
+|Kamar          | Menyimpan detail kamar hotel       |
+|Ulasan         | Review pengguna untuk kamar hotel  |
+|Tiket          | Informasi tiket transportasi       |
+|PemesananHotel | Pesanan kamar hotel                |
+|PemesananTiket | Pemesanan tiket transportasi       |
+
 
 ---
 
@@ -52,4 +62,11 @@
 
 | **Nama Tabel** | **Atribut** |
 |----------------|-------------|
-|                |             |
+|User           | idUser, nama, email, password, tgl_lahir           |
+|Kamar          | idKamar, namaHotel, tipeKamar, lokasi, harga, tersedia, jumlahKamar,    |
+|Ulasan         | idUlasan, idUser, idKamar, rating, komentar |
+|Tiket          | idTiket, keberangkatan, tujuan, tanggal, jam, harga, totalKursi, tersediaKursi    |
+|PemesananHotel | idPesananKamar, idKamar, idUser, tanggalCheckIn, tanggalCheckOut, namaPemesan, noHPPemesan, emailPemesan, jumlahKamar, jumlahTamu, totalHarga                |
+|PemesananTiket | idPesanTiket, idTiket, idUser, namaPemesan, noHpPemesan, emailPemesan, namaPenumpang, noHpPenumpang, emailPenumpang, noKursi    |
+
+
