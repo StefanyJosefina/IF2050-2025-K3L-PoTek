@@ -93,6 +93,14 @@ public class WelcomeMenu {
         btnTransportasi.setGraphic(transportIcon);
         btnTransportasi.getStyleClass().add("action-button");
 
+        btnHotel.setOnAction(e -> {
+            new HotelCariView().start(stage); // Tanpa login
+        });
+
+        btnTransportasi.setOnAction(e -> {
+            new TiketCariView().start(stage); // Tanpa login
+        });
+
         HBox bottomButtons = new HBox(30, btnHotel, btnTransportasi);
         bottomButtons.setAlignment(Pos.CENTER);
         bottomButtons.setPadding(new Insets(0, 50, 40, 50));

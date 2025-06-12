@@ -10,6 +10,7 @@ import id.sti.potek.ui.RegisterView;
 
 
 public class App extends Application {
+
     @Override
     public void start(Stage primaryStage) {
         PoTekLandingView view = new PoTekLandingView();

@@ -1,0 +1,65 @@
+.root {
+    -fx-background-color: #F8C8DC;
+}
+
+.header-bar {
+    -fx-background-color: #86A788;
+    -fx-alignment: center;
+    -fx-padding: 10;
+}
+
+.header-title {
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.info-panel {
+    -fx-background-color: #FFFDEC;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 15;
+}
+
+.review-card {
+    -fx-background-color: #FFFDEC;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #eee;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+    -fx-spacing: 5;
+}
+
+.avatar {
+    -fx-background-color: #D4ECFA;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+    -fx-background-radius: 100px;
+    -fx-font-size: 14px;
+    -fx-min-width: 30;
+    -fx-min-height: 30;
+    -fx-alignment: center;
+}
+
+.user-name {
+    -fx-font-weight: bold;
+    -fx-text-fill: #444;
+    -fx-font-size: 13px;
+}
+
+.comment-date {
+    -fx-text-fill: #888;
+    -fx-font-size: 11px;
+}
+
+.comment-text {
+    -fx-text-fill: #333;
+    -fx-font-size: 13px;
+}
+
+.comment-rating {
+    -fx-text-fill: #d94a64;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}

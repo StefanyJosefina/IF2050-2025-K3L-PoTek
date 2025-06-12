@@ -1,10 +1,1 @@
-UPDATE pesanantiket SET noKursi = 1 WHERE idPesananTiket = 'PT001';
-UPDATE pesanantiket SET noKursi = 7 WHERE idPesananTiket = 'PT002';
-UPDATE pesanantiket SET noKursi = 3 WHERE idPesananTiket = 'PT003';
-UPDATE pesanantiket SET noKursi = 11 WHERE idPesananTiket = 'PT004';
-UPDATE pesanantiket SET noKursi = 5 WHERE idPesananTiket = 'PT005';
-UPDATE pesanantiket SET noKursi = 9 WHERE idPesananTiket = 'PT006';
-UPDATE pesanantiket SET noKursi = 2 WHERE idPesananTiket = 'PT007';
-UPDATE pesanantiket SET noKursi = 8 WHERE idPesananTiket = 'PT008';
-UPDATE pesanantiket SET noKursi = 12 WHERE idPesananTiket = 'PT009';
-UPDATE pesanantiket SET noKursi = 4 WHERE idPesananTiket = 'PT010';
+select * FROM pesanantiket;

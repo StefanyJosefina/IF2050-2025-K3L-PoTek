@@ -138,7 +138,7 @@ public class PoTekLandingView {
         hotelBtn.setOnAction(e -> {
             // Navigasi ke halaman hotel
             System.out.println("Hotel button clicked");
-            // new HotelView().start(stage);
+            new HotelCariView().start(stage);
         });
         
         transportBtn.setOnAction(e -> {

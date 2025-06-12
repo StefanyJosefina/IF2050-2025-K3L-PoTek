@@ -1,0 +1,75 @@
+.main-background {
+  -fx-background-color: #F9D3D3;
+}
+
+.banner-header {
+  -fx-background-color: #86A788;
+  -fx-padding: 20px;
+  -fx-alignment: center;
+  -fx-spacing: 10px;
+}
+
+.banner-text {
+  -fx-fill: #FFFDEC;
+  -fx-font-size: 32px;
+  -fx-font-weight: bold;
+}
+
+.form-container {
+  -fx-background-color: #FF98C6;
+  -fx-background-radius: 30px;
+  -fx-padding: 24px;
+  -fx-spacing: 16px;
+  -fx-alignment: top-center;
+  -fx-pref-width: 620px;
+  -fx-max-width: 620px;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 2);
+}
+
+.field-group {
+  -fx-background-color: #FFFDEC;
+  -fx-background-radius: 20px;
+  -fx-padding: 16px;
+  -fx-spacing: 12px;
+  -fx-pref-width: 550px;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0.1, 0, 1);
+}
+
+.field-label {
+  -fx-fill: #444444;
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+}
+
+TextField, ComboBox, DatePicker {
+  -fx-background-color: #ECECEC;
+  -fx-border-color: #DADADA;
+  -fx-border-radius: 12px;
+  -fx-background-radius: 12px;
+  -fx-padding: 8px;
+  -fx-font-size: 16px;
+  -fx-font-family: "Jost";
+  -fx-font-weight: 400;
+  -fx-text-fill: #555555;
+  -fx-pref-width: 230px;
+  -fx-pref-height: 42px;
+}
+
+.pesan-button {
+  -fx-background-color: #86A788;
+  -fx-text-fill: #FFFDEC;
+  -fx-font-size: 20px;
+  -fx-font-family: "Jost";
+  -fx-font-weight: bold;
+  -fx-background-radius: 12px;
+  -fx-pref-height: 44px;
+  -fx-pref-width: 550px;
+  -fx-alignment: center;
+  -fx-cursor: hand;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.1, 0, 1);
+}
+
+.pesan-button:hover {
+  -fx-background-color: #FFFDEC;
+  -fx-text-fill: #2a2a2a;
+}
