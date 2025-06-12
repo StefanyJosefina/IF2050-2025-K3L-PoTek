@@ -6,6 +6,7 @@ import java.util.List;
 
 import id.sti.potek.controller.KamarController;
 import id.sti.potek.model.Kamar;
+import id.sti.potek.model.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,6 +26,15 @@ import javafx.stage.Stage;
 
 public class HotelCariView {
     private final KamarController kamarController = new KamarController();
+    private final User loggedInUser;
+
+    public HotelCariView(User user) {
+        this.loggedInUser = user;
+    }
+
+    public HotelCariView() {
+        this(null); // Konstruktor tanpa user untuk pengguna yang belum login
+    }
 
     public void start(Stage stage) {
         ImageView logo = new ImageView();
@@ -184,7 +194,7 @@ public class HotelCariView {
                         Stage newStage = new Stage();
                         newStage.initModality(Modality.APPLICATION_MODAL);
                         
-                        HotelPilihView pilihView = new HotelPilihView(hasil, unlocked, checkinStr, checkoutStr, malam);
+                        HotelPilihView pilihView = new HotelPilihView(hasil, unlocked, checkinStr, checkoutStr, malam, loggedInUser);
                         pilihView.start(newStage);
 
                         stage.close();

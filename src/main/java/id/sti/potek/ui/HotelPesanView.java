@@ -7,6 +7,7 @@ import java.util.Locale;
 import id.sti.potek.dao.PemesananHotelDAO;
 import id.sti.potek.model.Kamar;
 import id.sti.potek.model.PemesananHotel;
+import id.sti.potek.model.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,8 +30,10 @@ import javafx.stage.Stage;
 public class HotelPesanView {
     private PemesananHotelDAO pemesananDAO;
     private Stage parentStage;
+    private User loggedInUser;
 
-    public HotelPesanView() {
+    public HotelPesanView(User user) {
+        this.loggedInUser = user;
         try {
             this.pemesananDAO = new PemesananHotelDAO();
         } catch (Exception e) {
@@ -208,6 +211,7 @@ public class HotelPesanView {
 
                     PemesananHotel pemesanan = new PemesananHotel();
                     pemesanan.setIdKamar(kamar.getId());
+                    pemesanan.setIdUser(loggedInUser != null ? loggedInUser.getIdUser() : null);
                     pemesanan.setTanggalCheckIn(LocalDate.parse(checkin));
                     pemesanan.setTanggalCheckOut(LocalDate.parse(checkout));
                     pemesanan.setJumlahKamar(1);
@@ -223,6 +227,10 @@ public class HotelPesanView {
                             System.out.println("Pemesanan berhasil disimpan.");
                             showSuccess(stage, "Pemesanan berhasil disimpan!");
                             // TODO: Navigate to home 
+                            Stage newStage = new Stage();
+                            MainView mainView = new MainView(loggedInUser);
+                            mainView.start(newStage);
+                            stage.close();
                         } else {
                             showError(stage, "Gagal menyimpan pemesanan");
                         }

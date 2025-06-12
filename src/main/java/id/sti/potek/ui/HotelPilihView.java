@@ -6,6 +6,7 @@ import java.util.List;
 
 import id.sti.potek.dao.UlasanDAO;
 import id.sti.potek.model.Kamar;
+import id.sti.potek.model.User;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -35,13 +36,15 @@ public class HotelPilihView {
     private String checkin;
     private String checkout;
     private int malam;
+    private User loggedInUser;
 
-    public HotelPilihView(List<Kamar> hasil, List<String> unlocked, String checkin, String checkout, int malam) {
+    public HotelPilihView(List<Kamar> hasil, List<String> unlocked, String checkin, String checkout, int malam, User user) {
         this.hasil = hasil != null ? hasil : new ArrayList<>();
         this.unlocked = unlocked != null ? unlocked : new ArrayList<>();
         this.checkin = checkin;
         this.checkout = checkout;
         this.malam = malam;
+        this.loggedInUser = user;
         
         try {
             this.ulasanDAO = new UlasanDAO();
@@ -52,7 +55,7 @@ public class HotelPilihView {
     }
     
     public HotelPilihView(List<Kamar> hasil, String checkin, String checkout, int malam) {
-        this(hasil, new ArrayList<>(), checkin, checkout, malam);
+        this(hasil, new ArrayList<>(), checkin, checkout, malam, null);
     }
 
     public void start(Stage stage) {
@@ -351,10 +354,18 @@ public class HotelPilihView {
 
             card.setOnMouseClicked(e -> {
                 try {
+                    // Validasi login sebelum membuka halaman pemesanan
+                    if (loggedInUser == null) {
+                        Stage loginStage = new Stage();
+                        loginStage.initModality(Modality.APPLICATION_MODAL);
+                        new LoginView().start(loginStage);
+                        return;
+                    }
+
                     Stage newStage = new Stage();
                     newStage.initModality(Modality.APPLICATION_MODAL);
 
-                    HotelPesanView pesanView = new HotelPesanView();
+                    HotelPesanView pesanView = new HotelPesanView(loggedInUser);
                     pesanView.start(newStage, kamar, checkin, checkout, malam);
                     
                     Stage currentStage = (Stage) card.getScene().getWindow();

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import id.sti.potek.controller.TiketController;
 import id.sti.potek.model.Tiket;
+import id.sti.potek.model.User;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class TiketPilihView {
@@ -39,6 +41,17 @@ public class TiketPilihView {
     private VBox dropdownBox;
     private ScrollPane scrollPaneJadwal;
     private List<Tiket> allTiketList;
+    private User loggedInUser;
+
+    // Konstruktor default
+    public TiketPilihView() {
+        this.loggedInUser = null;
+    }
+
+    // Konstruktor dengan user
+    public TiketPilihView(User user) {
+        this.loggedInUser = user;
+    }
 
     public void start(Stage stage, List<Tiket> res, String asal, String tujuan, String tanggal) {
         this.allTiketList = res;
@@ -163,6 +176,15 @@ public class TiketPilihView {
             }
             if (tiketTerpilih == null) {
                 showDialog("⚠️ Silakan pilih jadwal terlebih dahulu.");
+                return;
+            }
+
+            // Validasi login
+            if (loggedInUser == null) {
+                showDialog("Anda harus login terlebih dahulu untuk memesan.");
+                Stage loginStage = new Stage();
+                loginStage.initModality(Modality.APPLICATION_MODAL);
+                new LoginView().start(loginStage);
                 return;
             }
 

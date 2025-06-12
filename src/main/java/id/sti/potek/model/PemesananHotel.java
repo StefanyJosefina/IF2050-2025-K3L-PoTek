@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class PemesananHotel {
     private String idPesanan;
     private String idKamar;
+    private String idUser; 
     private LocalDate tanggalCheckIn;
     private LocalDate tanggalCheckOut;
     private int jumlahKamar;
@@ -17,6 +18,14 @@ public class PemesananHotel {
 
     // Formatter untuk memastikan format YYYY-MM-DD
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+    }
 
     public String getIdPesanan() { return idPesanan; }
     public void setIdPesanan(String idPesanan) { this.idPesanan = idPesanan; }

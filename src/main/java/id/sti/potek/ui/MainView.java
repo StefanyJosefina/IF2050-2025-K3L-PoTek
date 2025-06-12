@@ -18,7 +18,7 @@ public class MainView {
 
     public MainView(User user) {
         this.loggedInUser = user;
-        this.userName = user != null ? user.getNama() : "Guest";
+        this.userName = user.getNama();
     }
 
     // public MainView(String userName) {
@@ -89,6 +89,10 @@ public class MainView {
 
         btnTransportasi.setOnAction(e -> {
             new TiketCariView(loggedInUser).start(stage);
+        });
+
+        btnHotel.setOnAction(e -> {
+            new HotelCariView(loggedInUser).start(stage);
         });
 
         HBox bottomButtons = new HBox(30, btnHotel, btnTransportasi);

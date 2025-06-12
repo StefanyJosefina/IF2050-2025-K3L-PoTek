@@ -21,16 +21,14 @@ import javafx.stage.Stage;
 
 public class TiketCariView {
 
-    private User loggedInUser; // Tambahkan field untuk user yang login
+    private User loggedInUser;
 
-    // Constructor default
-    public TiketCariView() {
-        this.loggedInUser = null;
-    }
-    
-    // Constructor dengan user
     public TiketCariView(User user) {
         this.loggedInUser = user;
+    }
+
+    public TiketCariView() {
+        this(null); // Konstruktor tanpa user untuk pengguna yang belum login
     }
 
     public void start(Stage stage) {
@@ -118,7 +116,7 @@ public class TiketCariView {
                 return;
             }else {
                 // PERBAIKAN: Pass loggedInUser ke TiketPilihView
-                TiketPilihView tiketPilihView = new TiketPilihView();
+                TiketPilihView tiketPilihView = new TiketPilihView(loggedInUser);
                 tiketPilihView.start(stage, hasil, asal, tujuan, tanggal);
             }
         });

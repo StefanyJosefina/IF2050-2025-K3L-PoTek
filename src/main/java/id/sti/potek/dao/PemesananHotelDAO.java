@@ -33,9 +33,9 @@ public class PemesananHotelDAO {
 
             stmt.setString(1, idPesanan);
             stmt.setString(2, p.getIdKamar());
-            stmt.setString(3, "U001"); // TODO: Nanti pake getUserID() nya ya inii masih default
-            stmt.setDate(4, Date.valueOf(p.getTanggalCheckIn()));
-            stmt.setDate(5, Date.valueOf(p.getTanggalCheckOut()));
+            stmt.setString(3, p.getIdUser()); // TODO: Nanti pake getUserID() nya ya inii masih default
+            stmt.setString(4, p.getTanggalCheckIn().toString());
+            stmt.setString(5, p.getTanggalCheckOut().toString());
             stmt.setString(6, p.getNamaPemesan());
             stmt.setString(7, p.getNoHpPemesan());
             stmt.setString(8, p.getEmailPemesan());
@@ -59,15 +59,16 @@ public class PemesananHotelDAO {
         String sql = "SELECT " +
                 "  (SELECT tersedia FROM kamar WHERE idKamar = ?) AS sisa_kamar, " +
                 "  (SELECT COUNT(*) FROM pesanankamar " +
-                "     WHERE idKamar = ? AND NOT (tanggalCheckOut <= ? OR tanggalCheckIn >= ?)) AS total_booking";
+                "     WHERE idKamar = ? AND" +
+                "(tanggalCheckOut < ? OR tanggalCheckIn > ?)) AS total_booking";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, idKamar);
             stmt.setString(2, idKamar);
-            stmt.setDate(3, Date.valueOf(checkin));
-            stmt.setDate(4, Date.valueOf(checkout));
+            stmt.setString(3, checkout.toString());
+            stmt.setString(4, checkin.toString());
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -96,7 +97,7 @@ public class PemesananHotelDAO {
 
     public List<PemesananHotel> getPemesananByEmail(String email) {
         List<PemesananHotel> list = new ArrayList<>();
-        String sql = "SELECT * FROM pemesanan WHERE email_pemesan = ? AND id_kamar IS NOT NULL";
+        String sql = "SELECT * FROM pesanankamar WHERE email_pemesan = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -105,16 +106,16 @@ public class PemesananHotelDAO {
 
             while (rs.next()) {
                 PemesananHotel p = new PemesananHotel();
-                p.setIdPesanan(rs.getString("id_pesanan"));
-                p.setIdKamar(rs.getString("id_kamar"));
-                p.setTanggalCheckIn(rs.getDate("tgl_checkin").toLocalDate());
-                p.setTanggalCheckOut(rs.getDate("tgl_checkout").toLocalDate());
-                p.setJumlahKamar(1);
-                p.setJumlahTamu(1);
-                p.setTotalHarga(rs.getInt("total_harga"));
-                p.setNamaPemesan(rs.getString("nama_pemesan"));
-                p.setNoHpPemesan(rs.getString("no_hp_pemesan"));
-                p.setEmailPemesan(rs.getString("email_pemesan"));
+                p.setIdPesanan(rs.getString("idPesananKamar"));
+                p.setIdKamar(rs.getString("idKamar"));
+                p.setTanggalCheckIn(LocalDate.parse(rs.getString("tanggalCheckIn")));
+                p.setTanggalCheckOut(LocalDate.parse(rs.getString("tanggalCheckOut")));
+                p.setJumlahKamar(rs.getInt("jumlahKamar"));
+                p.setJumlahTamu(rs.getInt("jumlahTamu"));
+                p.setTotalHarga(rs.getInt("totalHarga"));
+                p.setNamaPemesan(rs.getString("namaPemesan"));
+                p.setNoHpPemesan(rs.getString("noHpPemesan"));
+                p.setEmailPemesan(rs.getString("emailPemesan"));
                 list.add(p);
             }
         } catch (Exception e) {

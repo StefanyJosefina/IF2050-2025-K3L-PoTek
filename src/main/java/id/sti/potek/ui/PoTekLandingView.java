@@ -138,13 +138,13 @@ public class PoTekLandingView {
         hotelBtn.setOnAction(e -> {
             // Navigasi ke halaman hotel
             System.out.println("Hotel button clicked");
-            new HotelCariView().start(stage);
+            new LoginView().start(stage); // harus login terlebih dahulu
         });
         
         transportBtn.setOnAction(e -> {
             // Navigasi ke halaman transportasi
             System.out.println("Transportasi button clicked");
-            new TiketCariView().start(stage);
+            new LoginView().start(stage); //  harus login terlebih dahulu
         });
 
         stage.setScene(scene);

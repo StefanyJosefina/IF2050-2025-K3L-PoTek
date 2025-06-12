@@ -11,6 +11,7 @@ import id.sti.potek.controller.TiketController;
 import id.sti.potek.dao.PemesananDAO;
 import id.sti.potek.model.Pemesanan;
 import id.sti.potek.model.Tiket;
+import id.sti.potek.model.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,6 +29,17 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class TiketPesanView {
+    private User loggedInUser;
+
+    // Konstruktor default
+    public TiketPesanView() {
+        this.loggedInUser = null;
+    }
+
+    // Konstruktor dengan user
+    public TiketPesanView(User user) {
+        this.loggedInUser = user;
+    }
 
     public void start(Stage stage, Tiket tiket, int noKursi) {
         String asal = tiket.getKeberangkatan();
@@ -115,6 +127,7 @@ public class TiketPesanView {
             if (validateFields(namaPemesan, hpPemesan, emailPemesan, namaPenumpang, hpPenumpang, emailPenumpang)) {
                 Pemesanan p = new Pemesanan();
                 p.setIdPesanan("P" + new Random().nextInt(9999));
+                p.setIdUser(loggedInUser != null ? loggedInUser.getIdUser() : null);
                 p.setIdTiket(tiket.getIdTiket());
                 p.setNamaPemesan(namaPemesan.getText());
                 p.setNoHpPemesan(hpPemesan.getText());
@@ -126,6 +139,7 @@ public class TiketPesanView {
 
                 TiketController controller = new TiketController();
                 boolean success = controller.simpanPemesanan(
+                    loggedInUser != null ? loggedInUser.getIdUser() : null,
                     tiket.getIdTiket(),
                     namaPemesan.getText(),
                     hpPemesan.getText(),
@@ -138,6 +152,11 @@ public class TiketPesanView {
 
                 if (success) {
                     showAlert("Pemesanan berhasil!", Alert.AlertType.INFORMATION);
+                    // Kembali ke MainView setelah pemesanan sukses
+                    Stage newStage = new Stage();
+                    MainView mainView = new MainView(loggedInUser);
+                    mainView.start(newStage);
+                    stage.close();
                 } else {
                     showAlert("Gagal menyimpan pesanan.", Alert.AlertType.ERROR);
                 }
