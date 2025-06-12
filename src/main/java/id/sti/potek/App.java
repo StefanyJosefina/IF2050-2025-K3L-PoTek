@@ -7,7 +7,7 @@ import id.sti.potek.ui.UlasanFormView;
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
-        new UlasanFormView().start(primaryStage);
+        new UlasanFormView("PK001").start(primaryStage); // Gunakan idPesananKamar yang ada di DB
     }
 
     public static void main(String[] args) {

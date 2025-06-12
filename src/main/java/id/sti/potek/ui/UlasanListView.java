@@ -1,6 +1,7 @@
 package id.sti.potek.ui;
 
-import id.sti.potek.model.Ulasan;
+import id.sti.potek.model.Ulasan; // Import model Ulasan yang sudah ada
+import id.sti.potek.util.DBConnection;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,12 +12,68 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 public class UlasanListView {
 
+    private final String idKamar;
+
+    public UlasanListView(String idKamar) {
+        this.idKamar = idKamar;
+    }
+
     public void start(Stage stage) {
+        String namaHotel = "Nama Hotel";
+        String lokasiHotel = "Lokasi Hotel";
+        int totalReview = 0;
+        double totalRating = 0.0;
+
+        List<Ulasan> ulasanList = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection()) {
+            // Ambil nama & lokasi hotel
+            PreparedStatement stmtKamar = conn.prepareStatement("SELECT namaHotel, lokasi FROM kamar WHERE idKamar = ?");
+            stmtKamar.setString(1, idKamar);
+            ResultSet rsKamar = stmtKamar.executeQuery();
+            if (rsKamar.next()) {
+                namaHotel = rsKamar.getString("namaHotel");
+                lokasiHotel = rsKamar.getString("lokasi");
+            }
+            System.out.println("Hotel ditemukan: " + namaHotel + " di " + lokasiHotel);
+
+            // Ambil ulasan + nama user - menggunakan constructor untuk tampilkan ulasan
+            PreparedStatement stmtUlasan = conn.prepareStatement("""
+                SELECT u.komentar, u.rating, us.nama
+                FROM ulasan u
+                JOIN user us ON u.idUser = us.idUser
+                WHERE u.idKamar = ?
+                ORDER BY u.rating DESC
+            """);
+            stmtUlasan.setString(1, idKamar);
+            ResultSet rsUlasan = stmtUlasan.executeQuery();
+            while (rsUlasan.next()) {
+                String komentar = rsUlasan.getString("komentar");
+                int rating = rsUlasan.getInt("rating");
+                String nama = rsUlasan.getString("nama");
+
+                // Menggunakan constructor untuk tampilkan ulasan dari model Ulasan
+                ulasanList.add(new Ulasan(nama, idKamar, rating, komentar));
+                totalRating += rating;
+                totalReview++;
+                System.out.println("Ulasan ditemukan - Nama: " + nama + ", Rating: " + rating + ", Komentar: " + komentar);
+            }
+        } catch (Exception e) {
+            System.err.println("Error saat mengambil data: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        double rataRata = totalReview > 0 ? totalRating / totalReview : 0.0;
+        String labelRating = String.format("%.1f/5 (%d review)", rataRata, totalReview);
+
         Label header = new Label("Review");
         header.getStyleClass().add("header-title");
 
@@ -32,16 +89,16 @@ public class UlasanListView {
         image.setFitHeight(150);
         image.setPreserveRatio(true);
 
-        Label namaHotel = new Label("Dparagon Matraman");
-        namaHotel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        Label namaHotelLabel = new Label(namaHotel);
+        namaHotelLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
-        Label lokasi = new Label("Matraman, Jakarta Timur");
+        Label lokasi = new Label(lokasiHotel);
 
         HBox ratingBox = new HBox(5);
         ImageView starIcon = new ImageView(new Image(getClass().getResourceAsStream("/icons/star.png")));
         starIcon.setFitWidth(18);
         starIcon.setFitHeight(18);
-        Label rating = new Label("4.8/5 (1000 review)");
+        Label rating = new Label(labelRating);
         ratingBox.getChildren().addAll(starIcon, rating);
         ratingBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -55,36 +112,33 @@ public class UlasanListView {
                 makeFasilitas("Bebas Asap Rokok", "smoke-free.png")
         );
 
-        infoPanel.getChildren().addAll(image, namaHotel, lokasi, ratingBox, fasilitas);
+        infoPanel.getChildren().addAll(image, namaHotelLabel, lokasi, ratingBox, fasilitas);
         infoPanel.setPrefWidth(300);
 
         VBox reviewList = new VBox(15);
         reviewList.setPadding(new Insets(20));
 
-        List<Ulasan> dummy = Arrays.asList(
-                new Ulasan("Aulia", "Feb 17, 2025", "Kamar nya bersih dan nyaman", 4.9),
-                new Ulasan("Fina", "Feb 18, 2025", "Suka banget!!!!", 4.9),
-                new Ulasan("Sonya", "Feb 19, 2025", "Mantap WiFi nya kenceng", 4.8),
-                new Ulasan("Matilda", "Feb 20, 2025", "Suka banget makanannya enak-enak!", 4.8),
-                new Ulasan("Ivana", "Feb 21, 2025", "Fasilitasnya sesuai harga, oklah", 4.7)
-        );
+        // Tambahkan debug info jika tidak ada ulasan
+        if (ulasanList.isEmpty()) {
+            Label noReview = new Label("Belum ada ulasan untuk kamar ini");
+            noReview.setStyle("-fx-font-size: 14px; -fx-text-fill: #666;");
+            reviewList.getChildren().add(noReview);
+            System.out.println("Tidak ada ulasan ditemukan untuk kamar: " + idKamar);
+        }
 
-        for (Ulasan u : dummy) {
+        for (Ulasan u : ulasanList) {
             VBox card = new VBox(5);
             card.getStyleClass().add("review-card");
 
-            Label avatar = new Label(u.getNama().substring(0, 1));
+            // Menggunakan getNamaUser() dari model Ulasan
+            Label avatar = new Label(u.getNamaUser().substring(0, 1));
             avatar.getStyleClass().add("avatar");
 
-            Label nama = new Label(u.getNama());
+            Label nama = new Label(u.getNamaUser());
             nama.getStyleClass().add("user-name");
 
-            Label tanggal = new Label(u.getTanggal());
-            tanggal.getStyleClass().add("comment-date");
-
-            VBox namaTanggal = new VBox(nama, tanggal);
-
-            HBox headerReview = new HBox(avatar, namaTanggal);
+            VBox namaBox = new VBox(nama);
+            HBox headerReview = new HBox(avatar, namaBox);
             headerReview.setSpacing(10);
             headerReview.setAlignment(Pos.CENTER_LEFT);
 
@@ -132,22 +186,4 @@ public class UlasanListView {
         return new HBox(5, icon, label);
     }
 
-    private static class Ulasan {
-        private final String nama;
-        private final String tanggal;
-        private final String komentar;
-        private final double rating;
-
-        public Ulasan(String nama, String tanggal, String komentar, double rating) {
-            this.nama = nama;
-            this.tanggal = tanggal;
-            this.komentar = komentar;
-            this.rating = rating;
-        }
-
-        public String getNama() { return nama; }
-        public String getTanggal() { return tanggal; }
-        public String getKomentar() { return komentar; }
-        public double getRating() { return rating; }
-    }
 }

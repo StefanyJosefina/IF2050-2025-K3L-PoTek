@@ -19,8 +19,8 @@ dependencies {
     implementation "org.openjfx:javafx-controls:${javafxVersion}"
     implementation "org.openjfx:javafx-fxml:${javafxVersion}"
 
-    // JDBC MySQL connector
-    implementation 'mysql:mysql-connector-java:8.0.33'
+    // SQLite JDBC driver
+    implementation 'org.xerial:sqlite-jdbc:3.43.2.2'
 }
 // java {
 //     toolchain {
