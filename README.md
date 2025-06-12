@@ -39,8 +39,9 @@ PoTek (Pemesanan Online Tiket & Kamar) adalah aplikasi yang memudahkan pelanggan
 
 ## How To Run
 1. Clone repository ini : ```git clone <URL_REPOSITORY>```
-3. Pindah ke direktori repository menggunakan perintah : ```cd <NAMA_FOLDER_REPOSITORY>```
-4. Jalankan aplikasi : ``` .\gradlew clean run ```
+2. Pastikan file database potek_database.db berada di path yang sesuai agar aplikasi dapat menemukan file `potek_database.db`. Pindah ke direktori repository menggunakan perintah : ```cd <NAMA_FOLDER_REPOSITORY>```   
+3. Jalankan aplikasi : ``` .\gradlew clean run ```
+   
 ---
 
 ## Implemented Modules
