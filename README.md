@@ -19,8 +19,8 @@ PoTek (Pemesanan Online Tiket & Kamar) adalah aplikasi yang memudahkan pelanggan
 | **No** | **Nama** | **NIM**  | **GitHub** |
 | ------ | ------------------------- | ------------- | ----------- |
 | 1      | Stefany Josefina Santono  | 18223116      | [@StefanyJosefina](https://github.com/StefanyJosefina) |
-| 2      | Matilda Angelina Sumaryo  | 18222125      | [@millicecup](https://github.com/millicecup) |
-| 3      | Theresia Ivana M S        | 18222126      | [@meerancor33](https://github.com/meerancor33) |
+| 2      | Matilda Angelina Sumaryo  | 18223125      | [@millicecup](https://github.com/millicecup) |
+| 3      | Theresia Ivana M S        | 18223126      | [@meerancor33](https://github.com/meerancor33) |
 | 4      | Aulia Azka Azzahra        | 18223131      | [@auliaazkaazzahra](https://github.com/auliaazkaazzahra) |
 | 5      | Sonya Putri Fadilah       | 18222138      | [@sonyaaputri](https://github.com/sonyaaputri) |
 
@@ -59,12 +59,12 @@ PoTek (Pemesanan Online Tiket & Kamar) adalah aplikasi yang memudahkan pelanggan
 
 | **Modul**     | **Deskripsi**                      | **Capture Screen**|
 |---------------|------------------------------------|-------------------
-|User           | Menyimpan data pengguna            |
-|Kamar          | Menyimpan detail kamar hotel       |
-|Ulasan         | Review pengguna untuk kamar hotel  |
-|Tiket          | Informasi tiket transportasi       |
-|PemesananHotel | Pesanan kamar hotel                |
-|PemesananTiket | Pemesanan tiket transportasi       |
+|User           | Menyimpan data pengguna            |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/HomeUI.jpeg)
+|Kamar          | Menyimpan detail kamar hotel       |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/HotelUI.jpeg)
+|Ulasan         | Review pengguna untuk kamar hotel  |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/UlasanUI.jpeg)
+|Tiket          | Informasi tiket transportasi       |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/TiketUI.jpeg)
+|PemesananHotel | Pesanan kamar hotel                |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/PemesananUI_Penginapan.png)
+|PemesananTiket | Pemesanan tiket transportasi       |![Screenshot Aplikasi](https://github.com/StefanyJosefina/IF2050-2025-K3L-PoTek/blob/main/doc/PemesananUI_Transport.png)
 
 
 
